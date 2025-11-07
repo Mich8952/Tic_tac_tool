@@ -35,42 +35,58 @@ class TicTacToeEnv:
                     self.state[row, col] = 'O'
                 reward = self.check_game_status()
                 #return self.get_state()
-        else:
+        else:   
             raise Exception("Game is over")
     def get_state(self):
         return deepcopy(self.state)
 
     def get_flat_state(self):
         return deepcopy(self.state.flatten())
+    
+    def return_play_counts(self):
+        return {"X":np.sum(self.state == 'X'), "O" : np.sum(self.state == 'O')}
+    
+    def set_player_auto(self):
+        counts = self.return_play_counts()
+
+        x_count = counts['X']
+        o_count = counts['O']
+        
+        if x_count == o_count:
+            self.set_player_1()
+        else:
+            self.set_player_2()
+
+    def get_possible_actions(self):
+        return np.argwhere(self.get_flat_state() == "_")[:,0]
+        
+    
+        #np.argwhere(np.array(sample_state) == "_")[0]
 
     def check_game_status(self):
-        # check who won and terminate if so
-        # first check the straight line for x and y
-        for i in range(self.n): # since its square
-            if np.all(self.state[i,:] == 'X') or np.all(self.state[:,i] == 'O'): # right line, then left line
+        # Check rows and columns for a win
+        for i in range(self.n):
+            if np.all(self.state[i, :] == 'X') or np.all(self.state[:, i] == 'X'):
                 self.terminated = True
-                return 1 # these should actually be returing rewards i think
-            elif np.all(self.state[i,:] == 'X') or np.all(self.state[:,i] == 'O'):
+                return 1  # X wins
+            if np.all(self.state[i, :] == 'O') or np.all(self.state[:, i] == 'O'):
                 self.terminated = True
-                return 2 # these should actually be returing rewards i think
-            
-        
-        # check diags
-        if np.all(np.diag(self.state) == 'X') or np.all(np.diag(np.fliplr(self.state)) == 'O'):
+                return -1  # O wins
+
+        # Check diagonals for a win
+        if np.all(np.diag(self.state) == 'X') or np.all(np.diag(np.fliplr(self.state)) == 'X'):
             self.terminated = True
-            return 1 # player 1 wins
-        elif np.all(np.diag(self.state) == 'X') or np.all(np.diag(np.fliplr(self.state)) == 'O'):
+            return 1  # X wins
+        if np.all(np.diag(self.state) == 'O') or np.all(np.diag(np.fliplr(self.state)) == 'O'):
             self.terminated = True
-            return 2 # player 1 wins
-        
-        # case if the board is full - draw
+            return -1  # O wins
+
+        # Check for draw
         if np.all(self.state != '_'):
             self.terminated = True
-            return 0 
+            return 0  # Draw
 
         return None
-        
-
 
     def visualize_grid():
         #https://www.geeksforgeeks.org/python/tic-tac-toe-gui-in-python-using-pygame/
