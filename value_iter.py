@@ -52,7 +52,7 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4):
     return V
 
 if __name__ == "__main__":
-    res = value_iteration()
+    res = value_iteration(n=4)
     print("done")
                 
 
