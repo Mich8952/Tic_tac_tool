@@ -5,6 +5,7 @@ from copy import deepcopy
 
 import itertools
 import random
+import pickle
 
 def get_states(n=3):
     all_states = list(itertools.product(["X", "O", "_"], repeat=n*n)) # cartesian prodcut
@@ -22,7 +23,7 @@ def get_states(n=3):
 
 class PolicyItr:
     def __init__(self,n=3):
-        self.all_states = get_states(n=3)
+        self.all_states = get_states(n=n)
         self.n = n
 
 
@@ -167,7 +168,13 @@ class PolicyItr:
 
 
 if __name__ == "__main__":
-    piter = PolicyItr(n=3)
+    piter = PolicyItr(n=4)
     pi_X, pi_O, V = piter.loop()  
+
+    with open("temp_policy_n4/temp_policy_x_4.pkl", "wb") as f:
+        pickle.dump(pi_X, f) # agent plays first
+    
+    with open("temp_policy_n4/temp_policy_o_4.pkl", "wb") as f:
+        pickle.dump(pi_O, f) # agent plays second
 
     print("EOF")
