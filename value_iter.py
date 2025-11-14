@@ -15,8 +15,8 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4):
         counts = env.return_play_counts()
         x_count = counts['X']
         o_count = counts['O']
-        if (x_count == o_count or x_count == o_count + 1): # impossible is like if one player played a lot more than the other
-            refined_states.append(state)
+        #if (x_count == o_count or x_count == o_count + 1): # impossible is like if one player played a lot more than the other
+        refined_states.append(state)
     all_states = refined_states
 
     
@@ -52,7 +52,7 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4):
     return V
 
 if __name__ == "__main__":
-    res = value_iteration(n=4)
+    res = value_iteration(n=3)
     print("done")
                 
 

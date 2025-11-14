@@ -16,8 +16,8 @@ def get_states(n=3):
         counts = env.return_play_counts()
         x_count = counts['X']
         o_count = counts['O']
-        if (x_count == o_count or x_count == o_count + 1): # impossible is like if one player played a lot more than the other
-            refined_states.append([state,status is not None])
+        #if (x_count == o_count or x_count == o_count + 1): # impossible is like if one player played a lot more than the other
+        refined_states.append([state,status is not None])
     return refined_states
 
 class PolicyItr:
