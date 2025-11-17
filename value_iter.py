@@ -10,44 +10,74 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4):
     
     all_states = list(itertools.product(["X", "O", "_"], repeat=n*n)) # cartesian prodcut
     refined_states = []
+    terminal_states = []
+    non_terminal_states = []
+    
+    print("Filtering valid states...")
     for state in tqdm(all_states): # remove all impossible states
         env = TicTacToeEnv(n)
         env.state = np.array(state).reshape((n, n))
         counts = env.return_play_counts()
         x_count = counts['X']
         o_count = counts['O']
-        #if (x_count == o_count or x_count == o_count + 1): # impossible is like if one player played a lot more than the other
-        refined_states.append(state)
-    all_states = refined_states
-
+        
+        if (x_count == o_count or x_count == o_count + 1):
+            refined_states.append(state)
+            if env.check_game_status() is not None:
+                terminal_states.append(state)
+            else:
+                non_terminal_states.append(state)
     
-    V = {tuple(state): 0.0 for state in all_states} # start with all values at 0
+    all_states = refined_states
+    print(f"Valid states: {len(all_states)}, Terminal: {len(terminal_states)}, Non-terminal: {len(non_terminal_states)}")
+    
 
+    V = {tuple(state): 0.0 for state in all_states}
+
+    print("Initializing terminal states...")
+    for state in terminal_states:
+        env = TicTacToeEnv(n)
+        env.state = np.array(state).reshape(n, n)
+        reward = env.check_game_status()
+        V[tuple(state)] = reward
+
+    non_terminal_states.sort(key=lambda s: s.count('_'))
+    
+    print("Running value iteration...")
+    iteration = 0
     while True:
         delta = 0
-        for i,state in enumerate(tqdm(all_states)):
+        iteration += 1
+        
+        for state in non_terminal_states:
             env = TicTacToeEnv(n)
             env.state = np.array(state).reshape(n, n)
-            reward = env.check_game_status()
-            skey = tuple(env.get_flat_state())
-            if reward is not None:
-                V[skey] = reward
-                continue # break out of this iter
+            skey = tuple(state)
+            
             env.set_player_auto()
             possible_actions = env.get_possible_actions()
+            
+            if len(possible_actions) == 0:
+                continue
+            
             values = []
             for action in possible_actions:
-                next_env = deepcopy(env)
+                next_env = TicTacToeEnv(n)
+                next_env.state = env.state.copy() 
+                next_env.current_player = env.current_player
                 next_env.step(action)
                 next_state = tuple(next_env.get_flat_state())
                 values.append(gamma * V[next_state])
-            old_v = deepcopy(V[skey])
+            
+            old_v = V[skey]
             if env.current_player == 1:
-                V[skey] = max(values) # max the x player
+                V[skey] = max(values)
             else:
-                V[skey] = min(values) # min the other (0) player
-            delta = max(delta, abs(old_v - V[skey])) # tracking delta here and the max of differtnail
-            print(delta)
+                V[skey] = min(values)
+            
+            delta = max(delta, abs(old_v - V[skey]))
+        
+        print(f"Iteration {iteration}, Delta: {delta:.6f}")
         if delta < thresh:
             break
     

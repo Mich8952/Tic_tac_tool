@@ -5,48 +5,53 @@ import ast
 import random
 import os
 
-def play_game(policy_dir):
+def play_game(policy_dir, n):
     # policy is the opposing policy
-    env = TicTacToeEnv()
+    env = TicTacToeEnv(n=n)
     env.reset()
 
     rdn = random.randint(0,1)
     if rdn == 0:
-        env.set_player_1() # agent goes first
-        agent_player = 2
+        # agent plays first
+        agent_is_x = True
         with open(os.path.join(policy_dir,"temp_policy_x.pkl"), "rb") as f:
             policy = pickle.load(f)
-    
     else:
-        env.set_player_2() # we go first, agent goes second
-        agent_player = 1
-        print(env.state)
+        # agent plays second, we play first
+        agent_is_x = False
         with open(os.path.join(policy_dir,"temp_policy_o.pkl"), "rb") as f:
             policy = pickle.load(f)
+        print(env.state)
 
     while not env.terminated:
-        if env.current_player == agent_player:
+        env.set_player_auto()  
+        
+        is_agent_turn = (env.current_player == 1 and agent_is_x) or (env.current_player == 2 and not agent_is_x)
+        
+        if is_agent_turn:
             state = tuple(env.get_flat_state())
             action = policy[state]
             env.step(action)
-            env.toggle_player()
         else:
-            # opponent is me, where I play by inputting moves
+            # our turn
             intended_move = ast.literal_eval(input("Enter your move (coords): ")) #ex 1,1
             env.step(env.convert_coords_to_index(intended_move))
-            env.toggle_player()
+        
         print(env.state)
         print("\n")
         time.sleep(1) # so it seems like its thinking lol
+        
         result = env.check_game_status()
         if result == 1:
-            print("You lose!")
+            print("X wins!" + (" (You lose!)" if agent_is_x else " (You win!)"))
+            break
         elif result == -1:
-            print("You win!")
+            print("O wins!" + (" (You lose!)" if not agent_is_x else " (You win!)"))
+            break
         elif result == 0:
             print("Draw!")
-        # otherwise keep playing
+            break
 
 
 if __name__ == "__main__":
-    play_game(policy_dir="temp_policy_vi")
+    play_game(policy_dir="temp_policy_vi",n=4)

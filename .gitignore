@@ -1,3 +1,6 @@
 value_iter_parlalle.py
 settings.json
 .pyc
+.pkl
+temp_policy_vi
+temp_policy
