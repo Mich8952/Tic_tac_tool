@@ -32,7 +32,7 @@ class PolicyItr:
     @staticmethod 
     def set_policy_random(pi, all_states, n):
         pi = {}
-        for state in all_states:
+        for state in tqdm(all_states):
             env = TicTacToeEnv(n)
             env.state = np.array(state[0]).reshape((n, n))
             env.set_player_auto()  
@@ -142,9 +142,9 @@ class PolicyItr:
     def loop(self, max_iters=100):
         pi_X = PolicyItr.set_policy_random(None, self.all_states, self.n)
         pi_O = PolicyItr.set_policy_random(None, self.all_states, self.n)
-        
-        pi_X_bar = PolicyItr.set_policy_random(None, self.all_states, self.n)
-        pi_O_bar = PolicyItr.set_policy_random(None, self.all_states, self.n)
+
+        pi_X_bar = deepcopy(pi_X)
+        pi_O_bar = deepcopy(pi_O)
         
         V = {tuple(state[0]): 0.0 if state[1] else random.random() for state in self.all_states}
 
@@ -169,7 +169,7 @@ class PolicyItr:
 
 if __name__ == "__main__":
     piter = PolicyItr(n=4)
-    pi_X, pi_O, V = piter.loop()  
+    pi_X, pi_O, V = piter.loop(max_iters=20)  
 
     with open("temp_policy_n4/temp_policy_x_4.pkl", "wb") as f:
         pickle.dump(pi_X, f) # agent plays first
