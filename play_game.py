@@ -54,4 +54,5 @@ def play_game(policy_dir, n):
 
 
 if __name__ == "__main__":
-    play_game(policy_dir="temp_policy_vi",n=4)
+    #play_game(policy_dir="temp_policy_vi",n=4) #value iteration policy
+    play_game(policy_dir="temp_policy_pi",n=3) #policy iter

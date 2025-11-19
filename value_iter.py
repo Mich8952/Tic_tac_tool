@@ -39,9 +39,9 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4):
         env = TicTacToeEnv(n)
         env.state = np.array(state).reshape(n, n)
         reward = env.check_game_status()
-        V[tuple(state)] = reward
+        V[tuple(state)] = reward # the reward of a terminal state depends on who won so this loop is needed
 
-    non_terminal_states.sort(key=lambda s: s.count('_'))
+    non_terminal_states.sort(key=lambda s: s.count('_')) 
     
     print("Running value iteration...")
     iteration = 0
@@ -58,7 +58,7 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4):
             possible_actions = env.get_possible_actions()
             
             if len(possible_actions) == 0:
-                continue
+                continue # this shouldnt happen anyways since we are iterating over non-terminal states, but have it just in case
             
             values = []
             for action in possible_actions:

@@ -30,8 +30,9 @@ class PolicyItr:
         print("")
 
     @staticmethod 
-    def set_policy_random(pi, all_states, n):
+    def set_policy_random(all_states, n):
         pi = {}
+        pi_bar = {}
         for state in tqdm(all_states):
             env = TicTacToeEnv(n)
             env.state = np.array(state[0]).reshape((n, n))
@@ -40,7 +41,8 @@ class PolicyItr:
             
             if env.check_game_status() is None:
                 pi[tuple(state[0])] = random.choice(possible_actions).item()
-        return pi
+                pi_bar[tuple(state[0])] = random.choice(possible_actions).item()
+        return pi, pi_bar
         
     def eval(self, pi_X, pi_O, V, epsilon=1e-4, gamma=0.9):
         
@@ -99,7 +101,7 @@ class PolicyItr:
         pi_X = {}
         pi_O = {}
         
-        for state in self.all_states:
+        for state in tqdm(self.all_states):
             if state[1]:  
                 continue
                 
@@ -119,7 +121,7 @@ class PolicyItr:
                 rwd = clone_env.check_game_status()
                 next_state_tuple = tuple(clone_env.get_flat_state())
 
-                if rwd is None:
+                if rwd is None: # this is redundant since we check terminal states earlier, but leave it for now
                     rwd = 0.0
                 else:
                     rwd = float(rwd)
@@ -140,12 +142,9 @@ class PolicyItr:
         
             
     def loop(self, max_iters=100):
-        pi_X = PolicyItr.set_policy_random(None, self.all_states, self.n)
-        pi_O = PolicyItr.set_policy_random(None, self.all_states, self.n)
+        pi_X,pi_X_bar = PolicyItr.set_policy_random(self.all_states, self.n)
+        pi_O,pi_O_bar = PolicyItr.set_policy_random(self.all_states, self.n)
 
-        pi_X_bar = deepcopy(pi_X)
-        pi_O_bar = deepcopy(pi_O)
-        
         V = {tuple(state[0]): 0.0 if state[1] else random.random() for state in self.all_states}
 
         i = 0
@@ -171,10 +170,10 @@ if __name__ == "__main__":
     piter = PolicyItr(n=4)
     pi_X, pi_O, V = piter.loop(max_iters=20)  
 
-    with open("temp_policy_n4/temp_policy_x_4.pkl", "wb") as f:
+    with open("temp_policy_pi/temp_policy_x.pkl", "wb") as f:
         pickle.dump(pi_X, f) # agent plays first
     
-    with open("temp_policy_n4/temp_policy_o_4.pkl", "wb") as f:
+    with open("temp_policy_pi/temp_policy_o.pkl", "wb") as f:
         pickle.dump(pi_O, f) # agent plays second
 
     print("EOF")
