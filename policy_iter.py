@@ -53,8 +53,8 @@ class PolicyItr:
         return pi, pi_bar
         
     def eval(self, pi_X, pi_O, V, epsilon=0.1, gamma=0.9):
-        
-        for state in self.all_states:
+        print("EVAL")
+        for state in tqdm(self.all_states):
             if state[1]:
                 env = TicTacToeEnv(self.n)
                 env.state = np.array(state[0]).reshape((self.n, self.n))
@@ -68,7 +68,7 @@ class PolicyItr:
             delta = 0  
             V_new = V.copy()
             
-            for state in self.non_terminal_states: 
+            for state in tqdm(self.non_terminal_states): # maybe add a max iter here
                     
                 state_tuple = tuple(state[0])
                 env = TicTacToeEnv(self.n)
@@ -108,7 +108,7 @@ class PolicyItr:
     def improve(self, V, gamma=0.9):
         pi_X = {}
         pi_O = {}
-        
+        print("IMRPOV")
         for state in tqdm(self.non_terminal_states):
                 
             env = TicTacToeEnv(self.n)
