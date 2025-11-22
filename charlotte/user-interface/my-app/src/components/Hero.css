@@ -1,0 +1,37 @@
+.hero {
+  padding: 10rem 2rem;
+  text-align: center;
+  background: #f5f4f3;
+  color: var(--text);
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 400; /* handwritten font weight */
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 400; /* slightly heavier than body */
+  letter-spacing: 0.8px;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 400; /* match EP minimal aesthetic */
+}
+
+.tabs-container h2,
+.tictactoe-container h2 {
+  font-weight: 400;
+  margin-bottom: 1rem;
+}

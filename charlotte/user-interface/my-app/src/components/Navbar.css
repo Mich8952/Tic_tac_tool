@@ -1,0 +1,35 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-family: "Shadows Into Light", cursive; /* handwritten font */
+  font-size: 2rem;
+  color: var(--text);
+  font-weight: 400;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  font-family: "Montserrat", sans-serif; /* readable sans-serif */
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 300;
+  font-size: 1rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+  transform: translateY(-2px); /* subtle hover effect */
+}

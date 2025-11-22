@@ -1,0 +1,25 @@
+:root {
+  --bg: #f5f4f3; /* light warm gray */
+  --text: #222222;
+  --accent: #b41f1f; /* deep red accent */
+  --card: #ffffff;
+  --border: #e0e0e0;
+  font-family: "Montserrat", Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+/* Headings use handwritten font */
+h1,
+h2,
+h3 {
+  font-family: "Shadows Into Light", cursive;
+  font-weight: 400;
+  letter-spacing: 0.8px;
+}

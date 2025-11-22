@@ -1,0 +1,142 @@
+/* Container */
+.tic-tac-toe-container {
+  margin: 2rem;
+  font-family: "Montserrat", sans-serif;
+}
+
+.tic-tac-toe-container h2 {
+  font-family: "Shadows Into Light", cursive;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Flex layout for controls + board */
+.tic-tac-toe-flex {
+  display: flex;
+  gap: 4rem; /* spacing between columns */
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Left controls column */
+.tic-tac-toe-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* spacing between controls */
+  font-family: "Shadows Into Light", cursive;
+  width: 200px; /* fixed width to avoid squishing board */
+  min-width: 150px;
+}
+
+/* Labels and text */
+.tic-tac-toe-settings label {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.1rem;
+}
+
+/* Dropdowns */
+.tic-tac-toe-settings select {
+  margin-top: 0.3rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tic-tac-toe-settings select:hover {
+  border-color: #b41f1f;
+}
+
+/* Reset button */
+.reset-button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #222;
+  border-radius: 12px;
+  font-family: "Shadows Into Light", cursive;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-button:hover {
+  background: #b41f1f;
+  color: white;
+  border-color: #b41f1f;
+}
+
+/* Right column (board) */
+.tic-tac-toe-board-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1; /* take remaining space */
+  min-width: 300px;
+}
+
+/* Board grid */
+.board {
+  display: grid;
+  gap: 12px;
+  max-width: 100%;
+}
+
+/* Board cells */
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-family: "Shadows Into Light", cursive;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  aspect-ratio: 1 / 1; /* keeps cells square */
+}
+
+.cell:hover {
+  background: #f5f4f3;
+  border-color: #b41f1f;
+}
+
+/* Winner text */
+.winner-text {
+  font-family: "Shadows Into Light", cursive;
+  font-size: 1.5rem;
+  color: #b41f1f;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .tic-tac-toe-flex {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .tic-tac-toe-settings {
+    width: 100%;
+    max-width: 300px;
+    gap: 1rem;
+  }
+
+  .board {
+    gap: 8px;
+  }
+
+  .cell {
+    font-size: 1.5rem;
+  }
+}
