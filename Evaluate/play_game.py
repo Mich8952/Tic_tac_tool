@@ -1,5 +1,5 @@
 from board_util import TicTacToeEnv
-from evaluation.baseline import choose_move
+from baseline import choose_move
 import time
 import pickle
 import ast
@@ -67,5 +67,5 @@ def play_game(policy_dir, n):
 
 if __name__ == "__main__":
     #play_game(policy_dir="temp_policy_vi",n=4) #value iteration policy
-    play_game(policy_dir="temp_policy_pi",n=4) #policy iter
-    #play_game(policy_dir=choose_move,n=4) #policy iter
+    #play_game(policy_dir="temp_policy_pi",n=4) #policy iter
+    play_game(policy_dir=choose_move,n=5) #policy iter

@@ -115,8 +115,11 @@ def eval_policy(n, x_policy : dict, o_policy : dict, opponent='random', runs = 1
 
 if __name__ == "__main__":
     print("\n\n\n\n\n")
+    
     import pickle
+    
     RUNS = 5000
+    """
     #4x4
     print("WITH SKIPPING PROBABILITY 30%")
     print("----4x4----")
@@ -132,25 +135,25 @@ if __name__ == "__main__":
     print(f"Number of iterations = {RUNS}")
     print(f"Playing Against Baseline: {results_baseline}")
     print(f"Playing Against Random: {results_random}")
-
+    """
 
     print("\n")
     print("----3x3----")
     
     #3x3
-    with open("temp_policy_vi/temp_policy_x.pkl", "rb") as f:
+    with open("Policies/PI/3_0.9_0.25/temp_policy_x.pkl", "rb") as f:
         x_policy = pickle.load(f)
     
-    with open("temp_policy_vi/temp_policy_o.pkl", "rb") as f:
+    with open("Policies/PI/3_0.9_0.25/temp_policy_o.pkl", "rb") as f:
         o_policy = pickle.load(f)
 
     print(f"Number of iterations = {RUNS}")
-    results_baseline = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.3)
-    results_random = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.3)
+    results_baseline = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.25)
+    results_random = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.25)
     print(f"Playing Against Baseline: {results_baseline}")
     print(f"Playing Against Random: {results_random}")  
 
-
+    """
     print("\n")
     print("WITH SKIPPING PROBABILITY 0%")
     print("----4x4----")
@@ -183,3 +186,4 @@ if __name__ == "__main__":
     results_random = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.0)
     print(f"Playing Against Baseline: {results_baseline}")
     print(f"Playing Against Random: {results_random}")  
+    """
