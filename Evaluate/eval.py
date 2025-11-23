@@ -2,10 +2,13 @@
 
 # input as a policy and output as the win rate over n simulations versus specified opponent
 
-from board_util import TicTacToeEnv
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from Utils.board_util import TicTacToeEnv
 import numpy as np
 import random
-from baseline import BaselinePolicyWrapper, RandomPolicyWrapper
+from Evaluate.baseline import BaselinePolicyWrapper, RandomPolicyWrapper
 
 def play_policy(env, epsilon, policy):
     state = tuple(env.get_flat_state())

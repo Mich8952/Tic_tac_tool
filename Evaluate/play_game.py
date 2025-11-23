@@ -1,5 +1,5 @@
 from board_util import TicTacToeEnv
-from baseline import choose_move
+from Evaluate.baseline import choose_move
 import time
 import pickle
 import ast
