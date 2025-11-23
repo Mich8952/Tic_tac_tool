@@ -56,6 +56,12 @@ class TicTacToeEnv:
             self.set_player_1()
         else:
             self.set_player_2()
+    
+    def toggle_player(self):
+        if self.current_player == 1:
+            self.current_player = 2
+        else:
+            self.current_player = 1
 
     def get_possible_actions(self):
         return np.argwhere(self.get_flat_state() == "_")[:,0]
