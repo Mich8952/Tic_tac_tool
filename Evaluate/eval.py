@@ -11,6 +11,7 @@ from Utils.board_util import TicTacToeEnv
 import numpy as np
 import random
 from Evaluate.baseline import BaselinePolicyWrapper, RandomPolicyWrapper
+import pickle
 
 def play_policy(env, epsilon, policy):
     state = tuple(env.get_flat_state())
@@ -201,8 +202,6 @@ def export_results_to_json(results_dir):
 
 if __name__ == "__main__":
     print("\n\n\n\n\n")
-    
-    import pickle
     
     RUNS = 5000
     """
