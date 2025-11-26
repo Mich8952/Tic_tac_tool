@@ -7,13 +7,34 @@ from tqdm import tqdm
 from copy import deepcopy
 import itertools
 import pickle
+import random
 
 from Evaluate.eval import eval_policy
 
-def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=False):
-    
-    all_states = list(itertools.product(["X", "O", "_"], repeat=n*n)) # cartesian prodcut
-    refined_states = []
+def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=False, useSampling=False):
+    if not useSampling:
+        all_states = list(itertools.product(["X", "O", "_"], repeat=n*n)) # cartesian prodcut
+    if useSampling: # hardcode num_games to 50000
+        all_states = set()
+        for i in tqdm(range(500)):
+            env = TicTacToeEnv(n)
+            env.set_player_1() 
+
+            all_states.add(tuple(env.get_flat_state()))
+            
+            while env.check_game_status() is None: 
+                possible_actions = env.get_possible_actions()
+                if len(possible_actions) == 0:
+                    break
+                    
+                action = random.choice(possible_actions)
+                env.step(action)
+                
+                all_states.add(tuple(env.get_flat_state()))
+                
+                env.toggle_player()
+            
+            
     terminal_states = []
     non_terminal_states = []
 
@@ -21,22 +42,34 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
     random_results = []
     iter_at_eval = []
     
-    print("Filtering valid states...")
-    for state in tqdm(all_states): # remove all impossible states
-        env = TicTacToeEnv(n)
-        env.state = np.array(state).reshape((n, n))
-        counts = env.return_play_counts()
-        x_count = counts['X']
-        o_count = counts['O']
-        
-        if (x_count == o_count or x_count == o_count + 1):
-            refined_states.append(state)
+    if useSampling:
+        all_states = list(all_states)  
+        for state in tqdm(all_states):
+            env = TicTacToeEnv(n)
+            env.state = np.array(state).reshape((n, n))
             if env.check_game_status() is not None:
                 terminal_states.append(state)
             else:
                 non_terminal_states.append(state)
+    else:
+        refined_states = []
+        print("Filtering valid states...")
+        for state in tqdm(all_states):
+            env = TicTacToeEnv(n)
+            env.state = np.array(state).reshape((n, n))
+            counts = env.return_play_counts()
+            x_count = counts['X']
+            o_count = counts['O']
+            
+            if (x_count == o_count or x_count == o_count + 1):
+                refined_states.append(state)
+                if env.check_game_status() is not None:
+                    terminal_states.append(state)
+                else:
+                    non_terminal_states.append(state)
+        
+        all_states = refined_states
     
-    all_states = refined_states
     print(f"Valid states: {len(all_states)}, Terminal: {len(terminal_states)}, Non-terminal: {len(non_terminal_states)}")
     
 
@@ -81,7 +114,7 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
                 next_env.current_player = env.current_player
                 next_env.step(intended_action)
                 next_state = tuple(next_env.get_flat_state())
-                expected_value += (1 - epsilon) *gamma * V[next_state] 
+                expected_value += (1 - epsilon) *gamma * V.get(next_state, 0.0) 
                 # probability of taking the intended action is 1-epsilon
 
                 # we also have a probaiblity of not taking that action - i.e. the random action
@@ -92,7 +125,7 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
                     next_env_random.current_player = env.current_player
                     next_env_random.step(random_action)
                     next_state_random = tuple(next_env_random.get_flat_state())
-                    random_value += V[next_state_random]
+                    random_value += V.get(next_state_random, 0.0)
 
                 random_value = random_value / len(possible_actions)  # we want expectation over random actions treating the random sampling as uniform (because it was)
                 expected_value += epsilon * gamma * random_value # this adding completes the probability (1-epsilon) + epsilon = 1
@@ -110,8 +143,8 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
             if track_progress and (j % cutoff)-2 == 0: #-2 just in case
                 pi_X, pi_O, V_temp = get_policy(all_states, V, n, gamma, epsilon)
                             
-                baseline_results.append(eval_policy(n=n,o_policy=pi_O, x_policy=pi_X, runs=5000, opponent='baseline',epsilon=epsilon))
-                random_results.append(eval_policy(n=n, x_policy=pi_X, o_policy=pi_O, runs=5000, opponent='random',epsilon=epsilon))
+                baseline_results.append(eval_policy(n=n,o_policy=pi_O, x_policy=pi_X, runs=100, opponent='baseline',epsilon=epsilon))
+                random_results.append(eval_policy(n=n, x_policy=pi_X, o_policy=pi_O, runs=100, opponent='random',epsilon=epsilon))
                 iter_at_eval.append([iteration,j])
 
                     
@@ -164,7 +197,7 @@ def get_policy(all_states, V, n, gamma, epsilon):
             next_env = deepcopy(env)
             next_env.step(intended_action)
             next_state = tuple(next_env.get_flat_state())
-            expected_value += (1 - epsilon) * gamma * V[next_state]
+            expected_value += (1 - epsilon) * gamma * V.get(next_state, 0.0)
             
             # epsilon case for the random action
             random_value = 0.0
@@ -172,7 +205,7 @@ def get_policy(all_states, V, n, gamma, epsilon):
                 next_env_random = deepcopy(env)
                 next_env_random.step(random_action)
                 next_state_random = tuple(next_env_random.get_flat_state())
-                random_value += V[next_state_random]
+                random_value += V.get(next_state_random, 0.0)
             
             random_value  = random_value / len(possible_actions)
             expected_value += epsilon * gamma * random_value 
@@ -197,18 +230,18 @@ if __name__ == "__main__":
     gamma = 0.9
     epsilon = 0.25
 
-    tracked_results, (pi_X, pi_O, V) = value_iteration(n=n, thresh=thresh, gamma=gamma, epsilon=epsilon, track_progress = True) # gamma should not be 1
+    tracked_results, (pi_X, pi_O, V) = value_iteration(n=n, thresh=thresh, gamma=gamma, epsilon=epsilon, track_progress = True, useSampling=True) # gamma should not be 1
     
-    os.makedirs(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}", exist_ok=True)
-    with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}/temp_policy_x.pkl", "wb") as f: 
+    os.makedirs(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}_sampled", exist_ok=True)
+    with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}_sampled/temp_policy_x.pkl", "wb") as f: 
         pickle.dump(pi_X, f)  # agent plays first
     
-    with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}/temp_policy_o.pkl", "wb") as f:
+    with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}_sampled/temp_policy_o.pkl", "wb") as f:
         pickle.dump(pi_O, f)  # agent plays second
 
 
     #also save this results to a pickle in the same dir
-    with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}/tracked_results.pkl", "wb") as f:
+    with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}_sampled/tracked_results.pkl", "wb") as f:
         pickle.dump(tracked_results, f)
     
     print("done")

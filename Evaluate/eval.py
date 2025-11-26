@@ -19,7 +19,11 @@ def play_policy(env, epsilon, policy):
     if np.random.random() < epsilon:
         action = np.random.choice(env.get_possible_actions()).item()
     else:
-        action = policy[state]
+        try:
+            action = policy[state]
+        except:
+            #print("state does not exist, using random move")
+            action = np.random.choice(env.get_possible_actions()).item()
 
     return action
 
@@ -28,11 +32,14 @@ def play_opp(env, epsilon, O_policy):
     if np.random.random() < epsilon:
         action = np.random.choice(env.get_possible_actions()).item()
     else:
-        action = O_policy[tuple(env.get_flat_state())]
-
+        try:
+            action = O_policy[tuple(env.get_flat_state())]
+        except:
+            print("state does not exist, using random move")
+            action = np.random.choice(env.get_possible_actions()).item()
     return action
 
-def eval_policy(n, x_policy : dict, o_policy : dict, opponent='random', runs = 10, epsilon=0.0): # explicit type setting for policy because its ambigious otherwise 
+def eval_policy(n, x_policy : dict, o_policy : dict, opponent='random', runs = 10, epsilon=0.0, stateNotAvilUseRandom=False): # explicit type setting for policy because its ambigious otherwise 
     # ASSUMPTION 1; LET THE POLICY PLAY FIRST (we can do 50/50 next time)
     
     wins = 0 # policy wins
@@ -227,25 +234,25 @@ if __name__ == "__main__":
     print("----3x3----")
     
     #3x3
-    with open("Policies/VI/3_0.2_0.9_0.25/temp_policy_x.pkl", "rb") as f:
+    with open("Policies/VI/4_0.2_0.9_0.25_sampled/temp_policy_x.pkl", "rb") as f:
         x_policy = pickle.load(f)
     
-    with open("Policies/VI/3_0.2_0.9_0.25/temp_policy_o.pkl", "rb") as f:
+    with open("Policies/VI/4_0.2_0.9_0.25_sampled/temp_policy_o.pkl", "rb") as f:
         o_policy = pickle.load(f)
 
-    results_dir = "Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl"
-    with open("Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl", "rb") as f:
-        tracked_results = pickle.load(f)
+    #results_dir = "Policies/VI/4_0.2_0.9_0.25/tracked_results.pkl"
+    #with open("Policies/VI/4_0.2_0.9_0.25/tracked_results.pkl", "rb") as f:
+    #    tracked_results = pickle.load(f)
 
-    export_results_to_json(results_dir)
+    #export_results_to_json(results_dir)
 
     print(f"Number of iterations = {RUNS}")
-    results_baseline = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.25)
-    results_random = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.25)
+    results_baseline = eval_policy(n=4, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.25, stateNotAvilUseRandom=True)
+    results_random = eval_policy(n=4, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.25, stateNotAvilUseRandom=True)
     print(f"Playing Against Baseline: {results_baseline}")
     print(f"Playing Against Random: {results_random}")
 
-    plot_results(tracked_results, title="Value Iteration on 3x3 Tic Tac Toe with 25% Skipping Probability") 
+    #plot_results(tracked_results, title="Value Iteration on 3x3 Tic Tac Toe with 25% Skipping Probability") 
     
 
     """
