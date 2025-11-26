@@ -4,6 +4,7 @@
 
 import sys
 import os
+import matplotlib.pyplot as plt
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.board_util import TicTacToeEnv
 import numpy as np
@@ -116,6 +117,48 @@ def eval_policy(n, x_policy : dict, o_policy : dict, opponent='random', runs = 1
     return {"win_rate" : wins/runs, "draw_rate": draws/runs, "loss_rate": losses/runs}
 
 
+def plot_results(results_dict, title):
+    baseline = results_dict['baseline_results']
+    random = results_dict['random_results']
+
+    baseline_win_rates = [x['win_rate'] for x in baseline]
+    random_win_rates = [x['win_rate'] for x in random]
+
+    baseline_draw_rates = [x['draw_rate'] for x in baseline]
+    random_draw_rates = [x['draw_rate'] for x in random]
+
+    baseline_loss_rates = [x['loss_rate'] for x in baseline]
+    random_loss_rates = [x['loss_rate'] for x in random]
+
+    iterations = results_dict['iter_at_eval']
+    # convert to true iteration
+    total_states = max(it[1] for it in iterations) + 1 # approx number of states
+    iteration_steps = [(it[0]-1) * total_states + it[1] for it in iterations] #-1 because in VI we start counting at 1
+
+
+    fig, ax = plt.subplots(1,2, figsize=(12,5))
+    ax[0].set_title('Baseline Rates')
+    ax[0].plot(iteration_steps, baseline_win_rates, label='Win Rate')
+    ax[0].plot(iteration_steps, baseline_draw_rates, label='Draw Rate')
+    ax[0].plot(iteration_steps, baseline_loss_rates, label='Loss Rate')
+    ax[0].set_xlabel('Evaluation Step')
+    ax[0].legend()
+    ax[0].set_ylabel('Rate')
+
+    ax[1].set_title('Random Rates')
+    ax[1].plot(iteration_steps, random_win_rates, label='Win Rate')
+    ax[1].plot(iteration_steps, random_draw_rates, label='Draw Rate')
+    ax[1].plot(iteration_steps, random_loss_rates, label='Loss Rate')
+    ax[1].set_xlabel('Evaluation Step')
+
+    ax[1].legend()
+    ax[1].set_ylabel('Rate')
+
+    fig.suptitle(title)
+
+    plt.show()
+
+
 if __name__ == "__main__":
     print("\n\n\n\n\n")
     
@@ -144,19 +187,25 @@ if __name__ == "__main__":
     print("----3x3----")
     
     #3x3
-    #with open("Policies/PI/3_0.9_0.25/temp_policy_x.pkl", "rb") as f:
-    #    x_policy = pickle.load(f)
+    with open("Policies/VI/3_0.2_0.9_0.25/temp_policy_x.pkl", "rb") as f:
+        x_policy = pickle.load(f)
     
-    #with open("Policies/PI/3_0.9_0.25/temp_policy_o.pkl", "rb") as f:
-    #    o_policy = pickle.load(f)
+    with open("Policies/VI/3_0.2_0.9_0.25/temp_policy_o.pkl", "rb") as f:
+        o_policy = pickle.load(f)
 
-    #print(f"Number of iterations = {RUNS}")
-    #results_baseline = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.25)
-    #results_random = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.25)
-    #print(f"Playing Against Baseline: {results_baseline}")
-    #print(f"Playing Against Random: {results_random}")  
+    with open("Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl", "rb") as f:
+        tracked_results = pickle.load(f)
 
+    print(f"Number of iterations = {RUNS}")
+    results_baseline = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.25)
+    results_random = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.25)
+    print(f"Playing Against Baseline: {results_baseline}")
+    print(f"Playing Against Random: {results_random}")
+
+    plot_results(tracked_results, title="Value Iteration on 3x3 Tic Tac Toe with 25% Skipping Probability") 
     
+
+    """
     print("\n")
     print("WITH SKIPPING PROBABILITY 0%")
     print("----4x4----")
@@ -172,7 +221,7 @@ if __name__ == "__main__":
     print(f"Number of iterations = {RUNS}")
     print(f"Playing Against Baseline: {results_baseline}")
     print(f"Playing Against Random: {results_random}")
-
+    """
     """
 
     print("\n")

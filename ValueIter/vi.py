@@ -8,12 +8,18 @@ from copy import deepcopy
 import itertools
 import pickle
 
-def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25):
+from Evaluate.eval import eval_policy
+
+def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=False):
     
     all_states = list(itertools.product(["X", "O", "_"], repeat=n*n)) # cartesian prodcut
     refined_states = []
     terminal_states = []
     non_terminal_states = []
+
+    baseline_results = []
+    random_results = []
+    iter_at_eval = []
     
     print("Filtering valid states...")
     for state in tqdm(all_states): # remove all impossible states
@@ -44,6 +50,10 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25):
         V[tuple(state)] = reward # the reward of a terminal state depends on who won so this loop is needed
 
     non_terminal_states.sort(key=lambda s: s.count('_')) 
+
+    # lets eval 4 times per iteration
+
+    cutoff = len(non_terminal_states) // 4
     
     print("Running value iteration...")
     iteration = 0
@@ -51,7 +61,7 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25):
         delta = 0
         iteration += 1
         
-        for state in tqdm(non_terminal_states):
+        for j,state in tqdm(enumerate(non_terminal_states)):
             env = TicTacToeEnv(n)
             env.state = np.array(state).reshape(n, n)
             skey = tuple(state)
@@ -96,12 +106,39 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25):
                 V[skey] = min(Q)
             
             delta = max(delta, abs(old_v - V[skey]))
-        
+
+            if track_progress and (j % cutoff)-2 == 0: #-2 just in case
+                pi_X, pi_O, V_temp = get_policy(all_states, V, n, gamma, epsilon)
+                            
+                baseline_results.append(eval_policy(n=n,o_policy=pi_O, x_policy=pi_X, runs=5000, opponent='baseline',epsilon=epsilon))
+                random_results.append(eval_policy(n=n, x_policy=pi_X, o_policy=pi_O, runs=5000, opponent='random',epsilon=epsilon))
+                iter_at_eval.append([iteration,j])
+
+                    
         print(f"Iteration {iteration}, Delta: {delta:.6f}")
         if delta < thresh:
             break
     
+    tracked_results = {
+        "baseline_results": baseline_results,
+        "random_results": random_results,
+        "iter_at_eval": iter_at_eval
+    }
 
+
+    pi_X, pi_O, V = get_policy(all_states, V, n, gamma, epsilon)
+
+    policies = {
+        "pi_X": pi_X,
+        "pi_O": pi_O,
+        "V": V
+    }
+
+    return tracked_results, policies
+
+
+
+def get_policy(all_states, V, n, gamma, epsilon):
     # Get the policies now
     pi_X = {}
     pi_O = {}
@@ -151,13 +188,16 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25):
 
     return pi_X, pi_O, V
 
+
+
+
 if __name__ == "__main__":
     n = 4
     thresh = 0.2
     gamma = 0.9
     epsilon = 0.25
-    
-    pi_X, pi_O, V = value_iteration(n=n, thresh=thresh, gamma=gamma, epsilon=epsilon) # gamma should not be 1
+
+    tracked_results, (pi_X, pi_O, V) = value_iteration(n=n, thresh=thresh, gamma=gamma, epsilon=epsilon, track_progress = True) # gamma should not be 1
     
     os.makedirs(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}", exist_ok=True)
     with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}/temp_policy_x.pkl", "wb") as f: 
@@ -165,6 +205,11 @@ if __name__ == "__main__":
     
     with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}/temp_policy_o.pkl", "wb") as f:
         pickle.dump(pi_O, f)  # agent plays second
+
+
+    #also save this results to a pickle in the same dir
+    with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}/tracked_results.pkl", "wb") as f:
+        pickle.dump(tracked_results, f)
     
     print("done")
                 
