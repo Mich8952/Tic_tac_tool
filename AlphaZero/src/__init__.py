@@ -1,1 +1,0 @@
-# AlphaZero src package

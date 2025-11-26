@@ -6,14 +6,18 @@ import sys
 import argparse
 import csv
 from pathlib import Path
-from tqdm import tqdm
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+from tqdm import tqdm
 
 from Resnet import ResNet
-from baseline import BaselinePolicyWrapper, RandomPolicyWrapper
+from Evaluate.baseline import BaselinePolicyWrapper, RandomPolicyWrapper
 import MCTS
-from TicTacToe.Config import Config
-from TicTacToe.TicTacToeAdapter import TicTacToeAdapter
+from Config import Config
+from Utils.TicTacToeAdapter import TicTacToeAdapter
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

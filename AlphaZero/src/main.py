@@ -6,11 +6,13 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from Resnet import ResNet
 import MCTS
-from TicTacToe.Config import Config
-from TicTacToe.TicTacToeAdapter import TicTacToeAdapter
+from Config import Config
+from Utils.TicTacToeAdapter import TicTacToeAdapter
 import numpy as np
 import matplotlib.pyplot as plt
 
