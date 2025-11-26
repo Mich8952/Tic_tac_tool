@@ -4,6 +4,7 @@
 
 import sys
 import os
+import json
 import matplotlib.pyplot as plt
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.board_util import TicTacToeEnv
@@ -159,6 +160,45 @@ def plot_results(results_dict, title):
     plt.show()
 
 
+
+def export_results_to_json(results_dir):
+    with open(results_dir, 'rb') as f:
+        results_dict = pickle.load(f)
+        
+    baseline = results_dict['baseline_results']
+    random = results_dict['random_results']
+    
+    baseline_win_rates = [x['win_rate'] for x in baseline]
+    random_win_rates = [x['win_rate'] for x in random]
+    baseline_draw_rates = [x['draw_rate'] for x in baseline]
+    random_draw_rates = [x['draw_rate'] for x in random]
+    baseline_loss_rates = [x['loss_rate'] for x in baseline]
+    random_loss_rates = [x['loss_rate'] for x in random]
+    
+    iterations = results_dict['iter_at_eval']
+    total_states = max(it[1] for it in iterations) + 1
+    iteration_steps = [(it[0]-1) * total_states + it[1] for it in iterations]
+    
+    json_data = {
+        'iteration_steps': iteration_steps,
+        'baseline': {
+            'win_rates': baseline_win_rates,
+            'draw_rates': baseline_draw_rates,
+            'loss_rates': baseline_loss_rates
+        },
+        'random': {
+            'win_rates': random_win_rates,
+            'draw_rates': random_draw_rates,
+            'loss_rates': random_loss_rates
+        }
+    }
+
+    with open(f"{results_dir}_jsonified.json", 'w') as f:
+        json.dump(json_data, f, indent=2)
+    
+    
+
+
 if __name__ == "__main__":
     print("\n\n\n\n\n")
     
@@ -193,8 +233,11 @@ if __name__ == "__main__":
     with open("Policies/VI/3_0.2_0.9_0.25/temp_policy_o.pkl", "rb") as f:
         o_policy = pickle.load(f)
 
+    results_dir = "Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl"
     with open("Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl", "rb") as f:
         tracked_results = pickle.load(f)
+
+    export_results_to_json(results_dir)
 
     print(f"Number of iterations = {RUNS}")
     results_baseline = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.25)

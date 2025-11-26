@@ -11,6 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import "./Tabs.css";
+import valueIterationResults from "../data/valueIterationResults.json";
 
 ChartJS.register(
   CategoryScale,
@@ -82,18 +83,136 @@ export default function Tabs() {
 
   const currentTab = tabs[activeTab];
 
-  const dummyData = (i) => ({
-    labels: ["A", "B", "C", "D", "E"],
-    datasets: [
-      {
-        label: `Plot ${i + 1}`,
-        data: Array.from({ length: 5 }, () => Math.floor(Math.random() * 10)),
-        borderColor: "#b41f1f",
-        backgroundColor: "rgba(180, 31, 31, 0.1)",
-        tension: 0.3,
+  // Helper function to create chart data
+  const getPlotData = (plotIndex) => {
+    // For Value Iteration (Model-Based, index 0), show real data in plots 0 and 1
+    if (activeTab === 0 && activeSub === 0) {
+      if (plotIndex === 0) {
+        // Plot 1: Baseline Rates
+        return {
+          labels: valueIterationResults.iteration_steps,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: valueIterationResults.baseline.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: valueIterationResults.baseline.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: valueIterationResults.baseline.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 1) {
+        // Plot 2: Random Rates
+        return {
+          labels: valueIterationResults.iteration_steps,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: valueIterationResults.random.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: valueIterationResults.random.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: valueIterationResults.random.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      }
+    }
+
+    // Dummy data for other plots
+    return {
+      labels: ["A", "B", "C", "D", "E"],
+      datasets: [
+        {
+          label: `Plot ${plotIndex + 1}`,
+          data: Array.from({ length: 5 }, () => Math.floor(Math.random() * 10)),
+          borderColor: "#b41f1f",
+          backgroundColor: "rgba(180, 31, 31, 0.1)",
+          tension: 0.3,
+        },
+      ],
+    };
+  };
+
+  const getPlotTitle = (plotIndex) => {
+    if (activeTab === 0 && activeSub === 0) {
+      if (plotIndex === 0) return "Baseline Opponent Performance";
+      if (plotIndex === 1) return "Random Opponent Performance";
+    }
+    return `Plot ${plotIndex + 1}`;
+  };
+
+  const getChartOptions = (plotIndex) => {
+    // For real data plots, show legend
+    if (activeTab === 0 && activeSub === 0 && (plotIndex === 0 || plotIndex === 1)) {
+      return {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            title: {
+              display: true,
+              text: "Iteration Steps",
+            },
+          },
+          y: {
+            grid: { color: "#eee" },
+            title: {
+              display: true,
+              text: "Rate",
+            },
+            min: 0,
+            max: 1,
+          },
+        },
+      };
+    }
+
+    // Default options for dummy plots
+    return {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: "#eee" } },
       },
-    ],
-  });
+    };
+  };
 
   return (
     <section id="tabs" className="tabs-container">
@@ -141,18 +260,10 @@ export default function Tabs() {
             <div className="plots-grid">
               {[...Array(6)].map((_, i) => (
                 <div className="plot-card" key={i}>
-                  <h4>Plot {i + 1}</h4>
+                  <h4>{getPlotTitle(i)}</h4>
                   <Line
-                    data={dummyData(i)}
-                    options={{
-                      responsive: true,
-                      maintainAspectRatio: true,
-                      plugins: { legend: { display: false } },
-                      scales: {
-                        x: { grid: { display: false } },
-                        y: { grid: { color: "#eee" } },
-                      },
-                    }}
+                    data={getPlotData(i)}
+                    options={getChartOptions(i)}
                   />
                 </div>
               ))}
