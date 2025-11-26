@@ -57,7 +57,7 @@ export default function TicTacToe() {
 
       console.log("Current player:", currentPlayer, "Type:", currentPlayerType);
       
-      if (currentPlayerType === "Model-Based") {
+      if (currentPlayerType === "Model-Based (VI)") {
         console.log("AI making move...");
         const move = await getAIMove();
         console.log("AI move received:", move);
@@ -163,7 +163,7 @@ export default function TicTacToe() {
               onChange={(e) => setPlayer1(e.target.value)}
             >
               <option>Human</option>
-              <option>Model-Based</option>
+              <option>Model-Based (VI)</option>
               <option>Model-Free</option>
               <option>Deep Learning</option>
             </select>
@@ -176,7 +176,7 @@ export default function TicTacToe() {
               onChange={(e) => setPlayer2(e.target.value)}
             >
               <option>Human</option>
-              <option>Model-Based</option>
+              <option>Model-Based (VI)</option>
               <option>Model-Free</option>
               <option>Deep Learning</option>
             </select>

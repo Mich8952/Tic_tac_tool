@@ -8,8 +8,10 @@ CORS(app, supports_credentials=True)
 
 
 with open('Policies/VI/3_0.2_0.9_0.25/temp_policy_o.pkl', 'rb') as f:
-    policy = pickle.load(f)
+    O_policy = pickle.load(f)
 
+with open('Policies/VI/3_0.2_0.9_0.25/temp_policy_x.pkl', 'rb') as f:
+    X_policy = pickle.load(f)
 
 def convert_board_to_state(board):
     flattened_board = []
@@ -32,6 +34,18 @@ def get_ai_move():
     
     data = request.json
     state = convert_board_to_state(data['board'])
+    # this api needs to determine whos turn it is. So lets simply count states
+    # if we have equal X and Os, its Xs turn else itss O
+    num_X = state.count("X")
+    num_O = state.count("O")
+    current_player = "X" if num_X == num_O else "O"
+
+    if current_player == "X":
+        policy = X_policy
+    else:
+        policy = O_policy
+
+
     # need this form (np.str_('X'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'))
     state = tuple(np.str_(s) for s in state)
     action = policy[state]
@@ -41,18 +55,5 @@ def get_ai_move():
     print(row,col)
     return jsonify({'row': row, 'col': col})
 
-'''
-@app.route('/api/get-ai-move', methods=['POST'])
-def get_ai_move():
-    data = request.json
-    board = data['board']  # get the board state from frontend
-    player = data['player']  # get whos turn it is from the frontend
-    
-    state = convert_board_to_state(board)
-    action = policy[state]
-    row, col = action
-    
-    return jsonify({'row': row, 'col': col})
-'''
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
