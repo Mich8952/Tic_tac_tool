@@ -83,12 +83,9 @@ export default function Tabs() {
 
   const currentTab = tabs[activeTab];
 
-  // Helper function to create chart data
   const getPlotData = (plotIndex) => {
-    // For Value Iteration (Model-Based, index 0), show real data in plots 0 and 1
     if (activeTab === 0 && activeSub === 0) {
       if (plotIndex === 0) {
-        // Plot 1: Baseline Rates
         return {
           labels: valueIterationResults.iteration_steps,
           datasets: [
@@ -116,7 +113,6 @@ export default function Tabs() {
           ],
         };
       } else if (plotIndex === 1) {
-        // Plot 2: Random Rates
         return {
           labels: valueIterationResults.iteration_steps,
           datasets: [

@@ -1,10 +1,13 @@
-from board_util import TicTacToeEnv
-from Evaluate.baseline import choose_move
 import time
 import pickle
 import ast
 import random
 import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from Utils.board_util import TicTacToeEnv
+from Evaluate.baseline import choose_move
 
 def play_game(policy_dir, n):
     # policy is the opposing policy
@@ -66,6 +69,7 @@ def play_game(policy_dir, n):
 
 
 if __name__ == "__main__":
+    play_game(policy_dir="Policies/VI/3_0.2_0.9_0.25",n=3) #value iteration policy
     #play_game(policy_dir="temp_policy_vi",n=4) #value iteration policy
     #play_game(policy_dir="temp_policy_pi",n=4) #policy iter
-    play_game(policy_dir=choose_move,n=5) #policy iter
+    #play_game(policy_dir=choose_move,n=5) #policy iter
