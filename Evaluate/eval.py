@@ -144,26 +144,26 @@ if __name__ == "__main__":
     print("----3x3----")
     
     #3x3
-    with open("Policies/PI/3_0.9_0.25/temp_policy_x.pkl", "rb") as f:
-        x_policy = pickle.load(f)
+    #with open("Policies/PI/3_0.9_0.25/temp_policy_x.pkl", "rb") as f:
+    #    x_policy = pickle.load(f)
     
-    with open("Policies/PI/3_0.9_0.25/temp_policy_o.pkl", "rb") as f:
-        o_policy = pickle.load(f)
+    #with open("Policies/PI/3_0.9_0.25/temp_policy_o.pkl", "rb") as f:
+    #    o_policy = pickle.load(f)
 
-    print(f"Number of iterations = {RUNS}")
-    results_baseline = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.25)
-    results_random = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.25)
-    print(f"Playing Against Baseline: {results_baseline}")
-    print(f"Playing Against Random: {results_random}")  
+    #print(f"Number of iterations = {RUNS}")
+    #results_baseline = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.25)
+    #results_random = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.25)
+    #print(f"Playing Against Baseline: {results_baseline}")
+    #print(f"Playing Against Random: {results_random}")  
 
-    """
+    
     print("\n")
     print("WITH SKIPPING PROBABILITY 0%")
     print("----4x4----")
-    with open("temp_policy_vi_good/temp_policy_x.pkl", "rb") as f:
+    with open("Policies/VI/4_0.2_0.9_0.0/temp_policy_x.pkl", "rb") as f:
         x_policy = pickle.load(f)
 
-    with open("temp_policy_vi_good/temp_policy_o.pkl", "rb") as f:
+    with open("Policies/VI/4_0.2_0.9_0.0/temp_policy_o.pkl", "rb") as f:
         o_policy = pickle.load(f)
 
     results_baseline = eval_policy(n=4,o_policy=o_policy, x_policy=x_policy, runs=RUNS, opponent='baseline',epsilon=0.0)
@@ -173,6 +173,7 @@ if __name__ == "__main__":
     print(f"Playing Against Baseline: {results_baseline}")
     print(f"Playing Against Random: {results_random}")
 
+    """
 
     print("\n")
     print("----3x3----")

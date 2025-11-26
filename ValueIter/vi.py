@@ -152,11 +152,11 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25):
     return pi_X, pi_O, V
 
 if __name__ == "__main__":
-    n = 3
+    n = 4
     thresh = 0.2
     gamma = 0.9
-    epsilon = 0.0
-
+    epsilon = 0.25
+    
     pi_X, pi_O, V = value_iteration(n=n, thresh=thresh, gamma=gamma, epsilon=epsilon) # gamma should not be 1
     
     os.makedirs(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}", exist_ok=True)
