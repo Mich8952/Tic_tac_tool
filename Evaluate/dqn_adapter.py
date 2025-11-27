@@ -5,7 +5,6 @@ from Utils.board_util import TicTacToeEnv
 import numpy as np
 import torch
 import torch.nn as nn
-
 device = torch.device("cpu")
 
 class DQN(nn.Module):
@@ -46,6 +45,7 @@ class DQNPolicyWrapper:
         self.model = DQN(n).to(device)
         if model_path is not None:
             self.model.load_state_dict(torch.load(model_path, map_location=device))
+            print("model loaded")
         self.model.eval()
         
     def __getitem__(self, state_tuple):

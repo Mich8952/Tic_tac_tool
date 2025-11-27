@@ -22,14 +22,15 @@ export default function TicTacToe() {
     return board2D;
   };
 
-  const getAIMove = async () => {
+  const getAIMove = async (algorithmType) => {
     try {
       const response = await fetch('http://localhost:5001/api/get-ai-move', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           board: convertTo2D(board, boardSize), // dont really need this since in the backend we go back to the flat state (TODO if time)
-          player: currentPlayer
+          player: currentPlayer,
+          algorithm: algorithmType
         })
       });
       const data = await response.json();
@@ -59,7 +60,21 @@ export default function TicTacToe() {
       
       if (currentPlayerType === "Model-Based (VI)") {
         console.log("AI making move...");
-        const move = await getAIMove();
+        const move = await getAIMove("VI");
+        console.log("AI move received:", move);
+        if (move) {
+          const index = move.row * boardSize + move.col; // get the flat index
+          if (!board[index]) {
+            const newBoard = [...board]; //copy current board
+            newBoard[index] = currentPlayer; // play move
+            setBoard(newBoard);
+            setCurrentPlayer(currentPlayer === "X" ? "O" : "X"); // set to next player which is O if it was previously X
+          }
+        }
+      }
+      if (currentPlayerType === "Deep Learning") {
+        console.log("AI making move...");
+        const move = await getAIMove("DQN");
         console.log("AI move received:", move);
         if (move) {
           const index = move.row * boardSize + move.col; // get the flat index
@@ -153,6 +168,7 @@ export default function TicTacToe() {
               <option value={3}>3x3</option>
               <option value={4}>4x4</option>
               <option value={5}>5x5</option>
+              <option value={7}>7x7</option>
             </select>
           </label>
 
