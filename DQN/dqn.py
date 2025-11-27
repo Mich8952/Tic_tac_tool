@@ -18,9 +18,9 @@ np.random.seed(SEED)
 torch.manual_seed(SEED)
 
 from Evaluate.eval import eval_policy
-#from Evaluate.lecture_baseline_revised import LectureBaseline2PolicyWrapper as BaselinePolicyWrapper
+from Evaluate.lecture_baseline_revised import LectureBaselinePolicyWrapper as BaselinePolicyWrapper
 # lecturebaseline 2 with < 1 play worked well
-from Evaluate.baseline import BaselinePolicyWrapper
+#from Evaluate.baseline import BaselinePolicyWrapper
 
 class DQN(nn.Module):
     def __init__(self, n):
@@ -170,11 +170,12 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
                 print(f"Iteration {iteration}, Avg Loss: {total_loss/L:.6f}, vs Baseline: W:{result['win_rate']:.2f} D:{result['draw_rate']:.2f} L:{result['loss_rate']:.2f}, vs Random: W:{result_random['win_rate']:.2f} D:{result_random['draw_rate']:.2f} L:{result_random['loss_rate']:.2f}")
                 if result['win_rate'] >= result['loss_rate']:
                     print("WINNER")
-                    resultTwo = eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, opponent='baseline', runs=10000, epsilon=0.25)
-                    if resultTwo['win_rate'] >= resultTwo['loss_rate']:
-                        print("CONFIRMED WINNER")
-                        print(resultTwo['win_rate'], resultTwo['draw_rate'], resultTwo['loss_rate'])
-                        print("------")
+                    if (result['win_rate'] - result['loss_rate']) > 0.03: 
+                        resultTwo = eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, opponent='baseline', runs=10000, epsilon=0.25)
+                        if resultTwo['win_rate'] >= resultTwo['loss_rate']:
+                            print("CONFIRMED WINNER")
+                            print(resultTwo['win_rate'], resultTwo['draw_rate'], resultTwo['loss_rate'])
+                            print("------")
                 q_network.train()
         
         if iteration % target_update == 0:

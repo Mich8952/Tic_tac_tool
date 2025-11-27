@@ -11,8 +11,8 @@ from Utils.board_util import TicTacToeEnv
 import numpy as np
 import random
 from Evaluate.baseline import RandomPolicyWrapper#, BaselinePolicyWrapper
-#from Evaluate.lecture_baseline import LectureBaselinePolicyWrapper as BaselinePolicyWrapper
-from Evaluate.lecture_baseline_revised import LectureBaselinePolicyWrapper as BaselinePolicyWrapper
+from Evaluate.lecture_baseline import LectureBaselinePolicyWrapper as BaselinePolicyWrapper
+#from Evaluate.lecture_baseline_revised import LectureBaselinePolicyWrapper as BaselinePolicyWrapper
 
 def play_policy(env, epsilon, policy):
     state = tuple(env.get_flat_state())
