@@ -18,7 +18,8 @@ np.random.seed(SEED)
 torch.manual_seed(SEED)
 
 from Evaluate.eval import eval_policy
-from Evaluate.lecture_baseline_revised import LectureBaselinePolicyWrapper as BaselinePolicyWrapper
+#from Evaluate.lecture_baseline_revised import LectureBaselinePolicyWrapper as BaselinePolicyWrapper
+from Evaluate.lecture_baseline import LectureBaselinePolicyWrapper as BaselinePolicyWrapper
 # lecturebaseline 2 with < 1 play worked well
 #from Evaluate.baseline import BaselinePolicyWrapper
 
@@ -287,12 +288,13 @@ if __name__ == "__main__":
     
     os.makedirs(f"Policies/DQN/{n}_{gamma}_{epsilon_end}", exist_ok=True)
     
-    torch.save(q_network.state_dict(), f"Policies/DQN/{n}_{gamma}_{epsilon_end}/q_network.pt")
+    #torch.save(q_network.state_dict(), f"Policies/DQN/{n}_{gamma}_{epsilon_end}/q_network.pt")
     
-    with open(f"Policies/DQN/{n}_{gamma}_{epsilon_end}/tracked_results.pkl", "wb") as f:
-        pickle.dump(tracked_results, f)
+    #with open(f"Policies/DQN/{n}_{gamma}_{epsilon_end}/tracked_results.pkl", "wb") as f:
+        #pickle.dump(tracked_results, f)
     
     print("done")
 
 
     # got confimed winners with n=5 after only like 100 iters
+    #970 with revised
