@@ -10,6 +10,9 @@ CORS(app, supports_credentials=True)
 POLICIES = {"3": "Policies/VI/3_0.2_0.9_0.25",
             "4": "Policies/VI/4_0.2_0.9_0.0"}
 
+CURRENT_X_POLICY_CACHE = [None,None]
+CURRENT_O_POLICY_CACHE = [None,None]
+
 def get_n(board):
     return int(np.sqrt(len(board)))
 
@@ -29,18 +32,29 @@ def convert_board_to_state(board):
 
 @app.route('/api/get-ai-move', methods=['POST', 'OPTIONS'])
 def get_ai_move():
+    global CURRENT_O_POLICY_CACHE
+    global CURRENT_X_POLICY_CACHE
     if request.method == 'OPTIONS':
         return jsonify({'status': 'OK'}), 200  # Preflight response
     
     data = request.json
     state = convert_board_to_state(data['board'])
-
     n = get_n(state)
 
-    with open(f'{POLICIES[str(n)]}/temp_policy_o.pkl', 'rb') as f:
-        O_policy = pickle.load(f)
-    with open(f'{POLICIES[str(n)]}/temp_policy_x.pkl', 'rb') as f:
-        X_policy = pickle.load(f)
+    if CURRENT_X_POLICY_CACHE[0] is None or CURRENT_O_POLICY_CACHE[0] != n:
+        with open(f'{POLICIES[str(n)]}/temp_policy_o.pkl', 'rb') as f:
+            O_policy = pickle.load(f)
+        with open(f'{POLICIES[str(n)]}/temp_policy_x.pkl', 'rb') as f:
+            X_policy = pickle.load(f)
+        
+        CURRENT_O_POLICY_CACHE[0] = O_policy
+        CURRENT_X_POLICY_CACHE[0] = X_policy
+
+        CURRENT_O_POLICY_CACHE[1] = n
+        CURRENT_X_POLICY_CACHE[1] = n
+    else:
+        O_policy = CURRENT_O_POLICY_CACHE
+        X_policy = CURRENT_X_POLICY_CACHE
     
 
     # this api needs to determine whos turn it is. So lets simply count states

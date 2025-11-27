@@ -176,7 +176,7 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
                 if result['win_rate'] >= result['loss_rate']:
                     print("WINNER")
                     if (result['win_rate'] - result['loss_rate']) > 0.03: 
-                        resultTwo = eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, opponent='baseline', runs=10000, epsilon=0.25)
+                        resultTwo = eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, opponent='baseline', runs=5000, epsilon=0.25)
                         if resultTwo['win_rate'] >= resultTwo['loss_rate']:
                             print("CONFIRMED WINNER")
                             print(resultTwo['win_rate'], resultTwo['draw_rate'], resultTwo['loss_rate'])
