@@ -162,10 +162,8 @@ def plot_results(results_dict, title):
 
 
 
-def export_results_to_json(results_dir):
-    with open(results_dir, 'rb') as f:
-        results_dict = pickle.load(f)
-        
+def export_results_to_json(results_dict, results_dir):
+    
     baseline = results_dict['baseline_results']
     random = results_dict['random_results']
     
@@ -194,11 +192,11 @@ def export_results_to_json(results_dir):
         }
     }
 
-    with open(f"{results_dir}_jsonified.json", 'w') as f:
+    os.makedirs(results_dir, exist_ok=True)
+    output_path = os.path.join(results_dir, 'evaluation.json')
+    with open(output_path, 'w') as f:
         json.dump(json_data, f, indent=2)
     
-    
-
 
 if __name__ == "__main__":
     print("\n\n\n\n\n")

@@ -120,22 +120,21 @@ if __name__ == '__main__':
     parser.add_argument('--games', type=int, default=50)
     parser.add_argument('--mcts_sims', type=int, default=100)
     parser.add_argument('--epsilon', type=float, default=0.25)
-    parser.add_argument('--output_dir', default=None)
+    parser.add_argument('--output_dir', default = None)
     parser.add_argument('--every', type=int, default=50)
 
     args = parser.parse_args()
 
-    evaluate_checkpoints(
-        model_dir=args.model_dir,
+    results = evaluate_checkpoints(
+        model_dir = args.model_dir,
         board_size=args.board_size,
         games_per_checkpoint=args.games,
         mcts_simulations=args.mcts_sims,
         epsilon=args.epsilon,
-        output_dir=args.output_dir,
+        output_dir = args.output_dir,
         evaluate_every=args.every
     )
 
-    # Determine where the pickle file was saved
-    output_dir = args.output_dir if args.output_dir is not None else args.model_dir
-    pickle_path = os.path.join(output_dir, 'alphazero_evaluation.pkl')
-    export_results_to_json(pickle_path)
+    board_size_dir = os.path.basename(args.model_dir.rstrip('/'))
+    output_dir = os.path.join(r"/home/thomas-nguyen/Projects/Tic_tac_tool/Policies/AlphaZero", board_size_dir)
+    export_results_to_json(results, output_dir)
