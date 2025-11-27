@@ -70,6 +70,10 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
     iter_at_eval = []
     
     cutoff = iterations // 4
+
+
+    best_win_differential = -100000
+    best_state_dict = None
     
     print("Running DQN learning...")
     for iteration in tqdm(range(iterations)):
@@ -176,6 +180,14 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
                             print("CONFIRMED WINNER")
                             print(resultTwo['win_rate'], resultTwo['draw_rate'], resultTwo['loss_rate'])
                             print("------")
+
+                            if (resultTwo['win_rate'] - resultTwo['loss_rate']) > best_win_differential:
+                                best_win_differential = resultTwo['win_rate'] - resultTwo['loss_rate']
+                                best_state_dict = deepcopy(q_network.state_dict())
+                                
+                                # save the model
+                                os.makedirs(f"Policies/DQN/{n}_{gamma}_{epsilon_end}_winner", exist_ok=True)
+                                torch.save(best_state_dict, f"Policies/DQN/{n}_{gamma}_{epsilon_end}_winner/q_network.pt")
                 q_network.train()
         
         if iteration % target_update == 0:
