@@ -78,6 +78,7 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
     
     print("Running DQN learning...")
     for iteration in tqdm(range(iterations)):
+        j_iter_for_forward_calls = 0
         epsilon = epsilon_start - (epsilon_start - epsilon_end) * (iteration / iterations)
         use_baseline = np.random.random() < 0#1.0
         
@@ -113,7 +114,9 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
                         possible_q_values.append((q_values[a].item(), a.item()))
                     
                     action = max(possible_q_values, key=lambda x: x[0])[1]
-            
+
+            j_iter_for_forward_calls += 1
+
             next_env = TicTacToeEnv(n)
             next_env.state = env.state.copy()
             next_env.current_player = env.current_player
@@ -177,7 +180,7 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
                     print("WINNER")
                     if (result['win_rate'] - result['loss_rate']) > 0.03: 
                         resultTwo = eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, opponent='baseline', runs=5000, epsilon=0.25)
-                        if resultTwo['win_rate'] >= resultTwo['loss_rate']:
+                        if resultTwo['win_rate'] > resultTwo['loss_rate']:
                             print("CONFIRMED WINNER")
                             print(resultTwo['win_rate'], resultTwo['draw_rate'], resultTwo['loss_rate'])
                             print("------")
@@ -194,8 +197,19 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
         if iteration % target_update == 0:
             target_network.load_state_dict(q_network.state_dict())
         
-        if track_progress and iteration % cutoff == 0 and iteration > 0:
-            print(f"Iteration {iteration}")
+        if track_progress and iteration > 0 and iteration % 250 == 0:
+            print(f"\nEvaluating at iteration {iteration}, inner loop: {j_iter_for_forward_calls}")
+
+            x_policy = DQNPolicyWrapper(n, None, player='X')
+            o_policy = DQNPolicyWrapper(n, None, player='O')
+
+            x_policy.model = q_network
+            o_policy.model = q_network
+            
+            baseline_results.append(eval_policy(n=n, o_policy=o_policy, x_policy=x_policy, runs=5000, opponent='baseline', epsilon=epsilon_end))
+            random_results.append(eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, runs=5000, opponent='random', epsilon=epsilon_end))
+            iter_at_eval.append([iteration, j_iter_for_forward_calls])
+            
     
     tracked_results = {
         "baseline_results": baseline_results,
@@ -203,72 +217,13 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
         "iter_at_eval": iter_at_eval
     }
     
-    policies = {
-        "q_network": q_network
-    }
-    
-    return tracked_results, policies
+    return tracked_results, q_network
 
-def get_policy(q_network, n):
-    import itertools
-    
-    print("Extracting policy from Q-network...")
-    all_states = list(itertools.product(["X", "O", "_"], repeat=n*n))
-    refined_states = []
-    
-    for state in tqdm(all_states, desc="Filtering valid states"):
-        env = TicTacToeEnv(n)
-        env.state = np.array(state).reshape((n, n))
-        counts = env.return_play_counts()
-        x_count = counts['X']
-        o_count = counts['O']
-        
-        if (x_count == o_count or x_count == o_count + 1):
-            refined_states.append(state)
-    
-    pi_X = {}
-    pi_O = {}
-    
-    for state in tqdm(refined_states, desc="Extracting greedy policy"):
-        env = TicTacToeEnv(n)
-        env.state = np.array(state).reshape((n, n))
-        
-        if env.check_game_status() is not None:
-            continue
-        
-        env.set_player_auto()
-        possible_actions = env.get_possible_actions()
-        
-        if len(possible_actions) == 0:
-            continue
-        
-        counts = env.return_play_counts()
-        x_count = counts['X']
-        o_count = counts['O']
-        
-        if x_count == o_count:
-            state_tensor = state_to_tensor(state, 1, n).unsqueeze(0)
-            with torch.no_grad():
-                q_values = q_network(state_tensor).squeeze(0)
-                possible_q_values = []
-                for a in possible_actions:
-                    possible_q_values.append((q_values[a].item(), a.item()))
-                best_action = max(possible_q_values, key=lambda x: x[0])[1]
-                pi_X[tuple(state)] = best_action
-        else:
-            state_tensor = state_to_tensor(state, 2, n).unsqueeze(0)
-            with torch.no_grad():
-                q_values = q_network(state_tensor).squeeze(0)
-                possible_q_values = []
-                for a in possible_actions:
-                    possible_q_values.append((q_values[a].item(), a.item()))
-                best_action = max(possible_q_values, key=lambda x: x[0])[1]
-                pi_O[tuple(state)] = best_action
-    
-    return pi_X, pi_O
 
 if __name__ == "__main__":
-    n = 5
+    # single call
+
+    n = 3 # 5
     gamma = 1
     epsilon_start = 1.0
     epsilon_end = 0.25
@@ -279,22 +234,17 @@ if __name__ == "__main__":
     L = 30
     iterations = 3000
     
-    tracked_results, policies = dqn_learning(n=n, gamma=gamma, epsilon_start=epsilon_start, epsilon_end=epsilon_end, lr=lr,
+    tracked_results, q_network = dqn_learning(n=n, gamma=gamma, epsilon_start=epsilon_start, epsilon_end=epsilon_end, lr=lr,
                                               memory_size=memory_size, batch_size=batch_size,
                                               H=H, L=L, iterations=iterations,
-                                              track_progress=False)
-    
-    q_network = policies["q_network"]
+                                              track_progress=True)
     
     os.makedirs(f"Policies/DQN/{n}_{gamma}_{epsilon_end}", exist_ok=True)
     
-    #torch.save(q_network.state_dict(), f"Policies/DQN/{n}_{gamma}_{epsilon_end}/q_network.pt")
-    
-    #with open(f"Policies/DQN/{n}_{gamma}_{epsilon_end}/tracked_results.pkl", "wb") as f:
-        #pickle.dump(tracked_results, f)
+    with open(f"Policies/DQN/{n}_{gamma}_{epsilon_end}_winner/tracked_results.pkl", "wb") as f:
+        pickle.dump(tracked_results, f)
     
     print("done")
 
-
-    # got confimed winners with n=5 after only like 100 iters
-    #970 with revised
+#if __name__ == "__main__":
+    ## running_loop
