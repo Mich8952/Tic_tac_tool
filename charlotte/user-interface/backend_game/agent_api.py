@@ -17,7 +17,8 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
 
 POLICIES = {"VI_3": os.path.join(BASE_DIR, "Policies/VI/3_0.2_0.9_0.25"),
             "VI_4": os.path.join(BASE_DIR, "Policies/VI/4_0.2_0.9_0.25"),
-            "DQN_7": os.path.join(BASE_DIR, "Policies/DQN/7_1_0.25_winner"),}
+            "DQN_7": os.path.join(BASE_DIR, "Policies/DQN/7_1_0.25_winner"),
+            "DQN_5": os.path.join(BASE_DIR, "Policies/DQN/5_1_0.25_winner")}
 
 CURRENT_X_POLICY_CACHE = [None,None]
 CURRENT_O_POLICY_CACHE = [None,None]

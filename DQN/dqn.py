@@ -268,7 +268,7 @@ def get_policy(q_network, n):
     return pi_X, pi_O
 
 if __name__ == "__main__":
-    n = 7#5
+    n = 5
     gamma = 1
     epsilon_start = 1.0
     epsilon_end = 0.25

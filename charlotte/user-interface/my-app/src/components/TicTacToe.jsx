@@ -8,6 +8,7 @@ export default function TicTacToe() {
   const [player2, setPlayer2] = useState("Human");
   const [currentPlayer, setCurrentPlayer] = useState("X");
   const [firstMove, setFirstMove] = useState("Player 1");
+  const [slipProbability, setSlipProbability] = useState(0.25); //25% slip prob
 
   useEffect(() => {
     setBoard(Array(boardSize * boardSize).fill(null));
@@ -20,6 +21,16 @@ export default function TicTacToe() {
       board2D.push(board.slice(i * size, (i+1) * size)); // convert to 2 dimensions instead of its flat state form
     }
     return board2D;
+  };
+
+  const applySlip = (intendedIndex) => {
+    if (Math.random() >= slipProbability) {
+      return intendedIndex; 
+    }
+    const emptyCells = board.map((cell, idx) => cell === null ? idx : -1).filter(idx => idx !== -1);
+    if (emptyCells.length === 0) return intendedIndex;
+    // pick random empty cell
+    return emptyCells[Math.floor(Math.random() * emptyCells.length)];
   };
 
   const getAIMove = async (algorithmType) => {
@@ -63,10 +74,11 @@ export default function TicTacToe() {
         const move = await getAIMove("VI");
         console.log("AI move received:", move);
         if (move) {
-          const index = move.row * boardSize + move.col; // get the flat index
-          if (!board[index]) {
+          const intendedIndex = move.row * boardSize + move.col; // get the flat index
+          const actualIndex = applySlip(intendedIndex); // Apply slip
+          if (!board[actualIndex]) {
             const newBoard = [...board]; //copy current board
-            newBoard[index] = currentPlayer; // play move
+            newBoard[actualIndex] = currentPlayer; // play move
             setBoard(newBoard);
             setCurrentPlayer(currentPlayer === "X" ? "O" : "X"); // set to next player which is O if it was previously X
           }
@@ -77,10 +89,11 @@ export default function TicTacToe() {
         const move = await getAIMove("DQN");
         console.log("AI move received:", move);
         if (move) {
-          const index = move.row * boardSize + move.col; // get the flat index
-          if (!board[index]) {
+          const intendedIndex = move.row * boardSize + move.col; // get the flat index
+          const actualIndex = applySlip(intendedIndex); // Apply slip
+          if (!board[actualIndex]) {
             const newBoard = [...board]; //copy current board
-            newBoard[index] = currentPlayer; // play move
+            newBoard[actualIndex] = currentPlayer; // play move
             setBoard(newBoard);
             setCurrentPlayer(currentPlayer === "X" ? "O" : "X"); // set to next player which is O if it was previously X
           }
@@ -97,8 +110,9 @@ export default function TicTacToe() {
     const currentPlayerType = currentPlayer === "X" ? player1 : player2;
     if (currentPlayerType !== "Human") return;
     
+    const actualIndex = applySlip(index); // Apply slip to human move
     const newBoard = [...board];
-    newBoard[index] = currentPlayer;
+    newBoard[actualIndex] = currentPlayer;
     setBoard(newBoard);
     setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
   };
@@ -206,6 +220,18 @@ export default function TicTacToe() {
             >
               <option>Player 1</option>
               <option>Player 2</option>
+            </select>
+          </label>
+
+          <label>
+            Slip Probability:
+            <select
+              value={slipProbability}
+              onChange={(e) => setSlipProbability(Number(e.target.value))}
+            >
+              <option value={0}>0% (No Slip)</option>
+              <option value={0.25}>25%</option>
+              <option value={0.5}>50%</option>
             </select>
           </label>
 
