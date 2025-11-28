@@ -192,7 +192,7 @@ def get_policy(all_states, V, n, gamma, epsilon):
 
 
 if __name__ == "__main__":
-    n = 4
+    n = 3
     thresh = 0.2
     gamma = 0.9
     epsilon = 0.25
