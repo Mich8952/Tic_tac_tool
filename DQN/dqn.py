@@ -246,5 +246,26 @@ if __name__ == "__main__":
     
     print("done")
 
-#if __name__ == "__main__":
+if __name__ == "__mai2n__":
     ## running_loop
+    gamma = 1 # TODO DO I WANT THIS OR NOT
+    epsilon_start = 1.0 
+    epsilon_end = 0.25
+    lr = 0.0005
+    memory_size = 50000
+    batch_size = 128
+    H = 3000
+    L = 30
+    iterations = 3000
+    for n in [3,4,5,6,7,8,9,10,11,12,13,14,15]:
+        tracked_results, q_network = dqn_learning(n=n, gamma=gamma, epsilon_start=epsilon_start, epsilon_end=epsilon_end, lr=lr,
+                                            memory_size=memory_size, batch_size=batch_size,
+                                            H=H, L=L, iterations=iterations,
+                                            track_progress=True)
+            
+        os.makedirs(f"Policies/DQN/{n}_{gamma}_{epsilon_end}", exist_ok=True)
+        
+        with open(f"Policies/DQN/{n}_{gamma}_{epsilon_end}_winner/tracked_results.pkl", "wb") as f:
+            pickle.dump(tracked_results, f)
+
+
