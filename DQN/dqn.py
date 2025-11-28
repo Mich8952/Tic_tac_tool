@@ -11,6 +11,7 @@ import torch.nn as nn
 import torch.optim as optim
 import random
 from collections import deque
+from Evaluate.dqn_adapter import DQNPolicyWrapper
 
 SEED = 42
 random.seed(SEED)
@@ -57,6 +58,7 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
                  H=1000, L=10, iterations=1000, target_update=100, track_progress=False):
     
     q_network = DQN(n)
+    cost = nn.MSELoss()
     target_network = DQN(n)
     target_network.load_state_dict(q_network.state_dict())
     
@@ -127,11 +129,11 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
             if reward is None:
                 reward = 0.0
             else:
-                if current_player == 2:
+                if current_player == 2: # if its player 2 then we reduce rewad as thats the opponent
                     reward = -reward
             
             if not (use_baseline and current_player == 2):
-                replay_buffer.append((state, action, reward, next_state, current_player))
+                replay_buffer.append((state, action, reward, next_state, current_player)) # add to replay buffer
             
             state = next_state
             env.state = next_env.state.copy()
@@ -143,7 +145,7 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
         
         if len(replay_buffer) >= batch_size:
             total_loss = 0
-            for ell in range(L):
+            for m in range(L):
                 batch = random.sample(replay_buffer, batch_size)
                 
                 states = torch.stack([state_to_tensor(s[0], s[4], n) for s in batch])
@@ -151,21 +153,22 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
                 rewards = torch.FloatTensor([s[2] for s in batch])
                 next_states = torch.stack([state_to_tensor(s[3], s[4], n) for s in batch])
                 
-                current_q = q_network(states).gather(1, actions.unsqueeze(1)).squeeze(1)
-                
+                #current_q = q_network(states).gather(1, actions.unsqueeze(1)).squeeze(1)
+                ats = actions.view(-1,1)
+                current_q = q_network(states).gather(1,ats).squeeze()
+                # want to sample the current_q at the spcified actions. gather allows us to do so by appliny ig along dimension 1
                 with torch.no_grad():
-                    next_q = target_network(next_states).max(1)[0]
-                    target_q = rewards + gamma * next_q
+                    next_q = target_network(next_states).max(1)[0] # this is just going to be the optimal action from the model based on the next states
+                    target_q = rewards + gamma * next_q 
                 
-                loss = nn.MSELoss()(current_q, target_q)*1000
+                loss = cost(current_q, target_q)*1000
                 total_loss += loss.item()
                 
                 optimizer.zero_grad()
                 loss.backward()
                 optimizer.step()
             
-            if iteration % 10 == 0:
-                from Evaluate.dqn_adapter import DQNPolicyWrapper
+            if iteration % 10 == 0: # this whole thing is just for saving models if they are good canadiates (this is poorly done from a computational perspective)
                 x_policy = DQNPolicyWrapper(n, None, player='X')
                 x_policy.model = q_network
                 x_policy.model.eval()
