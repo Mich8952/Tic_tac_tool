@@ -209,8 +209,8 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
             x_policy.model = q_network
             o_policy.model = q_network
             
-            baseline_results.append(eval_policy(n=n, o_policy=o_policy, x_policy=x_policy, runs=5000, opponent='baseline', epsilon=epsilon_end))
-            random_results.append(eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, runs=5000, opponent='random', epsilon=epsilon_end))
+            baseline_results.append(eval_policy(n=n, o_policy=o_policy, x_policy=x_policy, runs=5000, opponent='baseline', epsilon=0.25))
+            random_results.append(eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, runs=5000, opponent='random', epsilon=0.25))
             iter_at_eval.append([iteration, j_iter_for_forward_calls])
             
     
