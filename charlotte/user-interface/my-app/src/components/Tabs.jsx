@@ -11,7 +11,13 @@ import {
   Legend,
 } from "chart.js";
 import "./Tabs.css";
+import FAQBox from "./FAQBox";
+
 import valueIterationResults from "../data/valueIterationResults.json";
+
+// import montecarloResults from "../data/montecarloResults.json";
+// import sarsaResults from "../data/sarsaResults.json";
+// import qlearningResults from "../data/qlearningResults.json";
 
 ChartJS.register(
   CategoryScale,
@@ -26,6 +32,7 @@ ChartJS.register(
 export default function Tabs() {
   const [activeTab, setActiveTab] = useState(0);
   const [activeSub, setActiveSub] = useState(null);
+  const [boardSize, setBoardSize] = useState(3);
 
   const tabs = [
     {
@@ -51,7 +58,7 @@ export default function Tabs() {
         "Model-free algorithms learn directly from experience without an explicit model of the environment.",
       subItems: [
         {
-          name: "Q-Learning",
+          name: "Monte Carlo",
           content:
             "Q-Learning is an off-policy algorithm that updates action values based on maximum expected future rewards.",
         },
@@ -59,6 +66,11 @@ export default function Tabs() {
           name: "SARSA",
           content:
             "SARSA is an on-policy algorithm that updates action values based on actual experience.",
+        },
+        {
+          name: "Q-Learning",
+          content:
+            "Q-Learning is an off-policy algorithm that updates action values based on maximum expected future rewards.",
         },
       ],
     },
@@ -167,7 +179,11 @@ export default function Tabs() {
 
   const getChartOptions = (plotIndex) => {
     // For real data plots, show legend
-    if (activeTab === 0 && activeSub === 0 && (plotIndex === 0 || plotIndex === 1)) {
+    if (
+      activeTab === 0 &&
+      activeSub === 0 &&
+      (plotIndex === 0 || plotIndex === 1)
+    ) {
       return {
         responsive: true,
         maintainAspectRatio: true,
@@ -252,17 +268,35 @@ export default function Tabs() {
         {activeSub !== null && (
           <div className="sub-content">
             <p>{currentTab.subItems[activeSub].content}</p>
+            {/* Board Size Selector */}
+            <div className="board-size-select">
+              <label>
+                Board Size
+                <select
+                  value={boardSize}
+                  onChange={(e) => setBoardSize(Number(e.target.value))}
+                >
+                  {Array.from({ length: 8 }, (_, i) => i + 3).map((size) => (
+                    <option key={size} value={size}>
+                      {size} × {size}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <div className="plots-and-faq">
+              {/* 4-PLOT GRID */}
+              <div className="plots-grid">
+                {[...Array(4)].map((_, i) => (
+                  <div className="plot-card" key={i}>
+                    <h4>{getPlotTitle(i)}</h4>
+                    <Line data={getPlotData(i)} options={getChartOptions(i)} />
+                  </div>
+                ))}
+              </div>
 
-            <div className="plots-grid">
-              {[...Array(6)].map((_, i) => (
-                <div className="plot-card" key={i}>
-                  <h4>{getPlotTitle(i)}</h4>
-                  <Line
-                    data={getPlotData(i)}
-                    options={getChartOptions(i)}
-                  />
-                </div>
-              ))}
+              {/* FAQ BOX */}
+              <FAQBox />
             </div>
           </div>
         )}
