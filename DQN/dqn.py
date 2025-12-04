@@ -79,6 +79,7 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
     best_state_dict = None
     
     print("Running DQN learning...")
+    total_forward_calls = 0
     for iteration in tqdm(range(iterations)):
         j_iter_for_forward_calls = 0
         epsilon = epsilon_start - (epsilon_start - epsilon_end) * (iteration / iterations)
@@ -118,6 +119,7 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
                     action = max(possible_q_values, key=lambda x: x[0])[1]
 
             j_iter_for_forward_calls += 1
+            total_forward_calls += 1
 
             next_env = TicTacToeEnv(n)
             next_env.state = env.state.copy()
@@ -179,11 +181,13 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
                 result = eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, opponent='baseline', runs=50, epsilon=0.25)
                 result_random = eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, opponent='random', runs=50, epsilon=0.25)
                 print(f"Iteration {iteration}, Avg Loss: {total_loss/L:.6f}, vs Baseline: W:{result['win_rate']:.2f} D:{result['draw_rate']:.2f} L:{result['loss_rate']:.2f}, vs Random: W:{result_random['win_rate']:.2f} D:{result_random['draw_rate']:.2f} L:{result_random['loss_rate']:.2f}")
-                if result['win_rate'] >= result['loss_rate']:
-                    print("WINNER")
-                    if (result['win_rate'] - result['loss_rate']) > 0.03: 
+                if result['win_rate'] > result['loss_rate']:
+                    print("WINNER") # turn this off for now so its faster
+                    """
+                    if (result['win_rate'] - result['loss_rate']) > 0.01:#0.03: 
                         resultTwo = eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, opponent='baseline', runs=5000, epsilon=0.25)
                         if resultTwo['win_rate'] > resultTwo['loss_rate']:
+                            
                             print("CONFIRMED WINNER")
                             print(resultTwo['win_rate'], resultTwo['draw_rate'], resultTwo['loss_rate'])
                             print("------")
@@ -193,15 +197,18 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
                                 best_state_dict = deepcopy(q_network.state_dict())
                                 
                                 # save the model
-                                os.makedirs(f"Policies/DQN/{n}_{gamma}_{epsilon_end}_winner", exist_ok=True)
-                                torch.save(best_state_dict, f"Policies/DQN/{n}_{gamma}_{epsilon_end}_winner/q_network.pt")
+                                script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                                winner_dir = os.path.join(script_dir, f"Policies/DQN/{n}_{gamma}_{epsilon_end}_winner")
+                                os.makedirs(winner_dir, exist_ok=True)
+                                torch.save(best_state_dict, os.path.join(winner_dir, "q_network.pt"))
+                    """
                 q_network.train()
         
         if iteration % target_update == 0:
             target_network.load_state_dict(q_network.state_dict())
         
-        if track_progress and iteration > 0 and iteration % 250 == 0:
-            print(f"\nEvaluating at iteration {iteration}, inner loop: {j_iter_for_forward_calls}")
+        if track_progress and iteration > 0 and iteration % 10 == 0:
+            print(f"\nEvaluating at iteration {iteration}, total actions: {total_forward_calls}")
 
             x_policy = DQNPolicyWrapper(n, None, player='X')
             o_policy = DQNPolicyWrapper(n, None, player='O')
@@ -211,7 +218,7 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
             
             baseline_results.append(eval_policy(n=n, o_policy=o_policy, x_policy=x_policy, runs=5000, opponent='baseline', epsilon=0.25))
             random_results.append(eval_policy(n=n, x_policy=x_policy, o_policy=o_policy, runs=5000, opponent='random', epsilon=0.25))
-            iter_at_eval.append([iteration, j_iter_for_forward_calls])
+            iter_at_eval.append([iteration, total_forward_calls])
             
     
     tracked_results = {
@@ -226,7 +233,7 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
 if __name__ == "__main__":
     # single call
 
-    n = 3 # 5
+    n = 5 # 5
     gamma = 1
     epsilon_start = 1.0
     epsilon_end = 0.25
@@ -235,16 +242,18 @@ if __name__ == "__main__":
     batch_size = 128
     H = 3000
     L = 30
-    iterations = 3000
+    iterations = 1000
     
     tracked_results, q_network = dqn_learning(n=n, gamma=gamma, epsilon_start=epsilon_start, epsilon_end=epsilon_end, lr=lr,
                                               memory_size=memory_size, batch_size=batch_size,
                                               H=H, L=L, iterations=iterations,
                                               track_progress=True)
     
-    os.makedirs(f"Policies/DQN/{n}_{gamma}_{epsilon_end}", exist_ok=True)
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    winner_dir = os.path.join(script_dir, f"Policies/DQN/{n}_{gamma}_{epsilon_end}_winner")
+    os.makedirs(winner_dir, exist_ok=True)
     
-    with open(f"Policies/DQN/{n}_{gamma}_{epsilon_end}_winner/tracked_results.pkl", "wb") as f:
+    with open(os.path.join(winner_dir, "tracked_results.pkl"), "wb") as f:
         pickle.dump(tracked_results, f)
     
     print("done")
@@ -266,9 +275,12 @@ if __name__ == "__mai2n__":
                                             H=H, L=L, iterations=iterations,
                                             track_progress=True)
             
-        os.makedirs(f"Policies/DQN/{n}_{gamma}_{epsilon_end}", exist_ok=True)
+        # Use absolute path based on script location
+        script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        winner_dir = os.path.join(script_dir, f"Policies/DQN/{n}_{gamma}_{epsilon_end}_winner")
+        os.makedirs(winner_dir, exist_ok=True)
         
-        with open(f"Policies/DQN/{n}_{gamma}_{epsilon_end}_winner/tracked_results.pkl", "wb") as f:
+        with open(os.path.join(winner_dir, "tracked_results.pkl"), "wb") as f:
             pickle.dump(tracked_results, f)
 
 

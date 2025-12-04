@@ -243,7 +243,7 @@ class PolicyItr:
 
 
 if __name__ == "__main__":
-    n = 3
+    n = 4
     gamma = 0.9
     slip_prob = 0.25
     epsilon = 0.1 # this is for a thresh, kind of a misnomer tbh and I should change #TODO
@@ -251,14 +251,16 @@ if __name__ == "__main__":
     piter = PolicyItr(n=n)
     pi_X, pi_O, V, tracked_results = piter.loop(max_iters=8, gamma=gamma, slip_prob=slip_prob, epsilon=epsilon, track_progress=True)
 
-    os.makedirs(f"Policies/PI/{n}_{gamma}_{slip_prob}", exist_ok=True)
-    with open(f"Policies/PI/{n}_{gamma}_{slip_prob}/temp_policy_x.pkl", "wb") as f:
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    policy_dir = os.path.join(script_dir, f"Policies/PI/{n}_{gamma}_{slip_prob}")
+    os.makedirs(policy_dir, exist_ok=True)
+    with open(os.path.join(policy_dir, "temp_policy_x.pkl"), "wb") as f:
         pickle.dump(pi_X, f) # agent plays first
     
-    with open(f"Policies/PI/{n}_{gamma}_{slip_prob}/temp_policy_o.pkl", "wb") as f:
+    with open(os.path.join(policy_dir, "temp_policy_o.pkl"), "wb") as f:
         pickle.dump(pi_O, f) # agent plays second
     
-    with open(f"Policies/PI/{n}_{gamma}_{slip_prob}/tracked_results.pkl", "wb") as f:
+    with open(os.path.join(policy_dir, "tracked_results.pkl"), "wb") as f:
         pickle.dump(tracked_results, f)
 
     print("done")

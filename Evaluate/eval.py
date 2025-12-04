@@ -178,9 +178,8 @@ def export_results_to_json(results_dir):
     baseline_loss_rates = [x['loss_rate'] for x in baseline]
     random_loss_rates = [x['loss_rate'] for x in random]
     
-    iterations = results_dict['iter_at_eval']
-    total_states = max(it[1] for it in iterations) + 1
-    iteration_steps = [(it[0]-1) * total_states + it[1] for it in iterations]
+    iters = np.array([x for x in results_dict['iter_at_eval']])
+    iteration_steps = [it[1].item() for it in iters]
     
     json_data = {
         'iteration_steps': iteration_steps,
@@ -236,11 +235,11 @@ if __name__ == "__main__":
     with open("Policies/VI/3_0.2_0.9_0.25/temp_policy_o.pkl", "rb") as f:
         o_policy = pickle.load(f)
 
-    #results_dir = "Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl"
-    #with open("Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl", "rb") as f:
-    #    tracked_results = pickle.load(f)
+    results_dir = "Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl"
+    with open("Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl", "rb") as f:
+        tracked_results = pickle.load(f)
 
-    #export_results_to_json(results_dir)
+    export_results_to_json(results_dir)
 
     print(f"Number of iterations = {RUNS}")
     results_baseline = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.25)

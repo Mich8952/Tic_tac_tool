@@ -7,8 +7,8 @@ import time
 import pickle
 import torch
 
-n = 7
-model_dir = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/DQN/7_1_0.25_winner"
+n = 15
+model_dir = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/DQN/15_0.9_0.25_not_winner"
 
 x_policy = DQNPolicyWrapper(n, f"{model_dir}/q_network.pt", player='X')
 o_policy = DQNPolicyWrapper(n, f"{model_dir}/q_network.pt", player='O')
