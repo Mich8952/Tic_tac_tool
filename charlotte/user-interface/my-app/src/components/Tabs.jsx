@@ -60,7 +60,7 @@ export default function Tabs() {
         {
           name: "Monte Carlo",
           content:
-            "Q-Learning is an off-policy algorithm that updates action values based on maximum expected future rewards.",
+            "Monte Carlo learns optimal strategies by averaging outcomes from completed trial runs in an environment.",
         },
         {
           name: "SARSA",
@@ -86,8 +86,7 @@ export default function Tabs() {
         },
         {
           name: "Alpha Zero",
-          content:
-            "In progress. Policy gradient methods optimize the policy directly using gradients of expected rewards.",
+          content: "In progress.",
         },
       ],
     },
@@ -159,6 +158,101 @@ export default function Tabs() {
     if (activeTab === 1 && activeSub === 0 && boardSize == 3) {
       if (plotIndex === 0) {
         return {
+          labels: montecarloResults.board_size,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.overall.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.overall.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.overall.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 1) {
+        return {
+          labels: montecarloResults.board_size,
+          datasets: [
+            {
+              label: "Time Complexity",
+              data: montecarloResults.inference_time,
+              borderColor: "#f29e5a",
+              backgroundColor: "rgba(242, 158, 90, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 2) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.baseline_3x3.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.baseline_3x3.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.random_3x3.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 3) {
+        return {
+          // random plot
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.random_3x3.win_rates,
+              borderColor: "#2ecc79",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.random_3x3.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.random_3x3.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 4) {
+        return {
           labels: montecarloResults.episodes,
           datasets: [
             {
@@ -184,54 +278,27 @@ export default function Tabs() {
             },
           ],
         };
-      } else if (plotIndex === 1) {
+      } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.num_games,
+          labels: montecarloResults.Algorithims,
           datasets: [
             {
               label: "Win Rate",
-              data: montecarloResults.baseline_3x3.win_rates,
+              data: montecarloResults.algs_3x3.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: montecarloResults.baseline_3x3.draw_rates,
+              data: montecarloResults.algs_3x3.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: montecarloResults.baseline_3x3.loss_rates,
-              borderColor: "#e74c3c",
-              backgroundColor: "rgba(231, 76, 60, 0.1)",
-              tension: 0.3,
-            },
-          ],
-        };
-      } else if (plotIndex === 2) {
-        return {
-          labels: montecarloResults.num_games,
-          datasets: [
-            {
-              label: "Win Rate",
-              data: montecarloResults.random_3x3.win_rates,
-              borderColor: "#2ecc71",
-              backgroundColor: "rgba(46, 204, 113, 0.1)",
-              tension: 0.3,
-            },
-            {
-              label: "Draw Rate",
-              data: montecarloResults.random_3x3.draw_rates,
-              borderColor: "#3498db",
-              backgroundColor: "rgba(52, 152, 219, 0.1)",
-              tension: 0.3,
-            },
-            {
-              label: "Loss Rate",
-              data: montecarloResults.random_3x3.loss_rates,
+              data: montecarloResults.algs_3x3.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -858,11 +925,14 @@ export default function Tabs() {
     }
     // - MONTE CARLO--------------------------------------------------------///
     if (activeTab === 1 && activeSub === 0) {
-      if (plotIndex === 0) return "Training Performance";
-      if (plotIndex === 1) return "Play Performance against Baseline Opponent ";
-      if (plotIndex === 2) return "Play Performance against Random Opponent ";
-      if (plotIndex === 3) return "Inference Time";
+      if (plotIndex === 0) return "Overall Performance";
+      if (plotIndex === 1) return "Inference Time";
+      if (plotIndex === 2) return "Play Performance against Baseline Opponent";
+      if (plotIndex === 3) return "Play Performance against Random Opponent";
+      if (plotIndex === 4) return "Improvement During Training";
+      if (plotIndex === 5) return "Performance Comparison across Algorithims";
     }
+
     return `Plot ${plotIndex + 1}`;
   };
 
@@ -919,7 +989,7 @@ export default function Tabs() {
             grid: { display: false },
             title: {
               display: true,
-              text: "Number of Training Episodes",
+              text: "Board Size (n)",
             },
           },
           y: {
@@ -934,11 +1004,7 @@ export default function Tabs() {
         },
       };
     }
-    if (
-      activeTab === 1 &&
-      activeSub === 0 &&
-      (plotIndex === 1 || plotIndex == 2)
-    ) {
+    if (activeTab === 1 && activeSub === 0 && plotIndex === 1) {
       return {
         responsive: true,
         maintainAspectRatio: true,
@@ -953,7 +1019,37 @@ export default function Tabs() {
             grid: { display: false },
             title: {
               display: true,
-              text: "Number of Games",
+              text: "Board Size (n)",
+            },
+          },
+          y: {
+            grid: { color: "#eee" },
+            title: {
+              display: true,
+              text: "T (n)",
+            },
+            min: 0,
+            max: 1,
+          },
+        },
+      };
+    }
+    if (activeTab === 1 && activeSub === 0 && plotIndex === 2) {
+      return {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            title: {
+              display: true,
+              text: "Number of Games Played",
             },
           },
           y: {
@@ -968,7 +1064,7 @@ export default function Tabs() {
         },
       };
     }
-    if (activeTab === 1 && activeSub === 0 && plotIndex == 3) {
+    if (activeTab === 1 && activeSub === 0 && plotIndex === 3) {
       return {
         responsive: true,
         maintainAspectRatio: true,
@@ -983,14 +1079,14 @@ export default function Tabs() {
             grid: { display: false },
             title: {
               display: true,
-              text: "Board Size",
+              text: "Number of Games Played",
             },
           },
           y: {
             grid: { color: "#eee" },
             title: {
               display: true,
-              text: "T(n)",
+              text: "Rate",
             },
             min: 0,
             max: 1,
@@ -998,7 +1094,66 @@ export default function Tabs() {
         },
       };
     }
-
+    if (activeTab === 1 && activeSub === 0 && plotIndex === 4) {
+      return {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            title: {
+              display: true,
+              text: "Number of Training Episodes Completed",
+            },
+          },
+          y: {
+            grid: { color: "#eee" },
+            title: {
+              display: true,
+              text: "Rate",
+            },
+            min: 0,
+            max: 1,
+          },
+        },
+      };
+    }
+    if (activeTab === 1 && activeSub === 0 && plotIndex === 5) {
+      return {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            title: {
+              display: true,
+              text: "Algorithims",
+            },
+          },
+          y: {
+            grid: { color: "#eee" },
+            title: {
+              display: true,
+              text: "Rate",
+            },
+            min: 0,
+            max: 1,
+          },
+        },
+      };
+    }
     // Default options for dummy plots
     return {
       responsive: true,
@@ -1056,7 +1211,7 @@ export default function Tabs() {
 
             {/* Board Size Selector */}
 
-            <div className="board-size-select">
+            {/* <div className="board-size-select">
               <label>
                 Board Size
                 <select
@@ -1070,17 +1225,55 @@ export default function Tabs() {
                   ))}
                 </select>
               </label>
-            </div>
+            </div> */}
 
             <div className="plots-and-faq">
               {/* 4-PLOT GRID */}
               <div className="plots-grid">
-                {[...Array(4)].map((_, i) => (
-                  <div className="plot-card" key={i}>
-                    <h4>{getPlotTitle(i)}</h4>
-                    <Line data={getPlotData(i)} options={getChartOptions(i)} />
-                  </div>
-                ))}
+                <div className="plot-card" key={0}>
+                  <h4>{getPlotTitle(0)}</h4>
+                  <Line data={getPlotData(0)} options={getChartOptions(0)} />
+                </div>
+                <div className="plot-card" key={1}>
+                  <h4>{getPlotTitle(1)}</h4>
+                  <Line data={getPlotData(1)} options={getChartOptions(1)} />
+                </div>
+                <div className="board-size-select">
+                  <label>
+                    Board Size
+                    <select
+                      value={boardSize}
+                      onChange={(e) => setBoardSize(Number(e.target.value))}
+                    >
+                      {Array.from({ length: 8 }, (_, i) => i + 3).map(
+                        (size) => (
+                          <option key={size} value={size}>
+                            {size} × {size}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </label>
+                </div>
+                <div className="board-size-select">
+                  <p></p>
+                </div>
+                <div className="plot-card" key={4}>
+                  <h4>{getPlotTitle(4)}</h4>
+                  <Line data={getPlotData(4)} options={getChartOptions(4)} />
+                </div>
+                <div className="plot-card" key={2}>
+                  <h4>{getPlotTitle(2)}</h4>
+                  <Line data={getPlotData(2)} options={getChartOptions(2)} />
+                </div>
+                <div className="plot-card" key={3}>
+                  <h4>{getPlotTitle(3)}</h4>
+                  <Line data={getPlotData(3)} options={getChartOptions(3)} />
+                </div>
+                <div className="plot-card" key={5}>
+                  <h4>{getPlotTitle(5)}</h4>
+                  <Line data={getPlotData(5)} options={getChartOptions(5)} />
+                </div>
               </div>
 
               {/* FAQ BOX */}
