@@ -15,7 +15,7 @@ import FAQBox from "./FAQBox";
 
 import valueIterationResults from "../data/valueIterationResults.json";
 
-// import montecarloResults from "../data/montecarloResults.json";
+import montecarloResults from "../data/montecarloResults.json";
 // import sarsaResults from "../data/sarsaResults.json";
 // import qlearningResults from "../data/qlearningResults.json";
 
@@ -96,6 +96,7 @@ export default function Tabs() {
   const currentTab = tabs[activeTab];
 
   const getPlotData = (plotIndex) => {
+    //------------------------ VALUE ITERATION PLOTS
     if (activeTab === 0 && activeSub === 0) {
       if (plotIndex === 0) {
         return {
@@ -153,7 +154,64 @@ export default function Tabs() {
         };
       }
     }
-
+    //------------------------ MONTE CARLO PLOTS
+    if (activeTab === 1 && activeSub === 0) {
+      if (plotIndex === 0) {
+        return {
+          labels: montecarloResults.episodes,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.baseline.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.baseline.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.baseline.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 1) {
+        return {
+          labels: valueIterationResults.iteration_steps,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: valueIterationResults.random.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: valueIterationResults.random.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: valueIterationResults.random.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      }
+    }
     // Dummy data for other plots
     return {
       labels: ["A", "B", "C", "D", "E"],
@@ -170,15 +228,24 @@ export default function Tabs() {
   };
 
   const getPlotTitle = (plotIndex) => {
+    // - VALUE ITERATION--------------------------------------------------------///
     if (activeTab === 0 && activeSub === 0) {
       if (plotIndex === 0) return "Baseline Opponent Performance";
       if (plotIndex === 1) return "Random Opponent Performance";
+    }
+    // - MONTE CARLO--------------------------------------------------------///
+    if (activeTab === 1 && activeSub === 0) {
+      if (plotIndex === 0) return "Baseline Opponent Training Performance";
+      if (plotIndex === 1) return "Random Opponent Training Performance";
+      if (plotIndex === 2) return "Baseline Opponent Play Performance";
+      if (plotIndex === 3) return "Random Opponent Play Performance";
     }
     return `Plot ${plotIndex + 1}`;
   };
 
   const getChartOptions = (plotIndex) => {
     // For real data plots, show legend
+    /// ----------------  VALUE ITERATION ---------------------------------//
     if (
       activeTab === 0 &&
       activeSub === 0 &&
