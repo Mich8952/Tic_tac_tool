@@ -33,7 +33,7 @@ class DQN(nn.Module):
         
         self.fc1 = nn.Linear(input_size, hidden_size)
         self.fc2 = nn.Linear(hidden_size, hidden_size)
-        self.fc3 = nn.Linear(hidden_size, n * n)
+        self.fc3 = nn.Linear(hidden_size, n*n)
         
     def forward(self, x):
         x = torch.relu(self.fc1(x))
@@ -43,7 +43,7 @@ class DQN(nn.Module):
 
 def state_to_tensor(state, current_player, n):
     state_array = np.array(state)
-    numeric_state = np.zeros(n * n + 1)
+    numeric_state = np.zeros(n*n+ 1)
     for i, s in enumerate(state_array):
         if s == 'X':
             numeric_state[i] = 1.0
@@ -78,7 +78,7 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
     best_win_differential = -100000
     best_state_dict = None
     
-    print("Running DQN learning...")
+    print("Running DQN learning:")
     total_forward_calls = 0
     for iteration in tqdm(range(iterations)):
         j_iter_for_forward_calls = 0
@@ -110,13 +110,8 @@ def dqn_learning(n=3, gamma=0.9, epsilon_start=1.0, epsilon_end=0.25, lr=0.001, 
             else:
                 state_tensor = state_to_tensor(state, current_player, n).unsqueeze(0)
                 with torch.no_grad():
-                    q_values = q_network(state_tensor).squeeze(0)
-                    
-                    possible_q_values = []
-                    for a in possible_actions:
-                        possible_q_values.append((q_values[a].item(), a.item()))
-                    
-                    action = max(possible_q_values, key=lambda x: x[0])[1]
+                    q_values = q_network(state_tensor).squeeze(0).numpy()
+                    action = possible_actions[np.argmax(q_values[possible_actions])]
 
             j_iter_for_forward_calls += 1
             total_forward_calls += 1

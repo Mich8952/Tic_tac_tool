@@ -42,20 +42,21 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
 
     V = {tuple(state): 0.0 for state in all_states}
 
-    print("Initializing terminal states...")
+    print("Initializing terminal states:")
     for state in terminal_states:
         env = TicTacToeEnv(n)
         env.state = np.array(state).reshape(n, n)
         reward = env.check_game_status()
         V[tuple(state)] = reward # the reward of a terminal state depends on who won so this loop is needed
 
-    non_terminal_states.sort(key=lambda s: s.count('_')) 
+    non_terminal_states.sort(key=lambda s: s.count('_')) # start with the states that are mostly filled (least amount of empty states)
+    # this doesnt really matter if the algo converges.
 
-    # lets eval 4 times per iteration
+    # lets eval 4 times per iteration for tracking performance against the baseline over time.
 
     cutoff = len(non_terminal_states) // 4
     
-    print("Running value iteration...")
+    print("Running value iteration:")
     iteration = 0
     total_action_evaluations = 0
     while True:
@@ -86,7 +87,7 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
                 expected_value += (1 - epsilon) *gamma * V[next_state] 
                 # probability of taking the intended action is 1-epsilon
 
-                # we also have a probaiblity of not taking that action - i.e. the random action
+                # we also have a probaiblity of not taking that action. E.g., the random action
                 random_value = 0.
                 for random_action in possible_actions:
                     total_action_evaluations += 1  # Count each random action evaluation
@@ -100,7 +101,7 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
                 random_value = random_value / len(possible_actions)  # we want expectation over random actions treating the random sampling as uniform (because it was)
                 expected_value += epsilon * gamma * random_value # this adding completes the probability (1-epsilon) + epsilon = 1
 
-                Q.append(expected_value)
+                Q.append(expected_value) # these store the action values for each possible action from state S.
             
             old_v = V[skey]
             if env.current_player == 1:
