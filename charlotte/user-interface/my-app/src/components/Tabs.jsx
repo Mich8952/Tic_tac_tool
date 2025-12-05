@@ -85,9 +85,9 @@ export default function Tabs() {
             "Deep Q-Networks combine Q-learning with neural networks to handle high-dimensional inputs.",
         },
         {
-          name: "Policy Gradient",
+          name: "Alpha Zero",
           content:
-            "Policy gradient methods optimize the policy directly using gradients of expected rewards.",
+            "In progress. Policy gradient methods optimize the policy directly using gradients of expected rewards.",
         },
       ],
     },
@@ -155,28 +155,29 @@ export default function Tabs() {
       }
     }
     //------------------------ MONTE CARLO PLOTS
-    if (activeTab === 1 && activeSub === 0) {
+    //////// ------- FOR 3x3 ------------------------------------////
+    if (activeTab === 1 && activeSub === 0 && boardSize == 3) {
       if (plotIndex === 0) {
         return {
           labels: montecarloResults.episodes,
           datasets: [
             {
               label: "Win Rate",
-              data: montecarloResults.baseline.win_rates,
+              data: montecarloResults.training_3x3.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: montecarloResults.baseline.draw_rates,
+              data: montecarloResults.training_3x3.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: montecarloResults.baseline.loss_rates,
+              data: montecarloResults.training_3x3.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -185,25 +186,647 @@ export default function Tabs() {
         };
       } else if (plotIndex === 1) {
         return {
-          labels: valueIterationResults.iteration_steps,
+          labels: montecarloResults.num_games,
           datasets: [
             {
               label: "Win Rate",
-              data: valueIterationResults.random.win_rates,
+              data: montecarloResults.baseline_3x3.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: valueIterationResults.random.draw_rates,
+              data: montecarloResults.baseline_3x3.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: valueIterationResults.random.loss_rates,
+              data: montecarloResults.baseline_3x3.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 2) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.random_3x3.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.random_3x3.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.random_3x3.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      }
+    }
+    //////// ------- FOR 4x4 ------------------------------------////
+    if (activeTab === 1 && activeSub === 0 && boardSize == 4) {
+      if (plotIndex === 0) {
+        return {
+          labels: montecarloResults.episodes,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.training_4x4.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.training_4x4.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.training_4x4.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 1) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.baseline_4x4.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.baseline_4x4.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.baseline_4x4.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 2) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.random_4x4.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.random_4x4.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.random_4x4.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      }
+    }
+    //////// ------- FOR 5x5 ------------------------------------////
+    if (activeTab === 1 && activeSub === 0 && boardSize == 5) {
+      if (plotIndex === 0) {
+        return {
+          labels: montecarloResults.episodes,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.training_5x5.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.training_5x5.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.training_5x5.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 1) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.baseline_5x5.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.baseline_5x5.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.baseline_5x5.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 2) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.random_5x5.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.random_5x5.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.random_5x5.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      }
+    }
+    //////// ------- FOR 6x6 ------------------------------------////
+    if (activeTab === 1 && activeSub === 0 && boardSize == 6) {
+      if (plotIndex === 0) {
+        return {
+          labels: montecarloResults.episodes,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.training_6x6.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.training_6x6.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.training_6x6.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 1) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.baseline_6x6.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.baseline_6x6.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.baseline_6x6.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 2) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.random_6x6.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.random_6x6.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.random_6x6.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      }
+    }
+    //////// ------- FOR 7x7 ------------------------------------////
+    if (activeTab === 1 && activeSub === 0 && boardSize == 7) {
+      if (plotIndex === 0) {
+        return {
+          labels: montecarloResults.episodes,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.training_7x7.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.training_7x7.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.training_7x7.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 1) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.baseline_7x7.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.baseline_7x7.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.baseline_7x7.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 2) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.random_7x7.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.random_7x7.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.random_7x7.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      }
+    }
+    //////// ------- FOR 8x8 ------------------------------------////
+    if (activeTab === 1 && activeSub === 0 && boardSize == 8) {
+      if (plotIndex === 0) {
+        return {
+          labels: montecarloResults.episodes,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.training_8x8.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.training_8x8.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.training_8x8.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 1) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.baseline_8x8.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.baseline_8x8.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.baseline_8x8.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 2) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.random_8x8.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.random_8x8.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.random_8x8.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      }
+    }
+    //////// ------- FOR 9x9 ------------------------------------////
+    if (activeTab === 1 && activeSub === 0 && boardSize == 9) {
+      if (plotIndex === 0) {
+        return {
+          labels: montecarloResults.episodes,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.training_9x9.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.training_9x9.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.training_9x9.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 1) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.baseline_9x9.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.baseline_9x9.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.baseline_9x9.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 2) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.random_9x9.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.random_9x9.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.random_9x9.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      }
+    }
+    //////// ------- FOR 10x10 ------------------------------------////
+    if (activeTab === 1 && activeSub === 0 && boardSize == 10) {
+      if (plotIndex === 0) {
+        return {
+          labels: montecarloResults.episodes,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.training_8x8.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.training_8x8.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.training_8x8.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 1) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.baseline_10x10.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.baseline_10x10.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.baseline_10x10.loss_rates,
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231, 76, 60, 0.1)",
+              tension: 0.3,
+            },
+          ],
+        };
+      } else if (plotIndex === 2) {
+        return {
+          labels: montecarloResults.num_games,
+          datasets: [
+            {
+              label: "Win Rate",
+              data: montecarloResults.random_10x10.win_rates,
+              borderColor: "#2ecc71",
+              backgroundColor: "rgba(46, 204, 113, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Draw Rate",
+              data: montecarloResults.random_10x10.draw_rates,
+              borderColor: "#3498db",
+              backgroundColor: "rgba(52, 152, 219, 0.1)",
+              tension: 0.3,
+            },
+            {
+              label: "Loss Rate",
+              data: montecarloResults.random_10x10.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -235,10 +858,10 @@ export default function Tabs() {
     }
     // - MONTE CARLO--------------------------------------------------------///
     if (activeTab === 1 && activeSub === 0) {
-      if (plotIndex === 0) return "Baseline Opponent Training Performance";
-      if (plotIndex === 1) return "Random Opponent Training Performance";
-      if (plotIndex === 2) return "Baseline Opponent Play Performance";
-      if (plotIndex === 3) return "Random Opponent Play Performance";
+      if (plotIndex === 0) return "Training Performance";
+      if (plotIndex === 1) return "Play Performance against Baseline Opponent ";
+      if (plotIndex === 2) return "Play Performance against Random Opponent ";
+      if (plotIndex === 3) return "Inference Time";
     }
     return `Plot ${plotIndex + 1}`;
   };
@@ -273,6 +896,101 @@ export default function Tabs() {
             title: {
               display: true,
               text: "Rate",
+            },
+            min: 0,
+            max: 1,
+          },
+        },
+      };
+    }
+    /// ----------------  MONTE CARLO  ---------------------------------//
+    if (activeTab === 1 && activeSub === 0 && plotIndex === 0) {
+      return {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            title: {
+              display: true,
+              text: "Number of Training Episodes",
+            },
+          },
+          y: {
+            grid: { color: "#eee" },
+            title: {
+              display: true,
+              text: "Rate",
+            },
+            min: 0,
+            max: 1,
+          },
+        },
+      };
+    }
+    if (
+      activeTab === 1 &&
+      activeSub === 0 &&
+      (plotIndex === 1 || plotIndex == 2)
+    ) {
+      return {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            title: {
+              display: true,
+              text: "Number of Games",
+            },
+          },
+          y: {
+            grid: { color: "#eee" },
+            title: {
+              display: true,
+              text: "Rate",
+            },
+            min: 0,
+            max: 1,
+          },
+        },
+      };
+    }
+    if (activeTab === 1 && activeSub === 0 && plotIndex == 3) {
+      return {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            title: {
+              display: true,
+              text: "Board Size",
+            },
+          },
+          y: {
+            grid: { color: "#eee" },
+            title: {
+              display: true,
+              text: "T(n)",
             },
             min: 0,
             max: 1,
@@ -335,7 +1053,9 @@ export default function Tabs() {
         {activeSub !== null && (
           <div className="sub-content">
             <p>{currentTab.subItems[activeSub].content}</p>
+
             {/* Board Size Selector */}
+
             <div className="board-size-select">
               <label>
                 Board Size
@@ -351,6 +1071,7 @@ export default function Tabs() {
                 </select>
               </label>
             </div>
+
             <div className="plots-and-faq">
               {/* 4-PLOT GRID */}
               <div className="plots-grid">
