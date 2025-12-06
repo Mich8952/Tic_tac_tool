@@ -1,0 +1,51 @@
+{
+  "overall": {
+    "win_rates": [
+      0.7205, 0.4399, 0.2238, 0.2101, 0.1331, 0.0837, 0.0467, 0.0264, 0.0134
+    ],
+    "draw_rates": [
+      0.0488, 0.3755, 0.5995, 0.6811, 0.7503, 0.8447, 0.9105, 0.951, 0.9734
+    ],
+    "loss_rates": [0.23, 0.25, 0.18, 0.11, 0.12, 0.07, 0.04, 0.02, 0.01]
+  },
+  "training_3x3": {
+    "win_rates": [],
+    "draw_rates": [],
+    "loss_rates": []
+  },
+  "training_4x4": {
+    "win_rates": [],
+    "draw_rates": [],
+    "loss_rates": []
+  },
+  "training_5x5": {
+    "win_rates": [],
+    "draw_rates": [],
+    "loss_rates": []
+  },
+  "training_6x6": {
+    "win_rates": [],
+    "draw_rates": [],
+    "loss_rates": []
+  },
+  "training_7x7": {
+    "win_rates": [],
+    "draw_rates": [],
+    "loss_rates": []
+  },
+  "training_8x8": {
+    "win_rates": [],
+    "draw_rates": [],
+    "loss_rates": []
+  },
+  "training_9x9": {
+    "win_rates": [],
+    "draw_rates": [],
+    "loss_rates": []
+  },
+  "training_10x10": {
+    "win_rates": [],
+    "draw_rates": [],
+    "loss_rates": []
+  }
+}

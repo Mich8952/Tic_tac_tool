@@ -6,13 +6,13 @@ export default function Navbar() {
       <div className="logo">TicTacTool</div>
       <ul className="nav-links">
         <li>
-          <a href="#hero">About</a>
+          <a href="#tabs">The Algorithms</a>
         </li>
         <li>
-          <a href="#tabs">Algorithms</a>
+          <a href="#background">Background</a>
         </li>
         <li>
-          <a href="#tictactoe">Play Now</a>
+          <a href="#play">Play Now</a>
         </li>
       </ul>
     </nav>

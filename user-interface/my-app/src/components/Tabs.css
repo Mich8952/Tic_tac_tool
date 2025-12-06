@@ -112,6 +112,13 @@ button {
   border-radius: 12px;
 }
 
+.plot-card.highlight {
+  outline: 4px solid rgb(180, 31, 31);
+  box-shadow: 0 0 20px rgba(180, 31, 31, 0.8);
+  border-radius: 8px;
+  transition: 0.25s ease;
+}
+
 @media (max-width: 900px) {
   .plots-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -206,7 +213,7 @@ button {
 
 /* FAQ Container matching UI */
 .faq-ui-container {
-  width: 280px;
+  width: 350px;
   font-family: "Montserrat", sans-serif;
   display: flex;
   flex-direction: column;
@@ -228,7 +235,7 @@ button {
   border-radius: 16px;
   border: 2px solid #e0e0e0;
   padding: 1rem;
-  max-height: 500px;
+  max-height: 50vh;
   overflow-y: auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }

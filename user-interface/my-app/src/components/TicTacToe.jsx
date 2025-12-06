@@ -17,35 +17,34 @@ export default function TicTacToe() {
   const convertTo2D = (board, size) => {
     const board2D = [];
     for (let i = 0; i < size; i++) {
-      board2D.push(board.slice(i * size, (i+1) * size)); // convert to 2 dimensions instead of its flat state form
+      board2D.push(board.slice(i * size, (i + 1) * size)); // convert to 2 dimensions instead of its flat state form
     }
     return board2D;
   };
 
   const getAIMove = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/get-ai-move', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:5001/api/get-ai-move", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           board: convertTo2D(board, boardSize), // dont really need this since in the backend we go back to the flat state (TODO if time)
-          player: currentPlayer
-        })
+          player: currentPlayer,
+        }),
       });
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error getting AI move:', error);
+      console.error("Error getting AI move:", error);
       return null;
     }
   };
 
   useEffect(() => {
     const makeAIMove = async () => {
-      if (checkWinner(board)){
+      if (checkWinner(board)) {
         return;
-      } 
-      
+      }
 
       let currentPlayerType;
 
@@ -56,7 +55,7 @@ export default function TicTacToe() {
       }
 
       console.log("Current player:", currentPlayer, "Type:", currentPlayerType);
-      
+
       if (currentPlayerType === "Model-Based (VI)") {
         console.log("AI making move...");
         const move = await getAIMove();
@@ -78,10 +77,10 @@ export default function TicTacToe() {
 
   const handleClick = (index) => {
     if (board[index] || checkWinner(board)) return;
-    
+
     const currentPlayerType = currentPlayer === "X" ? player1 : player2;
     if (currentPlayerType !== "Human") return;
-    
+
     const newBoard = [...board];
     newBoard[index] = currentPlayer;
     setBoard(newBoard);
@@ -138,7 +137,7 @@ export default function TicTacToe() {
   const winner = checkWinner(board);
 
   return (
-    <section className="tic-tac-toe-container">
+    <section className="tic-tac-toe-container" id="play">
       <h2>Tic-Tac-Toe</h2>
 
       <div className="tic-tac-toe-flex">
