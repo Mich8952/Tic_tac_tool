@@ -9,6 +9,8 @@ import itertools
 import random
 import pickle
 
+from Evaluate.eval import eval_policy
+
 def get_states(n=3):
     all_states = list(itertools.product(["X", "O", "_"], repeat=n*n)) # cartesian prodcut
     refined_states = []
@@ -38,6 +40,10 @@ class PolicyItr:
     def __init__(self,n=3):
         self.all_states, self.terminal_states, self.non_terminal_states = get_states(n=n)
         self.n = n
+        self.baseline_results = []
+        self.random_results = []
+        self.iter_at_eval = []
+        self.action_calls_in_iteration = 0
 
     @staticmethod 
     def set_policy_random(all_states, n):
@@ -77,6 +83,7 @@ class PolicyItr:
                 env.state = np.array(state[0]).reshape((self.n, self.n))
                 env.set_player_auto()
                 possible_actions = env.get_possible_actions()
+                self.action_calls_in_iteration += 1
                 
                 if env.current_player == 1:
                     intended_action = pi_X[state_tuple]
@@ -140,6 +147,7 @@ class PolicyItr:
             env.set_player_auto()
 
             possible_actions = env.get_possible_actions()
+            self.action_calls_in_iteration += 1
 
             if len(possible_actions) == 0:
                 continue
@@ -195,7 +203,7 @@ class PolicyItr:
             
         
             
-    def loop(self, max_iters=100, gamma=0.9, slip_prob=0.0, epsilon=0.1):
+    def loop(self, max_iters=100, gamma=0.9, slip_prob=0.0, epsilon=0.1, track_progress=False):
         pi_X,pi_X_bar = PolicyItr.set_policy_random(self.all_states, self.n)
         pi_O,pi_O_bar = PolicyItr.set_policy_random(self.all_states, self.n)
 
@@ -203,6 +211,8 @@ class PolicyItr:
 
         i = 0
         while (pi_X != pi_X_bar or pi_O != pi_O_bar) and i < max_iters:
+            
+            self.action_calls_in_iteration = 0  # Reset counter at start of each iteration
             
             V = self.eval(pi_X, pi_O, V, gamma=gamma, slip_prob=slip_prob, epsilon=epsilon)
             
@@ -216,24 +226,41 @@ class PolicyItr:
             i += 1
             if i % 10 == 0:
                 print(f"Iteration {i}")
+            
+            if track_progress:
+                print(f"Evaluating policy at iteration {i} (action_calls: {self.action_calls_in_iteration})")
+                self.baseline_results.append(eval_policy(n=self.n, o_policy=pi_O_bar, x_policy=pi_X_bar, runs=5000, opponent='baseline', epsilon=slip_prob))
+                self.random_results.append(eval_policy(n=self.n, x_policy=pi_X_bar, o_policy=pi_O_bar, runs=5000, opponent='random', epsilon=slip_prob))
+                self.iter_at_eval.append([i, self.action_calls_in_iteration])
 
-        return pi_X_bar, pi_O_bar, V
+        tracked_results = {
+            "baseline_results": self.baseline_results,
+            "random_results": self.random_results,
+            "iter_at_eval": self.iter_at_eval
+        }
+        
+        return pi_X_bar, pi_O_bar, V, tracked_results
 
 
 if __name__ == "__main__":
-    n = 3
+    n = 4
     gamma = 0.9
     slip_prob = 0.25
     epsilon = 0.1 # this is for a thresh, kind of a misnomer tbh and I should change #TODO
 
     piter = PolicyItr(n=n)
-    pi_X, pi_O, V = piter.loop(max_iters=8, gamma=gamma, slip_prob=slip_prob, epsilon=epsilon)
+    pi_X, pi_O, V, tracked_results = piter.loop(max_iters=8, gamma=gamma, slip_prob=slip_prob, epsilon=epsilon, track_progress=True)
 
-    os.makedirs(f"Policies/PI/{n}_{gamma}_{slip_prob}", exist_ok=True)
-    with open(f"Policies/PI/{n}_{gamma}_{slip_prob}/temp_policy_x.pkl", "wb") as f:
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    policy_dir = os.path.join(script_dir, f"Policies/PI/{n}_{gamma}_{slip_prob}")
+    os.makedirs(policy_dir, exist_ok=True)
+    with open(os.path.join(policy_dir, "temp_policy_x.pkl"), "wb") as f:
         pickle.dump(pi_X, f) # agent plays first
     
-    with open(f"Policies/PI/{n}_{gamma}_{slip_prob}/temp_policy_o.pkl", "wb") as f:
+    with open(os.path.join(policy_dir, "temp_policy_o.pkl"), "wb") as f:
         pickle.dump(pi_O, f) # agent plays second
+    
+    with open(os.path.join(policy_dir, "tracked_results.pkl"), "wb") as f:
+        pickle.dump(tracked_results, f)
 
     print("done")

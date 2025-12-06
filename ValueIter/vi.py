@@ -42,21 +42,23 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
 
     V = {tuple(state): 0.0 for state in all_states}
 
-    print("Initializing terminal states...")
+    print("Initializing terminal states:")
     for state in terminal_states:
         env = TicTacToeEnv(n)
         env.state = np.array(state).reshape(n, n)
         reward = env.check_game_status()
         V[tuple(state)] = reward # the reward of a terminal state depends on who won so this loop is needed
 
-    non_terminal_states.sort(key=lambda s: s.count('_')) 
+    non_terminal_states.sort(key=lambda s: s.count('_')) # start with the states that are mostly filled (least amount of empty states)
+    # this doesnt really matter if the algo converges.
 
-    # lets eval 4 times per iteration
+    # lets eval 4 times per iteration for tracking performance against the baseline over time.
 
     cutoff = len(non_terminal_states) // 4
     
-    print("Running value iteration...")
+    print("Running value iteration:")
     iteration = 0
+    total_action_evaluations = 0
     while True:
         delta = 0
         iteration += 1
@@ -74,6 +76,7 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
             
             Q = []
             for intended_action in possible_actions:
+                total_action_evaluations += 1  # Count each action evaluation
                 expected_value = 0.0
 
                 next_env = TicTacToeEnv(n)
@@ -84,9 +87,10 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
                 expected_value += (1 - epsilon) *gamma * V[next_state] 
                 # probability of taking the intended action is 1-epsilon
 
-                # we also have a probaiblity of not taking that action - i.e. the random action
+                # we also have a probaiblity of not taking that action. E.g., the random action
                 random_value = 0.
                 for random_action in possible_actions:
+                    total_action_evaluations += 1  # Count each random action evaluation
                     next_env_random = TicTacToeEnv(n)
                     next_env_random.state = env.state.copy()
                     next_env_random.current_player = env.current_player
@@ -97,7 +101,7 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
                 random_value = random_value / len(possible_actions)  # we want expectation over random actions treating the random sampling as uniform (because it was)
                 expected_value += epsilon * gamma * random_value # this adding completes the probability (1-epsilon) + epsilon = 1
 
-                Q.append(expected_value)
+                Q.append(expected_value) # these store the action values for each possible action from state S.
             
             old_v = V[skey]
             if env.current_player == 1:
@@ -112,7 +116,7 @@ def value_iteration(n=3,gamma=1.0,thresh=0.4, epsilon = 0.25, track_progress=Fal
                             
                 baseline_results.append(eval_policy(n=n,o_policy=pi_O, x_policy=pi_X, runs=5000, opponent='baseline',epsilon=epsilon))
                 random_results.append(eval_policy(n=n, x_policy=pi_X, o_policy=pi_O, runs=5000, opponent='random',epsilon=epsilon))
-                iter_at_eval.append([iteration,j])
+                iter_at_eval.append([iteration, total_action_evaluations])
 
                     
         print(f"Iteration {iteration}, Delta: {delta:.6f}")
@@ -192,23 +196,29 @@ def get_policy(all_states, V, n, gamma, epsilon):
 
 
 if __name__ == "__main__":
-    n = 4
+    n = 3
     thresh = 0.2
     gamma = 0.9
     epsilon = 0.25
 
-    tracked_results, (pi_X, pi_O, V) = value_iteration(n=n, thresh=thresh, gamma=gamma, epsilon=epsilon, track_progress = True) # gamma should not be 1
+    tracked_results, policies = value_iteration(n=n, thresh=thresh, gamma=gamma, epsilon=epsilon, track_progress = True) # gamma should not be 1
+    pi_X = policies["pi_X"]
+    pi_O = policies["pi_O"]
+    V = policies["V"]
     
-    os.makedirs(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}", exist_ok=True)
-    with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}/temp_policy_x.pkl", "wb") as f: 
+    # Use absolute path based on script location
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    policy_dir = os.path.join(script_dir, f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}")
+    os.makedirs(policy_dir, exist_ok=True)
+    with open(os.path.join(policy_dir, "temp_policy_x.pkl"), "wb") as f: 
         pickle.dump(pi_X, f)  # agent plays first
     
-    with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}/temp_policy_o.pkl", "wb") as f:
+    with open(os.path.join(policy_dir, "temp_policy_o.pkl"), "wb") as f:
         pickle.dump(pi_O, f)  # agent plays second
 
 
     #also save this results to a pickle in the same dir
-    with open(f"Policies/VI/{n}_{thresh}_{gamma}_{epsilon}/tracked_results.pkl", "wb") as f:
+    with open(os.path.join(policy_dir, "tracked_results.pkl"), "wb") as f:
         pickle.dump(tracked_results, f)
     
     print("done")
