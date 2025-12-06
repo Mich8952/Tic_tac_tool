@@ -1,0 +1,27 @@
+{
+  "iteration_steps": [
+    -1
+  ],
+  "baseline": {
+    "win_rates": [
+      0.2
+    ],
+    "draw_rates": [
+      0.48
+    ],
+    "loss_rates": [
+      0.32
+    ]
+  },
+  "random": {
+    "win_rates": [
+      0.46
+    ],
+    "draw_rates": [
+      0.38
+    ],
+    "loss_rates": [
+      0.16
+    ]
+  }
+}

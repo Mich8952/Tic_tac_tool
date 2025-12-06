@@ -1,0 +1,324 @@
+.tabs-container {
+  padding: 2rem;
+  background: var(--card);
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tab.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.tab-content {
+  margin-top: 1rem;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 400; /* slightly heavier than body */
+  letter-spacing: 0.8px;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 400; /* match EP minimal aesthetic */
+}
+
+.tabs-container h2,
+.tictactoe-container h2 {
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+button {
+  font-family: "Montserrat", Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.tabs-container h2,
+.tictactoe-container h2 {
+  font-family: "Shadows Into Light", cursive;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.sub-items {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.sub-item {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sub-item.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.sub-item:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.sub-content {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.plots-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.plot-card {
+  padding: 0.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.plot-card.highlight {
+  outline: 4px solid rgb(180, 31, 31);
+  box-shadow: 0 0 20px rgba(180, 31, 31, 0.8);
+  border-radius: 8px;
+  transition: 0.25s ease;
+}
+
+@media (max-width: 900px) {
+  .plots-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .plots-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.plot-card {
+  padding: 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1; /* ensures square charts */
+}
+
+/* FAQ layout */
+.faq-container {
+  width: 300px;
+  margin-left: 20px;
+}
+
+/* Scroll box */
+.scroll-box {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* FAQ item */
+.faq {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.faq:hover {
+  transform: translateY(-5px);
+  background-color: #f5f7f9;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.faq.open {
+  background-color: #f0f7ff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.faq-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.faq-answer {
+  display: none;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.faq.open .faq-answer {
+  display: block;
+}
+
+/* Layout container for plots + FAQ */
+.plots-and-faq {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Plots grid */
+.plots-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* FAQ Container matching UI */
+.faq-ui-container {
+  width: 350px;
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Header */
+.faq-title-header {
+  font-family: "Shadows Into Light", cursive;
+  font-size: 1.7rem;
+  text-align: center;
+  margin: 0;
+  color: #b41f1f;
+}
+
+/* Scroll area box */
+.faq-scroll {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 2px solid #e0e0e0;
+  padding: 1rem;
+  max-height: 50vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* FAQ item */
+.faq-item {
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.faq-item:hover {
+  background: #f5f4f3;
+  border-color: #b41f1f;
+  transform: translateY(-2px);
+}
+
+/* When open */
+.faq-item.open {
+  background: #fdf4f4;
+  border-color: #b41f1f;
+  box-shadow: 0 6px 14px rgba(180, 31, 31, 0.15);
+}
+
+/* Question text */
+.faq-q {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Answer text */
+.faq-a {
+  display: none;
+  font-size: 0.9rem;
+  color: #444;
+  margin-top: 0.5rem;
+}
+
+.faq-item.open .faq-a {
+  display: block;
+}
+
+/* Scrollbar styling to match soft UI */
+.faq-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.faq-scroll::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 8px;
+}
+
+.faq-scroll::-webkit-scrollbar-thumb:hover {
+  background: #b41f1f;
+}
+
+.board-size-select {
+  margin: 1.5rem 0;
+  font-family: "Shadows Into Light", cursive;
+  font-size: 1.2rem;
+}
+
+.board-size-select label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.board-size-select select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.board-size-select select:hover {
+  border-color: #b41f1f;
+}
