@@ -194,7 +194,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -1259,7 +1259,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -1392,7 +1392,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -1525,7 +1525,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -1658,7 +1658,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -1791,7 +1791,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -1924,7 +1924,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -2057,7 +2057,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -2190,7 +2190,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -2324,7 +2324,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -2457,7 +2457,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -2590,7 +2590,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -2723,7 +2723,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -2856,7 +2856,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -2989,7 +2989,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -3122,7 +3122,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -3255,7 +3255,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(n²)",
+              label: "O(1)",
               data: montecarloResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -4017,8 +4017,8 @@ export default function Tabs() {
                   <h4>{getPlotTitle(2)}</h4>
                   <div
                     style={{
-                      width: "500px",
-                      height: "500px",
+                      width: "400px",
+                      height: "400px",
                       margin: "0 auto",
                     }}
                   >

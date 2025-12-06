@@ -11,6 +11,12 @@ export default function FAQBox({ onSelectPlot }) {
       plot: 0,
     },
     {
+      question:
+        "How does the win rate improve during training for a specific board size?",
+      // answer: "The meaning of life varies by beliefs and experiences.",
+      plot: 4,
+    },
+    {
       question: "Up to what board size does the algorithim support?",
       // answer:
       //   "See if there is a lack of data for a certain board size in the highlighted plot.",
@@ -36,18 +42,6 @@ export default function FAQBox({ onSelectPlot }) {
       plot: 1,
     },
 
-    {
-      question:
-        "How does the algorithim perform against a random opponent at this board size?",
-      // answer: "Observe how the green line changes in the highlighted plot.",
-      plot: 3,
-    },
-    {
-      question:
-        "How does the win rate improve during training for a specific board size?",
-      // answer: "The meaning of life varies by beliefs and experiences.",
-      plot: 4,
-    },
     {
       question:
         "After how many iterations does the algorithm start to win during training? ",
