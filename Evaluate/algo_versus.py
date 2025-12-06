@@ -4,6 +4,7 @@
 
 import sys
 import os
+import seaborn as sns
 import pickle
 import json
 import pandas as pd
