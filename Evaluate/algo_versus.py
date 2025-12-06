@@ -6,11 +6,13 @@ import sys
 import os
 import pickle
 import json
+import pandas as pd
 import matplotlib.pyplot as plt
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.board_util import TicTacToeEnv
 import numpy as np
 from Evaluate.dqn_adapter import DQNPolicyWrapper
+from Evaluate.ch_adapter import ChPolicyWrapper
 
 
 
@@ -110,7 +112,7 @@ def eval_policy(n, x_policy_1, o_policy_1, x_policy_2, o_policy_2, runs = 10, ep
         else:
             raise Exception("unexpected result, debug please")
         
-    return {"win_rate" : wins/runs, "draw_rate": draws/runs, "loss_rate": losses/runs}
+    return {"win_rate" : 100*wins/runs, "draw_rate": 100*draws/runs, "loss_rate": 100*losses/runs}
     
     
 
@@ -118,33 +120,276 @@ def eval_policy(n, x_policy_1, o_policy_1, x_policy_2, o_policy_2, runs = 10, ep
 if __name__ == "__main__":
     RUNS = 5000
     epsilon = 0.25
-    
 
-    ##ALGO 1
-    # set x policy
-    X_POLICY_1 = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/VI/3_0.2_0.9_0.25/temp_policy_x.pkl"
-    with open(X_POLICY_1,"rb") as f:
+    # this really should follow better programming practices and modular programming, but for now its fine.
+    
+    VI_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/VI/4_0.2_0.9_0.25"
+    DQN_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/DQN/from_server/DQN/4_1_0.25_winner"
+    MC_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/MC/mc_4x4.pkl"
+    QL_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/QL/q_values_ql.pkl"
+    SARSA_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/SARSA/q_values_sarsa.pkl"
+    
+    df_comparison = pd.DataFrame()
+    compare_from = []
+    compare_to = []
+    win_rate = []
+    draw_rate = []
+    loss_rate = []
+    
+    ### COMPARING VI_N=4 TO DQN_N=4 START
+    with open(f"{VI_DIR}/temp_policy_x.pkl","rb") as f:
         x_policy_1 = pickle.load(f)
-    # set O policy
-    O_POLICY_1 = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/VI/3_0.2_0.9_0.25/temp_policy_o.pkl"
-    with open(O_POLICY_1,"rb") as f:
+    with open(f"{VI_DIR}/temp_policy_o.pkl","rb") as f:
         o_policy_1 = pickle.load(f)
 
-
-    ##ALGO 2
-    
-    model_dir = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/DQN/from_server/DQN/3_1_0.25_winner"
-
-    x_policy_2 = DQNPolicyWrapper(3, f"{model_dir}/q_network.pt", player='X')
-    o_policy_2 = DQNPolicyWrapper(3, f"{model_dir}/q_network.pt", player='O')
+    x_policy_2 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='X')
+    o_policy_2 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='O')
         
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
 
-    res = eval_policy(n=3,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+    compare_from.append("VI")
+    compare_to.append("DQN")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING VI_N=4 TO DQN_N=4 END
 
-    print(res)
+
+    ### COMPARING VI_N=4 TO MC_N=4 START
+    with open(f"{VI_DIR}/temp_policy_x.pkl","rb") as f:
+        x_policy_1 = pickle.load(f)
+    with open(f"{VI_DIR}/temp_policy_o.pkl","rb") as f:
+        o_policy_1 = pickle.load(f)
+
+    x_policy_2 = ChPolicyWrapper(MC_DIR, player='X')
+    o_policy_2 = ChPolicyWrapper(MC_DIR, player='O')
+    
+    
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("VI")
+    compare_to.append("MC")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING VI_N=4 TO MC_N=4 END
 
     
 
+    ### COMPARING DQN_N=4 TO MC_N=4 START
+    x_policy_1 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='X')
+    o_policy_1 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='O')
+
+    x_policy_2 = ChPolicyWrapper(MC_DIR, player='X')
+    o_policy_2 = ChPolicyWrapper(MC_DIR, player='O')
+        
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("DQN")
+    compare_to.append("MC")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING DQN_N=4 TO MC_N=4 END
+
+
+    ### COMPARING VI_N=4 TO SARSA_N=4 START
+    with open(f"{VI_DIR}/temp_policy_x.pkl","rb") as f:
+        x_policy_1 = pickle.load(f)
+    with open(f"{VI_DIR}/temp_policy_o.pkl","rb") as f:
+        o_policy_1 = pickle.load(f)
+
+    x_policy_2 = ChPolicyWrapper(SARSA_DIR, player='X')
+    o_policy_2 = ChPolicyWrapper(SARSA_DIR, player='O')
+        
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("VI")
+    compare_to.append("SARSA")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING VI_N=4 TO SARSA_N=4 END
+
+
+
+    ### COMPARING DQN_N=4 TO SARSA_N=4 START
+    x_policy_1 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='X')
+    o_policy_1 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='O')
+
+    x_policy_2 = ChPolicyWrapper(SARSA_DIR, player='X')
+    o_policy_2 = ChPolicyWrapper(SARSA_DIR, player='O')
+        
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("DQN")
+    compare_to.append("SARSA")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING DQN_N=4 TO SARSA_N=4 END
+
+
+    ### COMPARING MC_N=4 TO SARSA_N=4 START
+    x_policy_1 = ChPolicyWrapper(MC_DIR, player='X')
+    o_policy_1 = ChPolicyWrapper(MC_DIR, player='O')
+
+    x_policy_2 = ChPolicyWrapper(SARSA_DIR, player='X')
+    o_policy_2 = ChPolicyWrapper(SARSA_DIR, player='O')
+        
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("MC")
+    compare_to.append("SARSA")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING MC_N=4 TO SARSA_N=4 END
+
+
+    ### COMPARING VI_N=4 TO QL_N=4 START
+    with open(f"{VI_DIR}/temp_policy_x.pkl","rb") as f:
+        x_policy_1 = pickle.load(f)
+    with open(f"{VI_DIR}/temp_policy_o.pkl","rb") as f:
+        o_policy_1 = pickle.load(f)
+
+    x_policy_2 = ChPolicyWrapper(QL_DIR, player='X')
+    o_policy_2 = ChPolicyWrapper(QL_DIR, player='O')
+        
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("VI")
+    compare_to.append("QL")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING VI_N=4 TO QL_N=4 END
+
+
+    ### COMPARING DQN_N=4 TO QL_N=4 START
+    x_policy_1 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='X')
+    o_policy_1 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='O')
+
+    x_policy_2 = ChPolicyWrapper(QL_DIR, player='X')
+    o_policy_2 = ChPolicyWrapper(QL_DIR, player='O')
+        
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("DQN")
+    compare_to.append("QL")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING DQN_N=4 TO QL_N=4 END
+
+
+    ### COMPARING MC_N=4 TO QL_N=4 START
+    x_policy_1 = ChPolicyWrapper(MC_DIR, player='X')
+    o_policy_1 = ChPolicyWrapper(MC_DIR, player='O')
+
+    x_policy_2 = ChPolicyWrapper(QL_DIR, player='X')
+    o_policy_2 = ChPolicyWrapper(QL_DIR, player='O')
+        
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("MC")
+    compare_to.append("QL")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING MC_N=4 TO QL_N=4 END
+
+
+    ### COMPARING SARSA_N=4 TO QL_N=4 START
+    x_policy_1 = ChPolicyWrapper(SARSA_DIR, player='X')
+    o_policy_1 = ChPolicyWrapper(SARSA_DIR, player='O')
+
+    x_policy_2 = ChPolicyWrapper(QL_DIR, player='X')
+    o_policy_2 = ChPolicyWrapper(QL_DIR, player='O')
+        
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("SARSA")
+    compare_to.append("QL")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING SARSA_N=4 TO QL_N=4 END
+
+
+    ### COMPARING MC_N=4 TO DQN_N=4 START
+    x_policy_1 = ChPolicyWrapper(MC_DIR, player='X')
+    o_policy_1 = ChPolicyWrapper(MC_DIR, player='O')
+
+    x_policy_2 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='X')
+    o_policy_2 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='O')
+        
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("MC")
+    compare_to.append("DQN")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING MC_N=4 TO DQN_N=4 END
+
+
+    ### COMPARING SARSA_N=4 TO DQN_N=4 START
+    x_policy_1 = ChPolicyWrapper(SARSA_DIR, player='X')
+    o_policy_1 = ChPolicyWrapper(SARSA_DIR, player='O')
+
+    x_policy_2 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='X')
+    o_policy_2 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='O')
+        
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("SARSA")
+    compare_to.append("DQN")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING SARSA_N=4 TO DQN_N=4 END
+
+
+    ### COMPARING QL_N=4 TO DQN_N=4 START
+    x_policy_1 = ChPolicyWrapper(QL_DIR, player='X')
+    o_policy_1 = ChPolicyWrapper(QL_DIR, player='O')
+
+    x_policy_2 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='X')
+    o_policy_2 = DQNPolicyWrapper(4, f"{DQN_DIR}/q_network.pt", player='O')
+        
+    res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
+
+    compare_from.append("QL")
+    compare_to.append("DQN")
+    win_rate.append(res["win_rate"])
+    draw_rate.append(res["draw_rate"])
+    loss_rate.append(res["loss_rate"])
+    ### COMPARING QL_N=4 TO DQN_N=4 END
+
+
+    df_comparison['compare_from'] = compare_from
+    df_comparison['compare_to'] = compare_to
+    df_comparison['win_rate'] = win_rate
+    df_comparison['draw_rate'] = draw_rate
+    df_comparison['loss_rate'] = loss_rate
+
+    print(df_comparison)
+    
+    algorithms = ['VI', 'MC', 'SARSA', 'QL', 'DQN']
+    matrix_win = pd.DataFrame(index=algorithms, columns=algorithms)
+    
+    for i, row in df_comparison.iterrows():
+        from_algo = row['compare_from']
+        to_algo = row['compare_to']
+
+        matrix_win.loc[to_algo, from_algo] = row['win_rate']
+        matrix_win.loc[from_algo, to_algo] = row['loss_rate']
 
     
-
+    for algo in algorithms:
+        matrix_win.loc[algo, algo] = np.nan
+    
+    print("Win Rate:")
+    print("Compare From (top header)")
+    print(matrix_win)

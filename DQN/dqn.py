@@ -28,7 +28,7 @@ class DQN(nn.Module):
     def __init__(self, n):
         super(DQN, self).__init__()
         self.n = n
-        input_size = n * n + 1
+        input_size = n*n + 1
         hidden_size = 128
         
         self.fc1 = nn.Linear(input_size, hidden_size)
