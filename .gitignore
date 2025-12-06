@@ -3,3 +3,7 @@ settings.json
 *.pkl
 lecture_baseline2.py
 *.pt
+*.json
+*.csv
+interactive_plots_temp.ipynb
+pres_plots copy.ipynb
