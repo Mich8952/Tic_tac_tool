@@ -32,6 +32,10 @@ export default function InfoSection() {
             not optimal decisions, and plays defensively.
           </p>
         </div>
+        <div className="info-card">
+          <h3>Slipping Probability</h3>
+          <p>here.</p>
+        </div>
       </div>
     </section>
   );
