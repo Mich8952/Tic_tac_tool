@@ -3650,7 +3650,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(1)",
+              label: "O(n²)",
               data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -3783,7 +3783,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(1)",
+              label: "O(n²)",
               data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -3916,7 +3916,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(1)",
+              label: "O(n²)",
               data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -4049,7 +4049,7 @@ export default function Tabs() {
           labels: dqnResults.board_size,
           datasets: [
             {
-              label: "O(1)",
+              label: "O(n²)",
               data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -4182,7 +4182,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(1)",
+              label: "O(n²)",
               data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -4315,7 +4315,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(1)",
+              label: "O(n²)",
               data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -4448,7 +4448,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(1)",
+              label: "O(n²)",
               data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
@@ -4581,7 +4581,7 @@ export default function Tabs() {
           labels: montecarloResults.board_size,
           datasets: [
             {
-              label: "O(1)",
+              label: "O(n²)",
               data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
