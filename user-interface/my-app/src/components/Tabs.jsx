@@ -5354,7 +5354,14 @@ export default function Tabs() {
                       onChange={(e) => setBoardSize(Number(e.target.value))}
                     >
                       {Array.from(
-                        { length: activeTab === 0 ? 2 : 8 }, ////
+                        {
+                          length:
+                            activeTab === 0
+                              ? activeSub === 1
+                                ? 1
+                                : 2 // 3×3 only OR 3×3–4×4
+                              : 8, // otherwise 3×3–10×10
+                        },
                         (_, i) => i + 3
                       ).map((size) => (
                         <option key={size} value={size}>
