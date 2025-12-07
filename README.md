@@ -20,6 +20,16 @@ cd Tic_tac_tool/
 
 cd Tic_tac_tool/6_UI/my-app
 
+# if needed, download
+https://nodejs.org/en 
+downalod the installer (.pkg)
+run node -v to check install, and npm -v. should see version numbers.
+
+might need to create python symlink
+sudo ln -s $(which python3) /usr/local/bin/python
+
+pip3 install -r requirements.txt
+
 # Install dependencies
 
 npm install
