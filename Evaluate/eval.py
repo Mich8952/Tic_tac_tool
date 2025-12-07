@@ -204,26 +204,6 @@ if __name__ == "__main__":
     print("\n\n\n\n\n")
     
     RUNS = 5000
-    """
-    #4x4
-    print("WITH SKIPPING PROBABILITY 30%")
-    print("----4x4----")
-    with open("temp_policy_vi_good/temp_policy_x.pkl", "rb") as f:
-        x_policy = pickle.load(f)
-
-    with open("temp_policy_vi_good/temp_policy_o.pkl", "rb") as f:
-        o_policy = pickle.load(f)
-
-    results_baseline = eval_policy(n=4,o_policy=o_policy, x_policy=x_policy, runs=RUNS, opponent='baseline',epsilon=0.3)
-    results_random = eval_policy(n=4, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.3)
-
-    print(f"Number of iterations = {RUNS}")
-    print(f"Playing Against Baseline: {results_baseline}")
-    print(f"Playing Against Random: {results_random}")
-    """
-
-    #print("\n")
-    #print("----3x3----")
     
     #3x3
     with open("Policies/VI/3_0.2_0.9_0.25/temp_policy_x.pkl", "rb") as f:
@@ -233,10 +213,10 @@ if __name__ == "__main__":
         o_policy = pickle.load(f)
 
     results_dir = "Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl"
-    with open("Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl", "rb") as f:
+    with open("/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/PI/3_0.9_0.25/tracked_results.pkl", "rb") as f:
         tracked_results = pickle.load(f)
 
-    export_results_to_json(results_dir)
+    export_results_to_json(tracked_results, "user-interface/my-app/src/data")
 
     print(f"Number of iterations = {RUNS}")
     results_baseline = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.25)
@@ -252,58 +232,16 @@ if __name__ == "__main__":
     with open("Policies/VI/4_0.2_0.9_0.25/temp_policy_o.pkl", "rb") as f:
         o_policy = pickle.load(f)
 
-    #results_dir = "Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl"
-    #with open("Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl", "rb") as f:
-    #    tracked_results = pickle.load(f)
+    results_dir = "Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl"
+    with open("Policies/VI/3_0.2_0.9_0.25/tracked_results.pkl", "rb") as f:
+        tracked_results = pickle.load(f)
 
-    #export_results_to_json(results_dir)
+    export_results_to_json(results_dir)
 
     print(f"Number of iterations = {RUNS}")
     results_baseline = eval_policy(n=4, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.25)
     results_random = eval_policy(n=4, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.25)
     print(f"Playing Against Baseline: {results_baseline}")
     print(f"Playing Against Random: {results_random}")
-
-
-    #plot_results(tracked_results, title="Value Iteration on 3x3 Tic Tac Toe with 25% Skipping Probability") 
     
 
-    """
-    print("\n")
-    print("WITH SKIPPING PROBABILITY 0%")
-    print("----4x4----")
-    with open("Policies/VI/4_0.2_0.9_0.0/temp_policy_x.pkl", "rb") as f:
-        x_policy = pickle.load(f)
-
-    with open("Policies/VI/4_0.2_0.9_0.0/temp_policy_o.pkl", "rb") as f:
-        o_policy = pickle.load(f)
-
-    results_baseline = eval_policy(n=4,o_policy=o_policy, x_policy=x_policy, runs=RUNS, opponent='baseline',epsilon=0.0)
-    results_random = eval_policy(n=4, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.0)
-
-    print(f"Number of iterations = {RUNS}")
-    print(f"Playing Against Baseline: {results_baseline}")
-    print(f"Playing Against Random: {results_random}")
-    """
-    """
-
-    print("\n")
-    print("----3x3----")
-    
-    #3x3
-    with open("temp_policy_vi/temp_policy_x.pkl", "rb") as f:
-        x_policy = pickle.load(f)
-    
-    with open("temp_policy_vi/temp_policy_o.pkl", "rb") as f:
-        o_policy = pickle.load(f)
-
-    print(f"Number of iterations = {RUNS}")
-    results_baseline = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='baseline',epsilon=0.0)
-    results_random = eval_policy(n=3, x_policy=x_policy, o_policy=o_policy, runs=RUNS, opponent='random',epsilon=0.0)
-    print(f"Playing Against Baseline: {results_baseline}")
-    print(f"Playing Against Random: {results_random}")  
-    """
-
-
-    #Playing Against Baseline1: {'win_rate': 0.596, 'draw_rate': 0.1898, 'loss_rate': 0.2142}
-    #Playing Against Baseline: {'win_rate': 0.4636, 'draw_rate': 0.2922, 'loss_rate': 0.2442}
