@@ -1,6 +1,6 @@
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from Utils.board_util import TicTacToeEnv
 import numpy as np
 from tqdm import tqdm
@@ -255,7 +255,7 @@ if __name__ == "__main__":
 
 if __name__ == "__mai2n__":
     ## running_loop
-    gamma = 1 # TODO DO I WANT THIS OR NOT
+    gamma = 0.9
     epsilon_start = 1.0 
     epsilon_end = 0.25
     lr = 0.0005
