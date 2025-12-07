@@ -18,7 +18,7 @@ from Utils.board_util import TicTacToeEnv
 from Evaluate.eval import eval_policy, export_results_to_json
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-print(f"Using device: {device}")
+#print(f"Using device: {device}")
 
 class AlphaZeroPolicy:
 
@@ -74,8 +74,8 @@ def aggregate_results(results_list):
     return {'win_rate': avg_win, 'draw_rate': avg_draw, 'loss_rate': avg_loss}
 
 
-def evaluate_checkpoints(model_dir, board_size, games_per_checkpoint, mcts_simulations, epsilon, output_dir, evaluate_every, num_workers=30):
-    
+def evaluate_checkpoints(model_dir, board_size, games_per_checkpoint, mcts_simulations, epsilon, evaluate_every, num_workers=30):
+
     pt_files = sorted([f for f in os.listdir(model_dir) if f.endswith('.pt')], key=lambda x: int(x.split('.')[0]))
     pt_files_to_eval = pt_files[::evaluate_every]
 
@@ -123,25 +123,16 @@ def evaluate_checkpoints(model_dir, board_size, games_per_checkpoint, mcts_simul
         'iter_at_eval': iter_at_eval
     }
 
-    if output_dir is None:
-        output_dir = model_dir
-    os.makedirs(output_dir, exist_ok=True)
-
-    output_path = os.path.join(output_dir, 'alphazero_evaluation.pkl')
-    with open(output_path, 'wb') as f:
-        pickle.dump(results, f)
-
     return results
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_dir', required=True)
     parser.add_argument('--board_size', type=int, default=3)
-    parser.add_argument('--games', type=int, default=4500)
-    parser.add_argument('--mcts_sims', type=int, default=100)
+    parser.add_argument('--games', type=int, default=1500)
+    parser.add_argument('--mcts_sims', type=int, default=50)
     parser.add_argument('--epsilon', type=float, default=0.25)
-    parser.add_argument('--output_dir', default = None)
-    parser.add_argument('--every', type=int, default=5)
+    parser.add_argument('--every', type=int, default=30)
     parser.add_argument('--workers', type=int, default=30)
 
     args = parser.parse_args()
@@ -152,11 +143,8 @@ if __name__ == '__main__':
         games_per_checkpoint=args.games,
         mcts_simulations=args.mcts_sims,
         epsilon=args.epsilon,
-        output_dir = args.output_dir,
         evaluate_every=args.every,
         num_workers=args.workers
     )
 
-    board_size_dir = os.path.basename(args.model_dir.rstrip('/'))
-    output_dir = os.path.join(r"/home/thomas-nguyen/Projects/Tic_tac_tool/Policies/AlphaZero", board_size_dir)
-    export_results_to_json(results, output_dir)
+    export_results_to_json(results, args.model_dir)

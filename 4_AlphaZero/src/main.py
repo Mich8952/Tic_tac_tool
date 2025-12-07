@@ -26,7 +26,9 @@ def get_tree(config, agent, game, device, dirichlet_noise=True):
     return tree
 
 def data_generation_worker(args):
+    import os
     game, agent, config, num_sim, games, gpu_id = args
+    worker_id = os.getpid()
     worker_device = torch.device(f'cuda:{gpu_id}' if torch.cuda.is_available() else 'cpu')
     agent = agent.to(worker_device)
 
@@ -34,12 +36,13 @@ def data_generation_worker(args):
     y_policy = []
     y_value = []
 
-    for _ in range(games):
+    for game_num in range(games):
         game.reset()
         history = []
         policy_targets = []
         player_moved_list = []
         positions = []
+        move_count = 0
 
         while not game.is_final():
             tree = get_tree(config, agent, game, worker_device)
@@ -49,6 +52,9 @@ def data_generation_worker(args):
             policy_targets.append(np.array(tree.get_posterior_probabilities()))
             player_moved_list.append(game.get_turn())
             positions.append(np.array(game.get_board()))
+
+            move_count += 1
+            print(f"[Worker {worker_id}] Game {game_num + 1}/{games}: Move {move_count} - Action: {temp_move}")
 
             game.execute_move(temp_move)
 
@@ -77,9 +83,11 @@ def generate_data(game, agent, config, device, num_sim=100, games=4500, num_work
 
     return x, y_policy, y_value
 
-def train(game, config, num_filters, num_res_blocks, boardSize, num_sim=125, epochs=50, games_each_epoch=4500, batch_size=1024, num_train_epochs=10, num_workers=30):
+def train(game, config, num_filters, num_res_blocks, boardSize, num_sim = 150, epochs = 20, games_each_epoch = 240, batch_size=1024, num_train_epochs=2, num_workers=30):
     model_dir = f"Models/size_{boardSize}"
     os.makedirs(model_dir, exist_ok=True)
+
+    print(num_sim)
 
     h, w, d = config.board_dims[1:]
     agent = ResNet(h, w, d, num_filters, config.policy_output_dim, num_res_blocks = num_res_blocks)
@@ -167,6 +175,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--boardSize", type=int, default=3)
     boardSize = parser.parse_args().boardSize
+    num_sim = 25 + (boardSize - 3) * 10
 
     config = Config(boardSize)
-    train(TicTacToeAdapter(boardSize), config, 128, 4, boardSize)
+    train(TicTacToeAdapter(boardSize), config, 128, 4, boardSize, num_sim=num_sim)

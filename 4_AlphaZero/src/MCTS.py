@@ -20,28 +20,11 @@ class Node:
         else:
             self.turn = game.get_turn()
 
-    def get_parent(self):
-        return self.parent
-
     def add_child(self, child):
         self.children.append(child)
 
     def is_leaf_node(self):
-        if len(self.children) == 0:
-            return True
-        return False
-
-    def get_board_state(self):
-        return np.copy(self.board_state)
-
-    def get_last_action(self):
-        return self.last_action
-
-    def get_times_visited(self):
-        return self.n
-
-    def get_total_values(self):
-        return self.t
+        return not self.children
 
 
 class MCTS:
@@ -60,25 +43,13 @@ class MCTS:
         self.root = Node(self.game, None, None)
         self.root.board_state = self.game.get_board()
 
-    @staticmethod
-    def search_nodechildren_for_state(node, state):
-        for child in node.children:
-            if np.array_equal(child.get_board_state(), state):
-                return child
-
-    def find_node_given_state(self, state):
-        correct = None
-        start = self.root
-        correct = MCTS.search_nodechildren_for_state(start, state)
-        return correct
-
     def get_most_searched_child_node(self, node):
         max_node = None
         max_node_visits = 0
         for child in node.children:
-            if child.get_times_visited() > max_node_visits:
+            if child.n > max_node_visits:
                 max_node = child
-                max_node_visits = child.get_times_visited()
+                max_node_visits = child.n
         return max_node
 
     def get_action_numbers(self, node):
@@ -87,16 +58,8 @@ class MCTS:
             action_numbers[i] = 0
 
         for child in node.children:
-            action_numbers[child.last_action] = child.get_times_visited()
+            action_numbers[child.last_action] = child.n
         return action_numbers
-
-    def get_prior_probabilities(self, board_state):
-        with torch.no_grad():
-            x = torch.from_numpy(board_state).float().to(self.device)
-            x = x.transpose(1,3).transpose(2,3)
-            pred = self.agent(x)
-            pred = [p.cpu().numpy() for p in pred]
-        return self.apply_softmax_with_masking(pred[0], np.array(self.game.get_legal_NN_output())), pred[1]
 
     def get_posterior_probabilities(self):
         node = self.root
@@ -129,7 +92,6 @@ class MCTS:
         actions = self.get_action_numbers(node)
         most_searched_move = 0
         max = -1
-        # print(actions)
         for action in actions:
             if actions[action] > max:
                 most_searched_move = action
@@ -179,22 +141,19 @@ class MCTS:
             node.t += result
             node.n += 1
             game.undo_move()
-            self.back_propagate(node.get_parent(), -result)
+            self.back_propagate(node.parent, -result)
         else:
             node.t += t
             node.n += 1
 
-            if node.get_parent() is not None:
+            if node.parent is not None:
                 game.undo_move()
-                self.back_propagate(node.get_parent(), -t)
+                self.back_propagate(node.parent, -t)
 
     def PUCT(self, node, child):
-        N = child.n
-        sum_N_potential_actions = max(node.n - 1, 1)
-        exp = math.log(1 + sum_N_potential_actions + math.sqrt(2)) / math.sqrt(2) + 1
-        U = exp * child.probability * math.sqrt(sum_N_potential_actions) / (1 + N)
-        Q = child.t / max(N, 1)
-        return Q + U
+        sum_potential = max(node.n - 1, 1)
+        exp = math.log(1 + sum_potential + math.sqrt(2)) / math.sqrt(2) + 1
+        return child.t / max(child.n, 1) + exp * child.probability * math.sqrt(sum_potential) / (1 + child.n)
     
     def apply_softmax_with_masking(self, logits, legal_moves_mask):
 

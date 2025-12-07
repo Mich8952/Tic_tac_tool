@@ -1,11 +1,5 @@
 python -m src.main --boardSize 5
 
-python evaluation_wrapper.py --model_dir /home/thomas-nguyen/Projects/Tic_tac_tool/AlphaZero/Models/size_4 --board_size 4
-
-python evaluation_wrapper.py --model_dir /home/thomas-nguyen/Projects/Tic_tac_tool/AlphaZero/Models/size_3
+python -m src.evaluation_wrapper --model_dir /home/thomas-nguyen/Projects/test/Tic_tac_tool/4_AlphaZero/Models/size_3
 
 tmux new-session -s alphazero-training "python -m src.main --boardSize 3"
-
-pkill -f train_all_sizes.sh
-
-/home/thomas-nguyen/Projects/Tic_tac_tool/AlphaZero/train_all_sizes.sh
