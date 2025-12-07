@@ -125,7 +125,7 @@ if __name__ == "__main__":
     # this really should follow better programming practices and modular programming, but for now its fine.
     
     VI_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/VI/4_0.2_0.9_0.25"
-    DQN_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/DQN/from_server/DQN/4_1_0.25_winner"
+    DQN_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/DQN/4_1_0.25_winner"
     MC_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/MC/mc_4x4.pkl"
     QL_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/QL/q_values_ql.pkl"
     SARSA_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/SARSA/q_values_sarsa.pkl"
@@ -200,8 +200,8 @@ if __name__ == "__main__":
     with open(f"{VI_DIR}/temp_policy_o.pkl","rb") as f:
         o_policy_1 = pickle.load(f)
 
-    x_policy_2 = ChPolicyWrapper(SARSA_DIR, player='X')
-    o_policy_2 = ChPolicyWrapper(SARSA_DIR, player='O')
+    x_policy_2 = ChPolicyWrapper(SARSA_DIR, player='X',isSARSA=True)
+    o_policy_2 = ChPolicyWrapper(SARSA_DIR, player='O',isSARSA=True)
         
     res = eval_policy(n=4,x_policy_1=x_policy_1,o_policy_1=o_policy_1,x_policy_2=x_policy_2,o_policy_2=o_policy_2, runs=RUNS,epsilon=epsilon)
 
