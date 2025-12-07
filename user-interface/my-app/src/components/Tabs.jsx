@@ -319,25 +319,25 @@ export default function Tabs() {
     if (activeTab === 0 && activeSub === 1 && boardSize == 3) {
       if (plotIndex === 0) {
         return {
-          labels: [0],
+          labels: ["3x3"],
           datasets: [
             {
               label: "Win Rate",
-              data: [0],
+              data: [0.5366],
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: [0],
+              data: [0.344],
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: [0],
+              data: [0.1194],
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -362,7 +362,7 @@ export default function Tabs() {
           labels: ["Win Rate", "Loss Rate", "Draw Rate"],
           datasets: [
             {
-              data: [0, 0, 0],
+              data: [0.5366, 0.1194, 0.344],
               backgroundColor: ["#2ecc79", "#e74c3c", "#3498db"],
             },
           ],
