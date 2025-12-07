@@ -93,7 +93,7 @@ export default function Tabs() {
         {
           name: "Alpha Zero",
           content:
-            "In progress. To be able to achieve positive win rates for board sizes larger than 15 x 15, we have implemented AlphaZero, a Deep RL algorithm. AlphaZero is a two headed model, with a policy and a value head. It is significantly more computationally intensive to train than other algorithims we present in this tool.",
+            "In progress. To be able to achieve positive win rates for board sizes larger than 15 x 15, we have implemented AlphaZero, a Deep RL algorithm. AlphaZero is a two headed model, with a policy and a value head. It is significantly more computationally intensive to train than other algorithms we present in this tool.",
         },
       ],
     },
@@ -185,7 +185,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -290,7 +290,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -396,7 +396,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -530,7 +530,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -663,7 +663,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -796,7 +796,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -929,7 +929,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -1062,7 +1062,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -1195,7 +1195,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -1328,7 +1328,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -1461,7 +1461,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -1595,7 +1595,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -1728,7 +1728,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -1861,7 +1861,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -1994,7 +1994,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -2127,7 +2127,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -2260,7 +2260,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -2393,7 +2393,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -2526,7 +2526,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -2660,7 +2660,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -2793,7 +2793,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -2926,7 +2926,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -3059,7 +3059,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -3192,7 +3192,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -3325,7 +3325,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -3458,7 +3458,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -3591,7 +3591,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -3725,7 +3725,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -3858,7 +3858,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithm, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -3991,7 +3991,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -4124,7 +4124,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -4257,7 +4257,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -4390,7 +4390,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -4523,7 +4523,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -4656,7 +4656,7 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.Algorithims, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
@@ -4707,9 +4707,9 @@ export default function Tabs() {
       if (plotIndex === 4 && boardSize === 4)
         return "Baseline Opponent Performance for Value Iteration on a 4 x 4 Board";
       if (plotIndex === 5 && boardSize === 3)
-        return "Performance Comparison across Algorithims for 3 x 3 Board";
+        return "Performance Comparison across algorithms for 3 x 3 Board";
       if (plotIndex === 5 && boardSize === 4)
-        return "Performance Comparison across Algorithims for 4 x 4 Board";
+        return "Performance Comparison across algorithms for 4 x 4 Board";
       if (plotIndex === 2 && boardSize === 3)
         return "Play Performance against Baseline Opponent on 3 x 3 Board";
       if (plotIndex === 2 && boardSize === 4)
@@ -4724,7 +4724,7 @@ export default function Tabs() {
       if (plotIndex === 4)
         return "Baseline Opponent Performance for Policy Iteration on a 3 x 3 board";
       if (plotIndex === 5)
-        return "Performance Comparison across Algorithims for 3 x 3 Board";
+        return "Performance Comparison across algorithms for 3 x 3 Board";
       if (plotIndex === 2 && boardSize === 3)
         return "Play Performance against Baseline Opponent on 3 x 3 Board";
     }
@@ -4783,21 +4783,21 @@ export default function Tabs() {
       if (plotIndex === 4 && boardSize === 10)
         return "Improvement During Training for Monte Carlo on 10 x 10 Board";
       if (plotIndex === 5 && boardSize === 3)
-        return "Performance Comparison across Algorithims for 3 x 3 Board";
+        return "Performance Comparison across algorithms for 3 x 3 Board";
       if (plotIndex === 5 && boardSize === 4)
-        return "Performance Comparison across Algorithims for 4 x 4 Board";
+        return "Performance Comparison across algorithms for 4 x 4 Board";
       if (plotIndex === 5 && boardSize === 5)
-        return "Performance Comparison across Algorithims for 5 x 5 Board";
+        return "Performance Comparison across algorithms for 5 x 5 Board";
       if (plotIndex === 5 && boardSize === 6)
-        return "Performance Comparison across Algorithims for 6 x 6 Board";
+        return "Performance Comparison across algorithms for 6 x 6 Board";
       if (plotIndex === 5 && boardSize === 7)
-        return "Performance Comparison across Algorithims for 7 x 7 Board";
+        return "Performance Comparison across algorithms for 7 x 7 Board";
       if (plotIndex === 5 && boardSize === 8)
-        return "Performance Comparison across Algorithims for 8 x 8 Board";
+        return "Performance Comparison across algorithms for 8 x 8 Board";
       if (plotIndex === 5 && boardSize === 9)
-        return "Performance Comparison across Algorithims for 9 x 9 Board";
+        return "Performance Comparison across algorithms for 9 x 9 Board";
       if (plotIndex === 5 && boardSize === 10)
-        return "Performance Comparison across Algorithims for 10 x 10 Board";
+        return "Performance Comparison across algorithms for 10 x 10 Board";
     }
     // - SARSA--------------------------------------------------------///
     if (activeTab === 1 && activeSub === 1) {
@@ -4853,21 +4853,21 @@ export default function Tabs() {
       if (plotIndex === 4 && boardSize === 10)
         return "Improvement During Training for SARSA on 10 x 10 Board";
       if (plotIndex === 5 && boardSize === 3)
-        return "Performance Comparison across Algorithims for 3 x 3 Board";
+        return "Performance Comparison across algorithms for 3 x 3 Board";
       if (plotIndex === 5 && boardSize === 4)
-        return "Performance Comparison across Algorithims for 4 x 4 Board";
+        return "Performance Comparison across algorithms for 4 x 4 Board";
       if (plotIndex === 5 && boardSize === 5)
-        return "Performance Comparison across Algorithims for 5 x 5 Board";
+        return "Performance Comparison across algorithms for 5 x 5 Board";
       if (plotIndex === 5 && boardSize === 6)
-        return "Performance Comparison across Algorithims for 6 x 6 Board";
+        return "Performance Comparison across algorithms for 6 x 6 Board";
       if (plotIndex === 5 && boardSize === 7)
-        return "Performance Comparison across Algorithims for 7 x 7 Board";
+        return "Performance Comparison across algorithms for 7 x 7 Board";
       if (plotIndex === 5 && boardSize === 8)
-        return "Performance Comparison across Algorithims for 8 x 8 Board";
+        return "Performance Comparison across algorithms for 8 x 8 Board";
       if (plotIndex === 5 && boardSize === 9)
-        return "Performance Comparison across Algorithims for 9 x 9 Board";
+        return "Performance Comparison across algorithms for 9 x 9 Board";
       if (plotIndex === 5 && boardSize === 10)
-        return "Performance Comparison across Algorithims for 10 x 10 Board";
+        return "Performance Comparison across algorithms for 10 x 10 Board";
     }
     // - Q-LEARNING--------------------------------------------------------///
     if (activeTab === 1 && activeSub === 2) {
@@ -4924,21 +4924,21 @@ export default function Tabs() {
       if (plotIndex === 4 && boardSize === 10)
         return "Improvement During Training for Q-Learning on 10 x 10 Board";
       if (plotIndex === 5 && boardSize === 3)
-        return "Performance Comparison across Algorithims for 3 x 3 Board";
+        return "Performance Comparison across algorithms for 3 x 3 Board";
       if (plotIndex === 5 && boardSize === 4)
-        return "Performance Comparison across Algorithims for 4 x 4 Board";
+        return "Performance Comparison across algorithms for 4 x 4 Board";
       if (plotIndex === 5 && boardSize === 5)
-        return "Performance Comparison across Algorithims for 5 x 5 Board";
+        return "Performance Comparison across algorithms for 5 x 5 Board";
       if (plotIndex === 5 && boardSize === 6)
-        return "Performance Comparison across Algorithims for 6 x 6 Board";
+        return "Performance Comparison across algorithms for 6 x 6 Board";
       if (plotIndex === 5 && boardSize === 7)
-        return "Performance Comparison across Algorithims for 7 x 7 Board";
+        return "Performance Comparison across algorithms for 7 x 7 Board";
       if (plotIndex === 5 && boardSize === 8)
-        return "Performance Comparison across Algorithims for 8 x 8 Board";
+        return "Performance Comparison across algorithms for 8 x 8 Board";
       if (plotIndex === 5 && boardSize === 9)
-        return "Performance Comparison across Algorithims for 9 x 9 Board";
+        return "Performance Comparison across algorithms for 9 x 9 Board";
       if (plotIndex === 5 && boardSize === 10)
-        return "Performance Comparison across Algorithims for 10 x 10 Board";
+        return "Performance Comparison across algorithms for 10 x 10 Board";
     }
     // - DQN--------------------------------------------------------///
     if (activeTab === 2 && activeSub === 0) {
@@ -4977,38 +4977,31 @@ export default function Tabs() {
         return "Play Performance against Random Opponent on 9 x 9 Board";
       if (plotIndex === 3 && boardSize === 10)
         return "Play Performance against Random Opponent on 10 x 10 Board";
-      if (plotIndex === 4 && boardSize === 3)
-        return "Improvement During Training for DQN on 3 x 3 Board";
-      if (plotIndex === 4 && boardSize === 4)
-        return "Improvement During Training for DQN on 4 x 4 Board";
+      if (plotIndex === 4 && boardSize === 3) return "Results not shown.";
+      if (plotIndex === 4 && boardSize === 4) return "Results not shown.";
       if (plotIndex === 4 && boardSize === 5)
         return "Improvement During Training for DQN on 5 x 5 Board";
-      if (plotIndex === 4 && boardSize === 6)
-        return "Improvement During Training for DQN on 6 x 6 Board";
-      if (plotIndex === 4 && boardSize === 7)
-        return "Improvement During Training for DQN on 7 x 7 Board";
-      if (plotIndex === 4 && boardSize === 8)
-        return "Improvement During Training for DQN on 8 x 8 Board";
-      if (plotIndex === 4 && boardSize === 9)
-        return "Improvement During Training for DQN on 9 x 9 Board";
-      if (plotIndex === 4 && boardSize === 10)
-        return "Improvement During Training for DQN on 10 x 10 Board";
+      if (plotIndex === 4 && boardSize === 6) return "Results not shown.";
+      if (plotIndex === 4 && boardSize === 7) return "Results not shown.";
+      if (plotIndex === 4 && boardSize === 8) return "Results not shown.";
+      if (plotIndex === 4 && boardSize === 9) return "Results not shown.";
+      if (plotIndex === 4 && boardSize === 10) return "Results not shown.";
       if (plotIndex === 5 && boardSize === 3)
-        return "Performance Comparison across Algorithims for 3 x 3 Board";
+        return "Performance Comparison across algorithms for 3 x 3 Board";
       if (plotIndex === 5 && boardSize === 4)
-        return "Performance Comparison across Algorithims for 4 x 4 Board";
+        return "Performance Comparison across algorithms for 4 x 4 Board";
       if (plotIndex === 5 && boardSize === 5)
-        return "Performance Comparison across Algorithims for 5 x 5 Board";
+        return "Performance Comparison across algorithms for 5 x 5 Board";
       if (plotIndex === 5 && boardSize === 6)
-        return "Performance Comparison across Algorithims for 6 x 6 Board";
+        return "Performance Comparison across algorithms for 6 x 6 Board";
       if (plotIndex === 5 && boardSize === 7)
-        return "Performance Comparison across Algorithims for 7 x 7 Board";
+        return "Performance Comparison across algorithms for 7 x 7 Board";
       if (plotIndex === 5 && boardSize === 8)
-        return "Performance Comparison across Algorithims for 8 x 8 Board";
+        return "Performance Comparison across algorithms for 8 x 8 Board";
       if (plotIndex === 5 && boardSize === 9)
-        return "Performance Comparison across Algorithims for 9 x 9 Board";
+        return "Performance Comparison across algorithms for 9 x 9 Board";
       if (plotIndex === 5 && boardSize === 10)
-        return "Performance Comparison across Algorithims for 10 x 10 Board";
+        return "Performance Comparison across algorithms for 10 x 10 Board";
     }
     return `Plot ${plotIndex + 1}`;
   };
@@ -5136,7 +5129,7 @@ export default function Tabs() {
             grid: { display: false },
             title: {
               display: true,
-              text: "Algorithims",
+              text: "Algorithms",
             },
           },
           y: {
@@ -5347,7 +5340,7 @@ export default function Tabs() {
             grid: { display: false },
             title: {
               display: true,
-              text: "Algorithims",
+              text: "Algorithms",
             },
           },
           y: {

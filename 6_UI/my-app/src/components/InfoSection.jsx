@@ -27,8 +27,8 @@ export default function InfoSection() {
           <h3>About Our Baseline Policy</h3>
           <p>
             The baseline policy is taken from Lecture 3 of the course. It is
-            used as a reference for evaluation. It does not learn or adapt —
-            instead, it chooses moves using fixed rules that make reasonable but
+            used as a reference for evaluation. It does not learn or adapt.
+            Instead, it chooses moves using fixed rules that make reasonable but
             not optimal decisions, and plays defensively.
           </p>
         </div>

@@ -8,7 +8,7 @@
     13000, 14000, 15000
   ],
   "board_size": ["3x3", "4x4", "5x5", "6x6", "7x7", "8x8", "9x9", "10x10"],
-  "Algorithims": ["VI", "PI", "MC", "SARSA", "QL", "DQN"],
+  "algorithms": ["VI", "PI", "MC", "SARSA", "QL", "DQN"],
   "inference_time": [1, 1, 1, 1, 1, 1, 1, 1],
   "overall": {
     "win_rates": [

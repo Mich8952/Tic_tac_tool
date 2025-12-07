@@ -6,7 +6,7 @@ export default function FAQBox({ onSelectPlot }) {
   const faqs = [
     {
       question:
-        "Is there a big drop in win rate during play with this algorithim when we go from one board size to another?",
+        "Is there a big drop in win rate during play with this algorithm when we go from one board size to another?",
       // answer: "Observe how the green line changes in the highlighted plot.",
       plot: 0,
     },
@@ -17,14 +17,14 @@ export default function FAQBox({ onSelectPlot }) {
       plot: 4,
     },
     {
-      question: "Up to what board size does the algorithim support?",
+      question: "Up to what board size does the algorithm support?",
       // answer:
       //   "See if there is a lack of data for a certain board size in the highlighted plot.",
       plot: 0,
     },
     {
       question:
-        "How does the algorithim perform against the baseline at this board size?",
+        "How does the algorithm perform against the baseline at this board size?",
       // answer: "Observe how the green line changes in the highlighted plot.",
       plot: 2,
     },
@@ -37,7 +37,7 @@ export default function FAQBox({ onSelectPlot }) {
     },
     {
       question:
-        "What is the inference time for the algorithim, across board sizes?",
+        "What is the inference time for the algorithm, across board sizes?",
       // answer: "Paris.",
       plot: 1,
     },
@@ -50,14 +50,14 @@ export default function FAQBox({ onSelectPlot }) {
     },
 
     {
-      question: "For a given board size, which algorithim is best?",
+      question: "For a given board size, which algorithm is best?",
       // answer: "Paris.",
       plot: 5,
     },
 
     {
       question:
-        "How does the win rate with respect to baseline change during play across algorithims?",
+        "How does the win rate with respect to baseline change during play across algorithms?",
       // answer: "Weather depends on your location — check a weather app.",
       plot: 5,
     },
