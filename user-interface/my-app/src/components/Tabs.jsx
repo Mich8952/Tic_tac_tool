@@ -20,6 +20,7 @@ import valueIterationResults from "../data/valueIterationResults.json";
 import montecarloResults from "../data/montecarloResults.json";
 import sarsaResults from "../data/sarsaResults.json";
 import qlearningResults from "../data/qlearningResults.json";
+import dqnResults from "../data/dqnResults.json";
 
 ChartJS.register(
   CategoryScale,
@@ -3516,21 +3517,21 @@ export default function Tabs() {
           datasets: [
             {
               label: "Win Rate",
-              data: qlearningResults.overall.win_rates,
+              data: dqnResults.overall.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: qlearningResults.overall.draw_rates,
+              data: dqnResults.overall.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: qlearningResults.overall.loss_rates,
+              data: dqnResults.overall.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -3543,7 +3544,7 @@ export default function Tabs() {
           datasets: [
             {
               label: "O(1)",
-              data: montecarloResults.inference_time,
+              data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
               tension: 0.3,
@@ -3555,7 +3556,7 @@ export default function Tabs() {
           labels: ["Win Rate", "Loss Rate", "Draw Rate"],
           datasets: [
             {
-              data: [0.7205, 0.23, 0.0488],
+              data: [0.124, 0.021, 0.855],
               backgroundColor: ["#2ecc79", "#e74c3c", "#3498db"],
             },
           ],
@@ -3649,21 +3650,21 @@ export default function Tabs() {
           datasets: [
             {
               label: "Win Rate",
-              data: qlearningResults.overall.win_rates,
+              data: dqnResults.overall.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: qlearningResults.overall.draw_rates,
+              data: dqnResults.overall.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: qlearningResults.overall.loss_rates,
+              data: dqnResults.overall.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -3676,7 +3677,7 @@ export default function Tabs() {
           datasets: [
             {
               label: "O(1)",
-              data: montecarloResults.inference_time,
+              data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
               tension: 0.3,
@@ -3688,7 +3689,7 @@ export default function Tabs() {
           labels: ["Win Rate", "Loss Rate", "Draw Rate"],
           datasets: [
             {
-              data: [0.4399, 0.25, 0.3755],
+              data: [0.112, 0.6, 0.882],
               backgroundColor: ["#2ecc79", "#e74c3c", "#3498db"],
             },
           ],
@@ -3782,21 +3783,21 @@ export default function Tabs() {
           datasets: [
             {
               label: "Win Rate",
-              data: qlearningResults.overall.win_rates,
+              data: dqnResults.overall.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: qlearningResults.overall.draw_rates,
+              data: dqnResults.overall.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: qlearningResults.overall.loss_rates,
+              data: dqnResults.overall.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -3809,7 +3810,7 @@ export default function Tabs() {
           datasets: [
             {
               label: "O(1)",
-              data: montecarloResults.inference_time,
+              data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
               tension: 0.3,
@@ -3821,7 +3822,7 @@ export default function Tabs() {
           labels: ["Win Rate", "Loss Rate", "Draw Rate"],
           datasets: [
             {
-              data: [0.2238, 0.18, 0.5995],
+              data: [0.62, 0.327, 0.053],
               backgroundColor: ["#2ecc79", "#e74c3c", "#3498db"],
             },
           ],
@@ -3911,25 +3912,25 @@ export default function Tabs() {
     if (activeTab === 2 && activeSub === 0 && boardSize == 6) {
       if (plotIndex === 0) {
         return {
-          labels: montecarloResults.board_size,
+          labels: dqnResults.board_size,
           datasets: [
             {
               label: "Win Rate",
-              data: qlearningResults.overall.win_rates,
+              data: dqnResults.overall.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: qlearningResults.overall.draw_rates,
+              data: dqnResults.overall.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: qlearningResults.overall.loss_rates,
+              data: dqnResults.overall.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -3938,11 +3939,11 @@ export default function Tabs() {
         };
       } else if (plotIndex === 1) {
         return {
-          labels: montecarloResults.board_size,
+          labels: dqnResults.board_size,
           datasets: [
             {
               label: "O(1)",
-              data: montecarloResults.inference_time,
+              data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
               tension: 0.3,
@@ -3954,7 +3955,7 @@ export default function Tabs() {
           labels: ["Win Rate", "Loss Rate", "Draw Rate"],
           datasets: [
             {
-              data: [0.1331, 0.12, 0.7503],
+              data: [0.32, 0.254, 0.426],
               backgroundColor: ["#2ecc79", "#e74c3c", "#3498db"],
             },
           ],
@@ -4048,21 +4049,21 @@ export default function Tabs() {
           datasets: [
             {
               label: "Win Rate",
-              data: qlearningResults.overall.win_rates,
+              data: dqnResults.overall.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: qlearningResults.overall.draw_rates,
+              data: dqnResults.overall.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: qlearningResults.overall.loss_rates,
+              data: dqnResults.overall.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -4075,7 +4076,7 @@ export default function Tabs() {
           datasets: [
             {
               label: "O(1)",
-              data: montecarloResults.inference_time,
+              data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
               tension: 0.3,
@@ -4087,7 +4088,7 @@ export default function Tabs() {
           labels: ["Win Rate", "Loss Rate", "Draw Rate"],
           datasets: [
             {
-              data: [0.0837, 0.07, 0.8447],
+              data: [0.315, 0.213, 0.472],
               backgroundColor: ["#2ecc79", "#e74c3c", "#3498db"],
             },
           ],
@@ -4181,21 +4182,21 @@ export default function Tabs() {
           datasets: [
             {
               label: "Win Rate",
-              data: qlearningResults.overall.win_rates,
+              data: dqnResults.overall.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: qlearningResults.overall.draw_rates,
+              data: dqnResults.overall.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: qlearningResults.overall.loss_rates,
+              data: dqnResults.overall.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -4208,7 +4209,7 @@ export default function Tabs() {
           datasets: [
             {
               label: "O(1)",
-              data: montecarloResults.inference_time,
+              data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
               tension: 0.3,
@@ -4220,7 +4221,7 @@ export default function Tabs() {
           labels: ["Win Rate", "Loss Rate", "Draw Rate"],
           datasets: [
             {
-              data: [0.0467, 0.04, 0.9105],
+              data: [0.211, 0.145, 0.644],
               backgroundColor: ["#2ecc79", "#e74c3c", "#3498db"],
             },
           ],
@@ -4314,21 +4315,21 @@ export default function Tabs() {
           datasets: [
             {
               label: "Win Rate",
-              data: qlearningResults.overall.win_rates,
+              data: dqnResults.overall.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: qlearningResults.overall.draw_rates,
+              data: dqnResults.overall.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: qlearningResults.overall.loss_rates,
+              data: dqnResults.overall.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -4341,7 +4342,7 @@ export default function Tabs() {
           datasets: [
             {
               label: "O(1)",
-              data: montecarloResults.inference_time,
+              data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
               tension: 0.3,
@@ -4353,7 +4354,7 @@ export default function Tabs() {
           labels: ["Win Rate", "Loss Rate", "Draw Rate"],
           datasets: [
             {
-              data: [0.0264, 0.02, 0.951],
+              data: [0.144, 0.105, 0.751],
               backgroundColor: ["#2ecc79", "#e74c3c", "#3498db"],
             },
           ],
@@ -4447,21 +4448,21 @@ export default function Tabs() {
           datasets: [
             {
               label: "Win Rate",
-              data: qlearningResults.overall.win_rates,
+              data: dqnResults.overall.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: qlearningResults.overall.draw_rates,
+              data: dqnResults.overall.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: qlearningResults.overall.loss_rates,
+              data: dqnResults.overall.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,
@@ -4474,7 +4475,7 @@ export default function Tabs() {
           datasets: [
             {
               label: "O(1)",
-              data: montecarloResults.inference_time,
+              data: dqnResults.inference_time,
               borderColor: "#f29e5a",
               backgroundColor: "rgba(242, 158, 90, 0.1)",
               tension: 0.3,
@@ -4486,7 +4487,7 @@ export default function Tabs() {
           labels: ["Win Rate", "Loss Rate", "Draw Rate"],
           datasets: [
             {
-              data: [0.0134, 0.01, 0.9734],
+              data: [0.0143, 0.058, 0.799],
               backgroundColor: ["#2ecc79", "#e74c3c", "#3498db"],
             },
           ],
@@ -5041,7 +5042,10 @@ export default function Tabs() {
       };
     }
     /// ----------------  MODEL- FREE (MC, SARSA, QL)  ---------------------------------//
-    if (activeTab === 1 && plotIndex === 0) {
+    if (
+      (activeTab === 1 && plotIndex === 0) ||
+      (activeTab === 2 && plotIndex === 0)
+    ) {
       return {
         responsive: true,
         maintainAspectRatio: true,
@@ -5071,7 +5075,10 @@ export default function Tabs() {
         },
       };
     }
-    if (activeTab === 1 && plotIndex === 1) {
+    if (
+      (activeTab === 1 && plotIndex === 1) ||
+      (activeTab === 2 && plotIndex === 1)
+    ) {
       return {
         responsive: true,
         maintainAspectRatio: true,
@@ -5104,7 +5111,10 @@ export default function Tabs() {
         },
       };
     }
-    if (activeTab === 1 && plotIndex === 2) {
+    if (
+      (activeTab === 1 && plotIndex === 2) ||
+      (activeTab === 2 && plotIndex === 2)
+    ) {
       return {
         responsive: true,
         maintainAspectRatio: true,
@@ -5116,7 +5126,10 @@ export default function Tabs() {
         },
       };
     }
-    if (activeTab === 1 && plotIndex === 3) {
+    if (
+      (activeTab === 1 && plotIndex === 3) ||
+      (activeTab === 2 && plotIndex === 3)
+    ) {
       return {
         responsive: true,
         maintainAspectRatio: true,
@@ -5176,7 +5189,40 @@ export default function Tabs() {
         },
       };
     }
-    if (activeTab === 1 && plotIndex === 5) {
+    if (activeTab === 2 && plotIndex === 4) {
+      return {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            title: {
+              display: true,
+              text: "Iterations",
+            },
+          },
+          y: {
+            grid: { color: "#eee" },
+            title: {
+              display: true,
+              text: "Rate",
+            },
+            min: 0,
+            max: 1,
+          },
+        },
+      };
+    }
+    if (
+      (activeTab === 1 && plotIndex === 5) ||
+      (activeTab === 2 && plotIndex === 5)
+    ) {
       return {
         responsive: true,
         maintainAspectRatio: true,
