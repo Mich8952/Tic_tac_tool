@@ -1,6 +1,6 @@
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from Utils.board_util import TicTacToeEnv
 import numpy as np
 from tqdm import tqdm
@@ -196,7 +196,7 @@ def get_policy(all_states, V, n, gamma, epsilon):
 
 
 if __name__ == "__main__":
-    n = 3
+    n = 4
     thresh = 0.2
     gamma = 0.9
     epsilon = 0.25

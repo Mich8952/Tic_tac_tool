@@ -6,3 +6,5 @@ lecture_baseline2.py
 *.csv
 interactive_plots_temp.ipynb
 pres_plots copy.ipynb
+*.zip
+*.DS_Store
