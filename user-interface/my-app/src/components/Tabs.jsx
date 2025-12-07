@@ -3964,25 +3964,25 @@ export default function Tabs() {
         };
       } else if (plotIndex === 4) {
         return {
-          labels: montecarloResults.episodes,
+          labels: dqnResults.training_5x5.iteration_steps,
           datasets: [
             {
               label: "Win Rate",
-              data: qlearningResults.training_5x5.win_rates,
+              data: dqnResults.training_5x5.baseline.win_rates,
               borderColor: "#2ecc71",
               backgroundColor: "rgba(46, 204, 113, 0.1)",
               tension: 0.3,
             },
             {
               label: "Draw Rate",
-              data: qlearningResults.training_5x5.draw_rates,
+              data: dqnResults.training_5x5.baseline.draw_rates,
               borderColor: "#3498db",
               backgroundColor: "rgba(52, 152, 219, 0.1)",
               tension: 0.3,
             },
             {
               label: "Loss Rate",
-              data: qlearningResults.training_5x5.loss_rates,
+              data: dqnResults.training_5x5.baseline.loss_rates,
               borderColor: "#e74c3c",
               backgroundColor: "rgba(231, 76, 60, 0.1)",
               tension: 0.3,

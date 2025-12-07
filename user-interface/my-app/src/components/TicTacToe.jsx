@@ -248,8 +248,8 @@ export default function TicTacToe() {
           </label>
 
           <p>
-            Player 1 always starts. If you want to play as human, click any
-            square to begin.
+            Player 1 always starts. If you choose to set Player 1 to human, then
+            click any square on the board to begin.
           </p>
           <label>
             Player 1
