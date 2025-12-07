@@ -37,7 +37,7 @@ export default function TicTacToe() {
 
   const getAIMove = async (algorithmType) => {
     try {
-      const response = await fetch("http://localhost:5001/api/get-ai-move", {
+      const response = await fetch("http://76.66.104.49:5001/api/get-ai-move", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

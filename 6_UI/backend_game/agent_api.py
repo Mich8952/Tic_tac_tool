@@ -25,7 +25,7 @@ POLICIES = {"VI_3": os.path.join(BASE_DIR, "Policies/VI/3_0.2_0.9_0.25"),
             "DQN_6": os.path.join(BASE_DIR, "Policies/DQN/6_1_0.25_winner"),
             "DQN_7": os.path.join(BASE_DIR, "Policies/DQN/7_1_0.25_winner"),
             "SARSA_4": os.path.join(BASE_DIR, "Policies/SARSA/q_values_sarsa.pkl"),
-            "QL_4": os.path.join(BASE_DIR, "/Policies/QL/DEC6_q_learning_4x4_eps=8000000"),
+            "QL_4": os.path.join(BASE_DIR, "Policies/QL/DEC6_q_learning_4x4_eps=8000000.pkl"),
             "MC_4": os.path.join(BASE_DIR, "Policies/MC/mc_4x4.pkl")}
 
 CURRENT_X_POLICY_CACHE = [None,None]
@@ -110,4 +110,4 @@ def get_ai_move():
     return jsonify({'row': row, 'col': col})
 
 if __name__ == '__main__':
-    app.run(port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
