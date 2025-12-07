@@ -83,6 +83,51 @@ export default function TicTacToe() {
           }
         }
       }
+      if (currentPlayerType === "SARSA") {
+        console.log("agent making move...");
+        const move = await getAIMove("SARSA");
+        console.log("agent move received:", move);
+        if (move) {
+          const intendedIndex = move.row * boardSize + move.col; // get the flat index
+          const actualIndex = applySlip(intendedIndex); // Apply slip
+          if (!board[actualIndex]) {
+            const newBoard = [...board]; //copy current board
+            newBoard[actualIndex] = currentPlayer; // play move
+            setBoard(newBoard);
+            setCurrentPlayer(currentPlayer === "X" ? "O" : "X"); // set to next player which is O if it was previously X
+          }
+        }
+      }
+      if (currentPlayerType === "Q-Learning") {
+        console.log("agent making move...");
+        const move = await getAIMove("QL");
+        console.log("agent move received:", move);
+        if (move) {
+          const intendedIndex = move.row * boardSize + move.col; // get the flat index
+          const actualIndex = applySlip(intendedIndex); // Apply slip
+          if (!board[actualIndex]) {
+            const newBoard = [...board]; //copy current board
+            newBoard[actualIndex] = currentPlayer; // play move
+            setBoard(newBoard);
+            setCurrentPlayer(currentPlayer === "X" ? "O" : "X"); // set to next player which is O if it was previously X
+          }
+        }
+      }
+      if (currentPlayerType === "Monte Carlo") {
+        console.log("agent making move...");
+        const move = await getAIMove("MC");
+        console.log("agent move received:", move);
+        if (move) {
+          const intendedIndex = move.row * boardSize + move.col; // get the flat index
+          const actualIndex = applySlip(intendedIndex); // Apply slip
+          if (!board[actualIndex]) {
+            const newBoard = [...board]; //copy current board
+            newBoard[actualIndex] = currentPlayer; // play move
+            setBoard(newBoard);
+            setCurrentPlayer(currentPlayer === "X" ? "O" : "X"); // set to next player which is O if it was previously X
+          }
+        }
+      }
       if (currentPlayerType === "Deep Learning") {
         console.log("agent making move...");
         const move = await getAIMove("DQN");
@@ -193,7 +238,9 @@ export default function TicTacToe() {
             >
               <option>Human</option>
               <option>Model-Based (VI)</option>
-              <option>Model-Free</option>
+              <option>SARSA</option>
+              <option>Q-Learning</option>
+              <option>Monte Carlo</option>
               <option>Deep Learning</option>
             </select>
           </label>
@@ -206,7 +253,9 @@ export default function TicTacToe() {
             >
               <option>Human</option>
               <option>Model-Based (VI)</option>
-              <option>Model-Free</option>
+              <option>SARSA</option>
+              <option>Q-Learning</option>
+              <option>Monte Carlo</option>
               <option>Deep Learning</option>
             </select>
           </label>

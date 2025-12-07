@@ -8,6 +8,7 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from Evaluate.dqn_adapter import DQNPolicyWrapper
+from Evaluate.ch_adapter import ChPolicyWrapper
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -17,8 +18,14 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 
 POLICIES = {"VI_3": os.path.join(BASE_DIR, "Policies/VI/3_0.2_0.9_0.25"),
             "VI_4": os.path.join(BASE_DIR, "Policies/VI/4_0.2_0.9_0.25"),
+            "DQN_3": os.path.join(BASE_DIR, "Policies/DQN/3_1_0.25_winner"),
+            "DQN_4": os.path.join(BASE_DIR, "Policies/DQN/4_1_0.25_winner"),
+            "DQN_5": os.path.join(BASE_DIR, "Policies/DQN/5_1_0.25_winner"),
+            "DQN_6": os.path.join(BASE_DIR, "Policies/DQN/6_1_0.25_winner"),
             "DQN_7": os.path.join(BASE_DIR, "Policies/DQN/7_1_0.25_winner"),
-            "DQN_5": os.path.join(BASE_DIR, "Policies/DQN/5_1_0.25_winner")}
+            "SARSA_4": os.path.join(BASE_DIR, "Policies/SARSA/q_values_sarsa.pkl"),
+            "QL_4": os.path.join(BASE_DIR, "Policies/QL/q_values_ql.pkl"),
+            "MC_4": os.path.join(BASE_DIR, "Policies/MC/mc_4x4.pkl")}
 
 CURRENT_X_POLICY_CACHE = [None,None]
 CURRENT_O_POLICY_CACHE = [None,None]
@@ -59,6 +66,11 @@ def get_ai_move():
                 O_policy = pickle.load(f)
             with open(f'{POLICIES[f"{algo}_" + str(n)]}/temp_policy_x.pkl', 'rb') as f:
                 X_policy = pickle.load(f)
+        elif algo in ["SARSA", "QL", "MC"]:
+            policy_path = POLICIES[f'{algo}_' + str(n)]
+            is_sarsa = (algo == "SARSA")
+            O_policy = ChPolicyWrapper(policy_path, player='O', isSARSA=is_sarsa)
+            X_policy = ChPolicyWrapper(policy_path, player='X', isSARSA=is_sarsa)
         else:
             model_path = os.path.join(POLICIES[f'{algo}_' + str(n)], "q_network.pt")
             O_policy = DQNPolicyWrapper(n, model_path, player='O')
