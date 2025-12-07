@@ -3858,11 +3858,11 @@ export default function Tabs() {
         };
       } else if (plotIndex === 5) {
         return {
-          labels: montecarloResults.algorithm, // x-axis labels
+          labels: montecarloResults.algorithms, // x-axis labels
           datasets: [
             {
               label: "Wins",
-              data: montecarloResults.algs_4x4.win_rates, // height of "Wins" segment
+              data: montecarloResults.algs_4x4.win_rates,
               backgroundColor: "rgba(46, 204, 113, 0.7)",
               stack: "Stack 0", // same stack group
             },
