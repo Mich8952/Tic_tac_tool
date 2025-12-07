@@ -6,20 +6,25 @@ class TicTacToe:
         self.n = n
         self.board = [' '] * (n * n)
         self.current_winner = None
-
+    
+    # function to help visualize game when playing against human
     def print_board(self):
         for row in [self.board[i*self.n:(i+1)*self.n] for i in range(self.n)]:
             print('| ' + ' | '.join(row) + ' |')
 
+    # get all available squares in the board
     def available_moves(self):
         return [i for i, spot in enumerate(self.board) if spot == ' ']
 
+    # find empty squares in the board
     def empty_squares(self):
         return ' ' in self.board
 
+    # get number of empty squares in the board
     def num_empty_squares(self):
         return len(self.available_moves())
 
+    # play a square
     def make_move(self, square, letter):
         if self.board[square] == ' ':
             self.board[square] = letter
