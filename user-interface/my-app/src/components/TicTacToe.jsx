@@ -85,6 +85,21 @@ export default function TicTacToe() {
           }
         }
       }
+      if (currentPlayerType === "Model-Based (PI)") {
+        console.log("agent making move...");
+        const move = await getAIMove("PI");
+        console.log("agent move received:", move);
+        if (move) {
+          const intendedIndex = move.row * boardSize + move.col; // get the flat index
+          const actualIndex = applySlip(intendedIndex); // Apply slip
+          if (!board[actualIndex]) {
+            const newBoard = [...board]; //copy current board
+            newBoard[actualIndex] = currentPlayer; // play move
+            setBoard(newBoard);
+            setCurrentPlayer(currentPlayer === "X" ? "O" : "X"); // set to next player which is O if it was previously X
+          }
+        }
+      }
       if (currentPlayerType === "SARSA") {
         console.log("agent making move...");
         const move = await getAIMove("SARSA");
@@ -244,6 +259,7 @@ export default function TicTacToe() {
             >
               <option>Human</option>
               <option>Model-Based (VI)</option>
+              <option>Model-Based (PI)</option>
               <option>SARSA</option>
               <option>Q-Learning</option>
               <option>Monte Carlo</option>

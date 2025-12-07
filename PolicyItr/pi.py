@@ -43,7 +43,7 @@ class PolicyItr:
         self.baseline_results = []
         self.random_results = []
         self.iter_at_eval = []
-        self.action_calls_in_iteration = 0
+        self.total_action_evaluations = 0
 
     @staticmethod 
     def set_policy_random(all_states, n):
@@ -83,7 +83,6 @@ class PolicyItr:
                 env.state = np.array(state[0]).reshape((self.n, self.n))
                 env.set_player_auto()
                 possible_actions = env.get_possible_actions()
-                self.action_calls_in_iteration += 1
                 
                 if env.current_player == 1:
                     intended_action = pi_X[state_tuple]
@@ -92,6 +91,7 @@ class PolicyItr:
                 
                 expected_value = 0.0
                 
+                self.total_action_evaluations += 1  
                 next_env = TicTacToeEnv(self.n)
                 next_env.state = env.state.copy()
                 next_env.current_player = env.current_player
@@ -109,6 +109,7 @@ class PolicyItr:
                 # we also have a probaiblity of not taking that action - i.e. the random action
                 random_value = 0.0
                 for random_action in possible_actions:
+                    self.total_action_evaluations += 1  
                     next_env_random = TicTacToeEnv(self.n)
                     next_env_random.state = env.state.copy()
                     next_env_random.current_player = env.current_player
@@ -147,13 +148,13 @@ class PolicyItr:
             env.set_player_auto()
 
             possible_actions = env.get_possible_actions()
-            self.action_calls_in_iteration += 1
 
             if len(possible_actions) == 0:
                 continue
 
             action_values = []
             for intended_action in possible_actions:
+                self.total_action_evaluations += 1  
                 expected_value = 0.0
                 
                 next_env = TicTacToeEnv(self.n)
@@ -174,6 +175,7 @@ class PolicyItr:
                 # we also have a probaiblity of not taking that action - i.e. the random action
                 random_value = 0.0
                 for random_action in possible_actions:
+                    self.total_action_evaluations += 1  
                     next_env_random = TicTacToeEnv(self.n)
                     next_env_random.state = env.state.copy()
                     next_env_random.current_player = env.current_player
@@ -212,8 +214,6 @@ class PolicyItr:
         i = 0
         while (pi_X != pi_X_bar or pi_O != pi_O_bar) and i < max_iters:
             
-            self.action_calls_in_iteration = 0  # Reset counter at start of each iteration
-            
             V = self.eval(pi_X, pi_O, V, gamma=gamma, slip_prob=slip_prob, epsilon=epsilon)
             
             
@@ -228,10 +228,10 @@ class PolicyItr:
                 print(f"Iteration {i}")
             
             if track_progress:
-                print(f"Evaluating policy at iteration {i} (action_calls: {self.action_calls_in_iteration})")
+                print(f"Evaluating policy at iteration {i} (total_action_evaluations: {self.total_action_evaluations})")
                 self.baseline_results.append(eval_policy(n=self.n, o_policy=pi_O_bar, x_policy=pi_X_bar, runs=5000, opponent='baseline', epsilon=slip_prob))
                 self.random_results.append(eval_policy(n=self.n, x_policy=pi_X_bar, o_policy=pi_O_bar, runs=5000, opponent='random', epsilon=slip_prob))
-                self.iter_at_eval.append([i, self.action_calls_in_iteration])
+                self.iter_at_eval.append([i, self.total_action_evaluations])
 
         tracked_results = {
             "baseline_results": self.baseline_results,
@@ -243,7 +243,7 @@ class PolicyItr:
 
 
 if __name__ == "__main__":
-    n = 4
+    n = 3
     gamma = 0.9
     slip_prob = 0.25
     epsilon = 0.1 # this is for a thresh, kind of a misnomer tbh and I should change #TODO
