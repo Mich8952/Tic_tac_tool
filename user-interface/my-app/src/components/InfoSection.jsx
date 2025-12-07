@@ -34,7 +34,11 @@ export default function InfoSection() {
         </div>
         <div className="info-card">
           <h3>Slipping Probability</h3>
-          <p>here.</p>
+          <p>
+            This is the probability that the agent makes a 'mistake', and plays
+            a random square as opposed to one that was determined optimal by
+            policy.
+          </p>
         </div>
       </div>
     </section>

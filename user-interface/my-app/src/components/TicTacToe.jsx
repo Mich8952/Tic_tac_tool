@@ -25,9 +25,11 @@ export default function TicTacToe() {
 
   const applySlip = (intendedIndex) => {
     if (Math.random() >= slipProbability) {
-      return intendedIndex; 
+      return intendedIndex;
     }
-    const emptyCells = board.map((cell, idx) => cell === null ? idx : -1).filter(idx => idx !== -1);
+    const emptyCells = board
+      .map((cell, idx) => (cell === null ? idx : -1))
+      .filter((idx) => idx !== -1);
     if (emptyCells.length === 0) return intendedIndex;
     // pick random empty cell
     return emptyCells[Math.floor(Math.random() * emptyCells.length)];
@@ -41,8 +43,8 @@ export default function TicTacToe() {
         body: JSON.stringify({
           board: convertTo2D(board, boardSize), // dont really need this since in the backend we go back to the flat state (TODO if time)
           player: currentPlayer,
-          algorithm: algorithmType
-        })
+          algorithm: algorithmType,
+        }),
       });
       const data = await response.json();
       return data;
@@ -153,7 +155,7 @@ export default function TicTacToe() {
 
     const currentPlayerType = currentPlayer === "X" ? player1 : player2;
     if (currentPlayerType !== "Human") return;
-    
+
     const actualIndex = applySlip(index); // Apply slip to human move
     const newBoard = [...board];
     newBoard[actualIndex] = currentPlayer;
@@ -230,8 +232,12 @@ export default function TicTacToe() {
             </select>
           </label>
 
+          <p>
+            Player 1 always starts. If you want to play as human, click any
+            square to begin.
+          </p>
           <label>
-            Player 1:
+            Player 1
             <select
               value={player1}
               onChange={(e) => setPlayer1(e.target.value)}
@@ -253,21 +259,9 @@ export default function TicTacToe() {
             >
               <option>Human</option>
               <option>Model-Based (VI)</option>
-              <option>SARSA</option>
-              <option>Q-Learning</option>
-              <option>Monte Carlo</option>
+              <option>Model-Free (Q-Learning)</option>
+              <option>Model-Free (Monte Carlo)</option>
               <option>Deep Learning</option>
-            </select>
-          </label>
-
-          <label>
-            First Move:
-            <select
-              value={firstMove}
-              onChange={(e) => setFirstMove(e.target.value)}
-            >
-              <option>Player 1</option>
-              <option>Player 2</option>
             </select>
           </label>
 
