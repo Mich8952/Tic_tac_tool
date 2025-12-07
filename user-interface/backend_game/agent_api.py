@@ -18,13 +18,14 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 
 POLICIES = {"VI_3": os.path.join(BASE_DIR, "Policies/VI/3_0.2_0.9_0.25"),
             "VI_4": os.path.join(BASE_DIR, "Policies/VI/4_0.2_0.9_0.25"),
+            "PI_3": os.path.join(BASE_DIR, "Policies/PI/3_0.9_0.25"),
             "DQN_3": os.path.join(BASE_DIR, "Policies/DQN/3_1_0.25_winner"),
             "DQN_4": os.path.join(BASE_DIR, "Policies/DQN/4_1_0.25_winner"),
             "DQN_5": os.path.join(BASE_DIR, "Policies/DQN/5_1_0.25_winner"),
             "DQN_6": os.path.join(BASE_DIR, "Policies/DQN/6_1_0.25_winner"),
             "DQN_7": os.path.join(BASE_DIR, "Policies/DQN/7_1_0.25_winner"),
             "SARSA_4": os.path.join(BASE_DIR, "Policies/SARSA/q_values_sarsa.pkl"),
-            "QL_4": os.path.join(BASE_DIR, "Policies/QL/q_values_ql.pkl"),
+            "QL_4": os.path.join(BASE_DIR, "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/QL/dec6_qlearning_q_values_4x4_eps=500000"),
             "MC_4": os.path.join(BASE_DIR, "Policies/MC/mc_4x4.pkl")}
 
 CURRENT_X_POLICY_CACHE = [None,None]

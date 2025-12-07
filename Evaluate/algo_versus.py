@@ -127,7 +127,7 @@ if __name__ == "__main__":
     VI_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/VI/4_0.2_0.9_0.25"
     DQN_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/DQN/4_1_0.25_winner"
     MC_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/MC/mc_4x4.pkl"
-    QL_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/QL/q_values_ql.pkl"
+    QL_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/QL/dec6_qlearning_q_values_4x4_eps=500000"
     SARSA_DIR = "/Users/michaelmurray/Documents/GitHub/Tic_tac_tool/Policies/SARSA/q_values_sarsa.pkl"
     
     df_comparison = pd.DataFrame()
