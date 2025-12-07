@@ -211,6 +211,11 @@ class PolicyItr:
 
         V = {tuple(state[0]): 0.0 if state[1] else random.random() for state in self.all_states}
 
+        if track_progress: #initisal prog
+            self.baseline_results.append(eval_policy(n=self.n, o_policy=pi_O_bar, x_policy=pi_X_bar, runs=5000, opponent='baseline', epsilon=slip_prob))
+            self.random_results.append(eval_policy(n=self.n, x_policy=pi_X_bar, o_policy=pi_O_bar, runs=5000, opponent='random', epsilon=slip_prob))
+            self.iter_at_eval.append([0, self.total_action_evaluations])
+
         i = 0
         while (pi_X != pi_X_bar or pi_O != pi_O_bar) and i < max_iters:
             
