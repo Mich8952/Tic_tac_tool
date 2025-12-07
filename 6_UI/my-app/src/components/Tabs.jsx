@@ -88,7 +88,7 @@ export default function Tabs() {
         {
           name: "DQN",
           content:
-            "Deep Q-Networks combine Q-learning with neural networks to handle high-dimensional inputs.",
+            "Deep Q-Networks combine Q-learning with neural networks to handle high-dimensional inputs. Note that at this time, 'Improvement During Training' results are only shown for the 5x5 case.",
         },
         {
           name: "Alpha Zero",
