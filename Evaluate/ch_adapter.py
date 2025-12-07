@@ -3,11 +3,12 @@ import numpy as np
 from Utils.board_util import TicTacToeEnv
 
 class ChPolicyWrapper:
-    def __init__(self, policy_path, player = "X"):
+    def __init__(self, policy_path, player = "X", isSARSA=False):
         with open(policy_path, 'rb') as f:
             self.Q = pickle.load(f)
 
         self.player = player
+        self.isSARSA = isSARSA
         
 
 
@@ -25,12 +26,20 @@ class ChPolicyWrapper:
             else:
                 flat_state.append(ref_el)
         
-        state_tuple = tuple(flat_state)
+
+        if self.isSARSA:
+            state_key = ''.join(flat_state)
+        else:
+            state_key = tuple(flat_state)
+            
         action_values = []
         for action in possible_actions:
-            action_values.append((self.Q.get((state_tuple, action.item()), 0), action.item()))
+            q_val = self.Q.get((state_key, action.item()), 0)
+            action_values.append((q_val, action.item()))
         
+            
         action_values = np.array(action_values)
+        #print(action_values)
 
         if self.player == "X":
             act_idx = np.argmax(action_values[:,0])
