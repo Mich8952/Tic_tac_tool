@@ -46,6 +46,20 @@ node -v
 npm -v
 ```
 
+These should show outputs such as;
+```
+v25.2.1
+```
+
+and 
+
+```
+11.6.2
+```
+
+With no error messages. If these version do not match, it is probably okay. However, if you run into any issues, please try installing these specific versions (node and npm respectively) as above.
+
+
 ### 7. (If needed) Create a Python symlink
 
 ```bash
@@ -69,3 +83,22 @@ npm install
 ```bash
 npm run start
 ```
+
+If any extended issues persist, please contact any of the group-members and we will get back to you ASAP. Also note that you can view a live version of the app here;
+
+# Web App
+The above instructions were for loading a local version of the UI. Instead, you can view our hosted web-app at the following URL.
+
+
+http://tictactool.duckdns.org:5174/
+
+This should work with the interactive play mode.
+
+--- 
+
+Alternatively if that is not working, you can view the UI with this link (note that interactive play does **not** work in this mode (please see the above URL instead)).
+
+https://tic-tac-tool.netlify.app/
+
+
+
