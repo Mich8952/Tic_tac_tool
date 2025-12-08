@@ -25,11 +25,11 @@ POLICIES = {"VI_3": os.path.join(BASE_DIR, "Policies/VI/3_0.2_0.9_0.25"),
             "DQN_6": os.path.join(BASE_DIR, "Policies/DQN/6_1_0.25_winner"),
             "DQN_7": os.path.join(BASE_DIR, "Policies/DQN/7_1_0.25_winner"),
             "SARSA_4": os.path.join(BASE_DIR, "Policies/SARSA/q_values_sarsa.pkl"),
-            "QL_4": os.path.join(BASE_DIR, "/Policies/QL/DEC6_q_learning_4x4_eps=8000000"),
+            "QL_4": os.path.join(BASE_DIR, "Policies/QL/DEC6_q_learning_4x4_eps=8000000.pkl"),
             "MC_4": os.path.join(BASE_DIR, "Policies/MC/mc_4x4.pkl")}
 
-CURRENT_X_POLICY_CACHE = [None,None]
-CURRENT_O_POLICY_CACHE = [None,None]
+# Cache all loaded policies: Key = "ALGO_N", Value = {"X": policy, "O": policy}
+POLICY_CACHE = {}
 
 def get_n(board):
     return int(np.sqrt(len(board)))
@@ -50,42 +50,45 @@ def convert_board_to_state(board):
 
 @app.route('/api/get-ai-move', methods=['POST', 'OPTIONS'])
 def get_ai_move():
-    global CURRENT_O_POLICY_CACHE
-    global CURRENT_X_POLICY_CACHE
+    global POLICY_CACHE
     if request.method == 'OPTIONS':
         return jsonify({'status': 'OK'}), 200  # Preflight response
-    
+
     data = request.json
     state = convert_board_to_state(data['board'])
     n = get_n(state)
 
     algo = data['algorithm']
+    policy_key = f"{algo}_{n}"
 
-    if CURRENT_X_POLICY_CACHE[0] is None or CURRENT_X_POLICY_CACHE[1] != f"{algo}_{n}":
+    # Check if policy is already cached
+    if policy_key not in POLICY_CACHE:
+        print(f"Loading policies for {algo} with n={n}...")
+
         if algo in ["VI","PI"]:
-            with open(f'{POLICIES[f"{algo}_" + str(n)]}/temp_policy_o.pkl', 'rb') as f:
+            with open(f'{POLICIES[policy_key]}/temp_policy_o.pkl', 'rb') as f:
                 O_policy = pickle.load(f)
-            with open(f'{POLICIES[f"{algo}_" + str(n)]}/temp_policy_x.pkl', 'rb') as f:
+            with open(f'{POLICIES[policy_key]}/temp_policy_x.pkl', 'rb') as f:
                 X_policy = pickle.load(f)
         elif algo in ["SARSA", "QL", "MC"]:
-            policy_path = POLICIES[f'{algo}_' + str(n)]
+            policy_path = POLICIES[policy_key]
             is_sarsa = (algo == "SARSA")
             O_policy = ChPolicyWrapper(policy_path, player='O', isSARSA=is_sarsa)
             X_policy = ChPolicyWrapper(policy_path, player='X', isSARSA=is_sarsa)
         else:
-            model_path = os.path.join(POLICIES[f'{algo}_' + str(n)], "q_network.pt")
+            model_path = os.path.join(POLICIES[policy_key], "q_network.pt")
             O_policy = DQNPolicyWrapper(n, model_path, player='O')
             X_policy = DQNPolicyWrapper(n, model_path, player='X')
 
-        print(f"USING the policies for {algo} with n={n}")
-        CURRENT_O_POLICY_CACHE[0] = O_policy
-        CURRENT_X_POLICY_CACHE[0] = X_policy
-
-        CURRENT_O_POLICY_CACHE[1] = f"{algo}_{n}"
-        CURRENT_X_POLICY_CACHE[1] = f"{algo}_{n}"
+        # Store in cache
+        POLICY_CACHE[policy_key] = {"X": X_policy, "O": O_policy}
+        print(f"Cached {policy_key}")
     else:
-        O_policy = CURRENT_O_POLICY_CACHE[0]
-        X_policy = CURRENT_X_POLICY_CACHE[0]
+        print(f"Using cached policy for {policy_key}")
+
+    # Get policies from cache
+    X_policy = POLICY_CACHE[policy_key]["X"]
+    O_policy = POLICY_CACHE[policy_key]["O"]
     
 
     # this api needs to determine whos turn it is. So lets simply count states
@@ -100,12 +103,21 @@ def get_ai_move():
         policy = O_policy
 
 
+    # Check if game is already over (board is full or terminal state)
+    if '_' not in state:
+        return jsonify({'error': 'Game is already over (board is full)'}), 400
+
     # need this form (np.str_('X'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'))
     state = tuple(np.str_(s) for s in state)
-    action = policy[state]
+
+    try:
+        action = policy[state]
+    except KeyError:
+        return jsonify({'error': 'State not found in policy (likely a terminal state)'}), 400
+
     # convert flat index into row,col
     row, col = divmod(action, n) # n=3 in this case
-    
+
     print(row,col)
     return jsonify({'row': row, 'col': col})
 

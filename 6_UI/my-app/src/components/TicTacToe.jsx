@@ -56,7 +56,8 @@ export default function TicTacToe() {
 
   useEffect(() => {
     const makeAIMove = async () => {
-      if (checkWinner(board)) {
+      // Check if game is over (winner or draw)
+      if (checkWinner(board) || !board.includes(null)) {
         return;
       }
 
@@ -115,7 +116,7 @@ export default function TicTacToe() {
           }
         }
       }
-      if (currentPlayerType === "Q-Learning") {
+      if (currentPlayerType === "Model-Free (Q-Learning)") {
         console.log("agent making move...");
         const move = await getAIMove("QL");
         console.log("agent move received:", move);
@@ -130,7 +131,7 @@ export default function TicTacToe() {
           }
         }
       }
-      if (currentPlayerType === "Monte Carlo") {
+      if (currentPlayerType === "Model-Free (Monte Carlo)") {
         console.log("agent making move...");
         const move = await getAIMove("MC");
         console.log("agent move received:", move);
@@ -258,11 +259,10 @@ export default function TicTacToe() {
               onChange={(e) => setPlayer1(e.target.value)}
             >
               <option>Human</option>
-              <option>Model-Based (VI)</option>
-              <option>Model-Based (PI)</option>
-              <option>SARSA</option>
-              <option>Q-Learning</option>
-              <option>Monte Carlo</option>
+              {(boardSize === 3 || boardSize === 4) && <option>Model-Based (VI)</option>}
+              {boardSize === 3 && <option>Model-Based (PI)</option>}
+              {boardSize === 4 && <option>Model-Free (Q-Learning)</option>}
+              {boardSize === 4 && <option>Model-Free (Monte Carlo)</option>}
               <option>Deep Learning</option>
             </select>
           </label>
@@ -274,9 +274,10 @@ export default function TicTacToe() {
               onChange={(e) => setPlayer2(e.target.value)}
             >
               <option>Human</option>
-              <option>Model-Based (VI)</option>
-              <option>Model-Free (Q-Learning)</option>
-              <option>Model-Free (Monte Carlo)</option>
+              {(boardSize === 3 || boardSize === 4) && <option>Model-Based (VI)</option>}
+              {boardSize === 3 && <option>Model-Based (PI)</option>}
+              {boardSize === 4 && <option>Model-Free (Q-Learning)</option>}
+              {boardSize === 4 && <option>Model-Free (Monte Carlo)</option>}
               <option>Deep Learning</option>
             </select>
           </label>
