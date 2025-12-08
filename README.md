@@ -141,4 +141,4 @@ Then, the terminal should present a local network address such as;
 You can click on that address/open it in your web-browser to use the UI!
 
 
-If any extended issues persist, please contact any of the group-members and we will get back to you ASAP. Also note that you can view a live version of the app here;
+If any extended issues persist, please contact any of the group-members and we will get back to you ASAP.
