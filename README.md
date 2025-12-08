@@ -10,7 +10,7 @@ This should work with the interactive play mode.
 
 --- 
 
-Alternatively if that is not working, you can view the UI with this link (note that interactive play does **not** work in this mode (please see the above URL instead)).
+Alternatively if that is not working and you do not wish to run locally, you can view the UI with this link (note that interactive play does **not** work in this mode (please see the above URL instead)).
 
 https://tic-tac-tool.netlify.app/
 
@@ -138,7 +138,7 @@ Then, the terminal should present a local network address such as;
   ➜  Local:   http://localhost:5173/
 ```
 
-You can click on that address/open it in your web-browser to use the UI!
+You can click on that address/open it in your web browser to use the UI!
 
 
-If any extended issues persist, please contact any of the group-members and we will get back to you ASAP.
+If any extended issues persist, please contact any of the group members and we will get back to you ASAP.
