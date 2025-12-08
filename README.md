@@ -6,6 +6,16 @@ You can view our complete project via the hosted web-app at the following URL:
 
 http://tictactool.duckdns.org:5174/
 
+This should work with the interactive play mode.
+
+--- 
+
+Alternatively if that is not working, you can view the UI with this link (note that interactive play does **not** work in this mode (please see the above URL instead)).
+
+https://tic-tac-tool.netlify.app/
+
+
+
 ## Running Locally
 
 If you prefer to load a local version of the UI, you can follow the directions below. **Please note that there is no difference functionally between using the URL and running locally.**
@@ -20,14 +30,13 @@ https://utoronto-my.sharepoint.com/personal/md_murray_mail_utoronto_ca/_layouts/
 
 ### 2. Clone the repository
 
-```bash
+```
 git clone https://github.com/Mich8952/Tic_tac_tool.git
-
 ```
 
 ### 3. Navigate into the project
 
-```bash
+```
 cd Tic_tac_tool/
 ```
 
@@ -35,9 +44,30 @@ cd Tic_tac_tool/
 
 Place the downloaded policy folder into the root Tic_tac_tool directory.
 
+This means the file directory should look like this;
+
+```
+Tic_tac_tool/
+├── README.md
+├── requirements.txt
+├── policies/            <-------- Place downloaded folder here (unzip it)
+│   ├── DQN/
+│   ├── MC/
+│   ├── PI/
+│   ├── QL/
+│   └── VI/
+├── 1_ModelBased/
+├── 2_ModelFree/
+├── 3_DeepLearning/
+├── 4_AlphaZero/
+├── Evaluate/
+└── 6_UI/
+    └── ...
+```
+
 ### 5. Navigate to the UI directory
 
-```bash
+```
 cd Tic_tac_tool/6_UI/my-app
 ```
 
@@ -49,7 +79,7 @@ Install using the .pkg installer.
 
 Check installation:
 
-```bash
+```
 node -v
 npm -v
 ```
@@ -70,36 +100,45 @@ With no error messages. If these version do not match, it is probably okay. Howe
 
 ### 7. (If needed) Create a Python symlink
 
-```bash
+```
 sudo ln -s $(which python3) /usr/local/bin/python
 ```
 
 ### 8. Install Python dependencies
 
-```bash
+Now, navigate back to the main directory `Tic_tac_tool/`. You made need to type `cd ..` a few times until you get there.
+
+```
 pip3 install -r requirements.txt
 ```
 
 ### 9. Install Node dependencies
 
-```bash
+Now, navigate back to the web app directory;
+
+```
+cd Tic_tac_tool/6_UI/my-app
+```
+
+and type
+
+```
 npm install
 ```
 
 ### 10. Start the app
 
-```bash
+```
 npm run start
 ```
 
-If any extended issues persist, please contact any of the group-members and we will get back to you ASAP (charlotte.fritz@mail.utoronto.ca, md.murray@mail.utoronto.ca, tomasdfgh.nguyen@mail.utoronto.ca). 
+Then, the terminal should present a local network address such as;
+
+```
+  ➜  Local:   http://localhost:5173/
+```
+
+You can click on that address/open it in your web-browser to use the UI!
 
 
---- 
-
-As a last resort, you can view the UI with this link (note that interactive play does **not** work in this mode.
-
-https://tic-tac-tool.netlify.app/
-
-
-
+If any extended issues persist, please contact any of the group-members and we will get back to you ASAP. Also note that you can view a live version of the app here;
