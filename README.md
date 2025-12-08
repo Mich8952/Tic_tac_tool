@@ -1,7 +1,7 @@
 # Tic Tac Tool
 
 # Quick Start - View the Web App
-You can view our hosted web-app at the following URL.
+You can view our hosted web-app at the following URL:
 
 
 http://tictactool.duckdns.org:5174/
