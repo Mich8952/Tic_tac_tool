@@ -94,12 +94,12 @@ npm install
 npm run start
 ```
 
-If any extended issues persist, please contact any of the group-members and we will get back to you ASAP. Also note that you can view a live version of the app here;
+If any extended issues persist, please contact any of the group-members and we will get back to you ASAP (charlotte.fritz@mail.utoronto.ca, md.murray@mail.utoronto.ca, tomasdfgh.nguyen@mail.utoronto.ca). 
 
 
 --- 
 
-Alternatively if that is not working, you can view the UI with this link (note that interactive play does **not** work in this mode.
+As a last resort, you can view the UI with this link (note that interactive play does **not** work in this mode.
 
 https://tic-tac-tool.netlify.app/
 
