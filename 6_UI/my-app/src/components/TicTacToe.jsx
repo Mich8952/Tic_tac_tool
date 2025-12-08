@@ -36,8 +36,9 @@ export default function TicTacToe() {
   };
 
   const getAIMove = async (algorithmType) => {
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
     try {
-      const response = await fetch("http://76.66.104.49:5001/api/get-ai-move", {
+      const response = await fetch(`${API_URL}/api/get-ai-move`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
