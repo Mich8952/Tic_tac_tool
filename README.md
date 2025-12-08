@@ -18,7 +18,7 @@ https://tic-tac-tool.netlify.app/
 
 ## Running Locally
 
-If you prefer to load a local version of the UI, you can follow the directions below. **Please note that there is no difference functionally between using the URL and running locally.**
+If you prefer to load a local version of the UI, you can follow the directions below. **Please note that there is no difference functionally between using the duckdns URL and running locally.**
 
 ### 1. Download the policy folder from SharePoint
 
