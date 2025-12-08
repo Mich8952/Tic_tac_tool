@@ -131,7 +131,7 @@ export default function TicTacToe() {
           }
         }
       }
-      if (currentPlayerType === "Monte Carlo") {
+      if (currentPlayerType === "Model-Free (Monte Carlo)") {
         console.log("agent making move...");
         const move = await getAIMove("MC");
         console.log("agent move received:", move);
@@ -262,7 +262,7 @@ export default function TicTacToe() {
               {(boardSize === 3 || boardSize === 4) && <option>Model-Based (VI)</option>}
               {boardSize === 3 && <option>Model-Based (PI)</option>}
               {boardSize === 4 && <option>Model-Free (Q-Learning)</option>}
-              {boardSize === 4 && <option>Monte Carlo</option>}
+              {boardSize === 4 && <option>Model-Free (Monte Carlo)</option>}
               <option>Deep Learning</option>
             </select>
           </label>
