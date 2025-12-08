@@ -1,7 +1,7 @@
 # Tic Tac Tool
 
 # Quick Start - View the Web App
-The above instructions were for loading a local version of the UI. Instead, you can view our hosted web-app at the following URL.
+You can view our hosted web-app at the following URL.
 
 
 http://tictactool.duckdns.org:5174/
@@ -9,6 +9,8 @@ http://tictactool.duckdns.org:5174/
 This should work with the interactive play mode.
 
 ## Running Locally
+
+If you prefer to load a local version of the UI, you can follow the directions here. There is no difference functionally between using the URL and running locally.
 
 ### 1. Download the policy folder from SharePoint
 
@@ -95,10 +97,9 @@ npm run start
 If any extended issues persist, please contact any of the group-members and we will get back to you ASAP. Also note that you can view a live version of the app here;
 
 
-
 --- 
 
-Alternatively if that is not working, you can view the UI with this link (note that interactive play does **not** work in this mode (please see the above URL instead)).
+Alternatively if that is not working, you can view the UI with this link (note that interactive play does **not** work in this mode.
 
 https://tic-tac-tool.netlify.app/
 
