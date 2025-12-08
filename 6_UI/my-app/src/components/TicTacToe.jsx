@@ -115,7 +115,7 @@ export default function TicTacToe() {
           }
         }
       }
-      if (currentPlayerType === "Q-Learning") {
+      if (currentPlayerType === "Model-Free (Q-Learning)") {
         console.log("agent making move...");
         const move = await getAIMove("QL");
         console.log("agent move received:", move);
@@ -130,7 +130,7 @@ export default function TicTacToe() {
           }
         }
       }
-      if (currentPlayerType === "Monte Carlo") {
+      if (currentPlayerType === "Model-Free (Monte Carlo)") {
         console.log("agent making move...");
         const move = await getAIMove("MC");
         console.log("agent move received:", move);
