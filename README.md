@@ -10,7 +10,7 @@ This should work with the interactive play mode.
 
 ## Running Locally
 
-If you prefer to load a local version of the UI, you can follow the directions here. There is no difference functionally between using the URL and running locally.
+If you prefer to load a local version of the UI, you can follow the directions here. **There is no difference functionally between using the URL and running locally.**
 
 ### 1. Download the policy folder from SharePoint
 
