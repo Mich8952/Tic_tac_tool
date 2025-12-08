@@ -56,7 +56,8 @@ export default function TicTacToe() {
 
   useEffect(() => {
     const makeAIMove = async () => {
-      if (checkWinner(board)) {
+      // Check if game is over (winner or draw)
+      if (checkWinner(board) || !board.includes(null)) {
         return;
       }
 

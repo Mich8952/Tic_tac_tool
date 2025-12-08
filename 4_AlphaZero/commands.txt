@@ -1,4 +1,4 @@
-python -m src.main --boardSize 5
+cd 4_AlphaZero && python -m src.main --boardSize 5
 
 python -m src.evaluation_wrapper --model_dir /home/thomas-nguyen/Projects/test/Tic_tac_tool/4_AlphaZero/Models/size_3
 

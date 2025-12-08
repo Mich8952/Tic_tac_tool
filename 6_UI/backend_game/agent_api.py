@@ -100,12 +100,21 @@ def get_ai_move():
         policy = O_policy
 
 
+    # Check if game is already over (board is full or terminal state)
+    if '_' not in state:
+        return jsonify({'error': 'Game is already over (board is full)'}), 400
+
     # need this form (np.str_('X'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'), np.str_('_'))
     state = tuple(np.str_(s) for s in state)
-    action = policy[state]
+
+    try:
+        action = policy[state]
+    except KeyError:
+        return jsonify({'error': 'State not found in policy (likely a terminal state)'}), 400
+
     # convert flat index into row,col
     row, col = divmod(action, n) # n=3 in this case
-    
+
     print(row,col)
     return jsonify({'row': row, 'col': col})
 
