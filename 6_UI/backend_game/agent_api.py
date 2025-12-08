@@ -11,7 +11,7 @@ from Evaluate.dqn_adapter import DQNPolicyWrapper
 from Evaluate.ch_adapter import ChPolicyWrapper
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
+CORS(app, origins='*', supports_credentials=True)
 
 # Get the base directory (root of Tic_tac_tool)
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
