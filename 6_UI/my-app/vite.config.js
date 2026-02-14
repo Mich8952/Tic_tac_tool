@@ -6,6 +6,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0',
-    allowedHosts: ['tictactool.duckdns.org'],
+    allowedHosts: ['tictactool.tom-nguyen.ca'],
   },
 })

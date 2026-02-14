@@ -1,0 +1,14 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN pip install --no-cache-dir flask flask-cors numpy gunicorn torch --extra-index-url https://download.pytorch.org/whl/cpu
+
+COPY Evaluate/ Evaluate/
+COPY Utils/ Utils/
+COPY Policies/ Policies/
+COPY 6_UI/backend_game/ 6_UI/backend_game/
+
+EXPOSE 5001
+
+CMD ["gunicorn", "--bind", "0.0.0.0:5001", "--workers", "1", "--preload", "6_UI.backend_game.agent_api:app"]

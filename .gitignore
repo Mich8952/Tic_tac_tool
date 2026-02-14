@@ -1,6 +1,9 @@
 settings.json
 *.pyc
 *.pkl
+Policies/
+node_modules/
+__pycache__/
 lecture_baseline2.py
 *.pt
 *.csv

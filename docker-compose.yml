@@ -1,0 +1,18 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "5002:5001"
+    restart: always
+
+  frontend:
+    build:
+      context: ./6_UI/my-app
+      dockerfile: Dockerfile.frontend
+      args:
+        VITE_API_URL: https://tictactool.tom-nguyen.ca
+    ports:
+      - "5174:80"
+    restart: always
